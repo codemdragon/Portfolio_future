@@ -1,36 +1,32 @@
 {
-    "projects": [
+  "projects": [
+    {
+      "id": "vault-protocol",
+      "name": "Vault Protocol",
+      "imageUrl": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=2670&auto=format&fit=crop",
+      "stack": "Golang, Rust, Cryptography",
+      "links": [
         {
-            "id": "aetheris-engine",
-            "name": "Aetheris Engine",
-            "imageUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop",
-            "stack": "WebGL, Three.js, GLSL",
-            "links": [
-                {
-                    "label": "Live Demo",
-                    "url": "#"
-                },
-                {
-                    "label": "Source Code",
-                    "url": "https://github.com/codemdragon/aetheris"
-                }
-            ],
-            "osDevice": "Web / Desktop",
-            "description": "Custom WebGL engine for procedural landscapes and atmospheric rendering."
-        },
-        {
-            "id": "vault-protocol",
-            "name": "Vault Protocol",
-            "imageUrl": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=2670&auto=format&fit=crop",
-            "stack": "Golang, Rust, Cryptography",
-            "links": [
-                {
-                    "label": "Documentation",
-                    "url": "#"
-                }
-            ],
-            "osDevice": "Server / Linux",
-            "description": "Zero-knowledge identity verification system for decentralized networks."
+          "label": "Documentation",
+          "url": "#"
         }
-    ]
+      ],
+      "osDevice": "Server / Linux",
+      "description": "Zero-knowledge identity verification system for decentralized networks."
+    },
+    {
+      "id": "Simon-Sight",
+      "name": "Simon Sight",
+      "description": "An innovative adaptation of the classic Simon game using webcams as interactive buttons. Features custom LED control, dark pixel ratio detection, and adjustable settings for multiple webcam types and configurations.",
+      "stack": "python, open cv",
+      "osDevice": "Desktop, Windows",
+      "imageUrl": "https://raw.githubusercontent.com/codemdragon/Portfolio_future/main/assets/1769275502161_Simon.png",
+      "links": [
+        {
+          "label": "Simon Sight",
+          "url": "https://github.com/codemdragon/Simon-Sight.git"
+        }
+      ]
+    }
+  ]
 }
