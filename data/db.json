@@ -1,20 +1,6 @@
 {
   "projects": [
     {
-      "id": "vault-protocol",
-      "name": "Vault Protocol",
-      "imageUrl": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=2670&auto=format&fit=crop",
-      "stack": "Golang, Rust, Cryptography",
-      "links": [
-        {
-          "label": "Documentation",
-          "url": "#"
-        }
-      ],
-      "osDevice": "Server / Linux",
-      "description": "Zero-knowledge identity verification system for decentralized networks."
-    },
-    {
       "id": "Simon-Sight",
       "name": "Simon Sight",
       "description": "An innovative adaptation of the classic Simon game using webcams as interactive buttons. Features custom LED control, dark pixel ratio detection, and adjustable settings for multiple webcam types and configurations.",
@@ -25,6 +11,20 @@
         {
           "label": "Simon Sight",
           "url": "https://github.com/codemdragon/Simon-Sight.git"
+        }
+      ]
+    },
+    {
+      "id": "Emoji-Search",
+      "name": "Emoji Search",
+      "description": "A comprehensive emoji search tool for developers and content creators. Find and copy the perfect emojis directly to your clipboard.",
+      "stack": "HTML, CSS, JS",
+      "osDevice": "Browser Based(Any)",
+      "imageUrl": "https://raw.githubusercontent.com/codemdragon/Portfolio_future/main/assets/1769275792370_Emoji.png",
+      "links": [
+        {
+          "label": "Emoji_Search",
+          "url": "https://emojisearch-mu.vercel.app"
         }
       ]
     }
