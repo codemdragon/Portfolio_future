@@ -1,0 +1,36 @@
+{
+    "projects": [
+        {
+            "id": "aetheris-engine",
+            "name": "Aetheris Engine",
+            "imageUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop",
+            "stack": "WebGL, Three.js, GLSL",
+            "links": [
+                {
+                    "label": "Live Demo",
+                    "url": "#"
+                },
+                {
+                    "label": "Source Code",
+                    "url": "https://github.com/codemdragon/aetheris"
+                }
+            ],
+            "osDevice": "Web / Desktop",
+            "description": "Custom WebGL engine for procedural landscapes and atmospheric rendering."
+        },
+        {
+            "id": "vault-protocol",
+            "name": "Vault Protocol",
+            "imageUrl": "https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=2670&auto=format&fit=crop",
+            "stack": "Golang, Rust, Cryptography",
+            "links": [
+                {
+                    "label": "Documentation",
+                    "url": "#"
+                }
+            ],
+            "osDevice": "Server / Linux",
+            "description": "Zero-knowledge identity verification system for decentralized networks."
+        }
+    ]
+}

@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codem | Workspace Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bg-sidebar: #1e1e1e;
+            --bg-editor: #121212;
+            --bg-tabs: #252526;
+            --bg-statusbar: #007acc;
+            --text-main: #d4d4d4;
+            --accent: #007acc;
+            --border: #333;
+            --tab-inactive: #2d2d2d;
+            --syntax-tag: #569cd6;
+            --syntax-attr: #9cdcfe;
+            --syntax-string: #ce9178;
+            --syntax-comment: #6a9955;
+        }
+
+        /* Matrix Theme */
+        body.theme-matrix {
+            --bg-sidebar: #001100;
+            --bg-editor: #000800;
+            --bg-tabs: #001a00;
+            --bg-statusbar: #003300;
+            --text-main: #00ff00;
+            --accent: #00ff00;
+            --border: #004400;
+            --tab-inactive: #002200;
+            --syntax-tag: #008f00;
+            --syntax-attr: #00cc00;
+            --syntax-string: #00ff00;
+            --syntax-comment: #005500;
+        }
+
+        body.theme-matrix .status-bar {
+            background-color: #002200;
+            border-top: 1px solid #00ff00;
+        }
+
+        body.theme-matrix * {
+            text-shadow: 0 0 2px rgba(0, 255, 0, 0.3);
+        }
+
+        /* Light Theme (Solarized-ish) */
+        body.theme-light {
+            --bg-sidebar: #f3f3f3;
+            --bg-editor: #ffffff;
+            --bg-tabs: #ececec;
+            --bg-statusbar: #007acc;
+            --text-main: #333333;
+            --accent: #007acc;
+            --border: #e1e1e1;
+            --tab-inactive: #e1e1e1;
+            --syntax-tag: #800000;
+            --syntax-attr: #ff0000;
+            --syntax-string: #0000ff;
+            --syntax-comment: #008000;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-editor);
+            color: var(--text-main);
+            overflow: hidden;
+            height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .mono {
+            font-family: 'Fira Code', monospace;
+        }
+
+        .sidebar-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-left: 2px solid var(--accent);
+        }
+
+        .tab {
+            background-color: var(--tab-inactive);
+            cursor: pointer;
+            border-right: 1px solid var(--border);
+            transition: 0.2s;
+        }
+
+        .tab.active {
+            background-color: var(--bg-editor);
+            color: var(--text-main);
+            border-top: 1px solid var(--accent);
+        }
+
+        .terminal-container {
+            height: 280px;
+            background-color: #000;
+            border-top: 1px solid var(--border);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-sidebar);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .syntax-tag {
+            color: var(--syntax-tag);
+        }
+
+        .syntax-attr {
+            color: var(--syntax-attr);
+        }
+
+        .syntax-string {
+            color: var(--syntax-string);
+        }
+
+        .md-comment {
+            color: var(--syntax-comment);
+            font-style: italic;
+        }
+
+        #toast {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 4px;
+            background: #333;
+            color: white;
+            z-index: 1000;
+            transform: translateY(150px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            border: 1px solid #444;
+        }
+
+        #toast.show {
+            transform: translateY(0);
+        }
+
+        /* Status Bar Styles */
+        .status-bar {
+            height: 22px;
+            background-color: var(--bg-statusbar);
+            color: white;
+            font-size: 11px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            z-index: 60;
+        }
+
+        .status-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 0 8px;
+            height: 100%;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .status-bar-item:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Live Preview Overlay */
+        #live-share-overlay {
+            position: fixed;
+            inset: 0;
+            background: #020617;
+            z-index: 100;
+            overflow-y: auto;
+            color: white;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        #live-share-overlay.visible {
+            display: block;
+            opacity: 1;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glow-blue {
+            box-shadow: 0 0 40px rgba(59, 130, 246, 0.15);
+        }
+
+        .glow-orange {
+            box-shadow: 0 0 40px rgba(249, 115, 22, 0.15);
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .animate-float {
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .egg-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        /* Search Dropdown */
+        #search-results div:hover {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Shake Animation for rm -rf */
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+            transform: translate3d(0, 0, 0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-1px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(2px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-4px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(4px, 0, 0);
+            }
+        }
+
+        /* Whale Animation */
+        @keyframes swim {
+            from {
+                transform: translateX(-300px);
+            }
+
+            to {
+                transform: translateX(110vw);
+            }
+        }
+
+        .whale {
+            position: fixed;
+            top: 30%;
+            left: 0;
+            z-index: 9999;
+            font-family: monospace;
+            color: #00bfff;
+            white-space: pre;
+            animation: swim 12s linear forwards;
+            pointer-events: none;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 191, 255, 0.5);
+        }
+
+        /* Star Wars Crawl */
+        .star-wars-overlay {
+            position: fixed;
+            inset: 0;
+            background: black;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+            perspective: 400px;
+        }
+
+        .crawl-container {
+            font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+            font-weight: 700;
+            font-size: 3rem;
+            color: #f6d04a;
+            transform-origin: 50% 100%;
+            animation: crawl 20s linear forwards;
+            text-align: center;
+            line-height: 1.5;
+            position: absolute;
+            bottom: -100px;
+            width: 80%;
+        }
+
+        @keyframes crawl {
+            0% {
+                top: 100%;
+                opacity: 1;
+                transform: rotateX(25deg) translateZ(0);
+            }
+
+            100% {
+                top: -150%;
+                opacity: 0;
+                transform: rotateX(25deg) translateZ(-2500px);
+            }
+        }
+    </style>
+</head>
+
+<body class="flex flex-col">
+
+    <!-- Windows-style Title Bar -->
+    <div
+        class="h-8 flex bg-[#1e1e1e] items-center justify-between text-[#cccccc] text-[13px] select-none border-b border-[#2b2b2b] shrink-0 z-50">
+        <!-- Left: Logo & Menus -->
+        <div class="flex items-center px-2 gap-1">
+            <!-- Logo with fallback -->
+            <img src="logo.png" alt="Logo" class="h-4 w-4 mr-1 opacity-90"
+                onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden')">
+            <i class="fas fa-code text-blue-500 mr-2 hidden text-xs"></i>
+
+            <div class="flex gap-1 text-[11px] hidden md:flex">
+                <span class="hover:bg-[#ffffff1f] px-2 py-1 rounded-sm cursor-pointer transition-colors"
+                    onclick="showToast('File menu disabled in demo.')">File</span>
+                <span class="hover:bg-[#ffffff1f] px-2 py-1 rounded-sm cursor-pointer transition-colors"
+                    onclick="showToast('Edit menu disabled in demo.')">Edit</span>
+                <span
+                    class="hover:bg-[#ffffff1f] px-2 py-1 rounded-sm cursor-pointer transition-colors">Selection</span>
+                <span class="hover:bg-[#ffffff1f] px-2 py-1 rounded-sm cursor-pointer transition-colors">View</span>
+                <span class="hover:bg-[#ffffff1f] px-2 py-1 rounded-sm cursor-pointer transition-colors">Go</span>
+                <span
+                    class="hover:bg-[#ffffff1f] px-2 py-1 rounded-sm cursor-pointer transition-colors font-bold text-green-400"
+                    onclick="handleRun()">Run</span>
+                <span class="hover:bg-[#ffffff1f] px-2 py-1 rounded-sm cursor-pointer transition-colors">Terminal</span>
+                <span class="hover:bg-[#ffffff1f] px-2 py-1 rounded-sm cursor-pointer transition-colors">Help</span>
+            </div>
+        </div>
+
+        <!-- Center: Search Bar -->
+        <div
+            class="relative bg-[#2b2b2b] w-1/3 max-w-[500px] h-[24px] rounded-md flex items-center justify-center text-[10px] text-gray-400 border border-[#3c3c3c] hover:bg-[#333] transition-colors group">
+            <i class="fas fa-search absolute left-2 text-[10px] opacity-50 group-hover:opacity-100"></i>
+            <input type="text" id="global-search" placeholder="Search files (Ctrl+P)"
+                class="bg-transparent border-none outline-none w-full h-full pl-8 pr-2 text-gray-300 text-xs placeholder-gray-500"
+                autocomplete="off">
+            <div id="search-results"
+                class="absolute top-[26px] left-0 w-full bg-[#252526] border border-[#454545] rounded-b shadow-2xl hidden flex-col z-50 max-h-40 overflow-y-auto">
+                <!-- Search results injected here -->
+            </div>
+        </div>
+
+        <!-- Right: Window Controls -->
+        <div class="flex h-full items-center">
+            <div class="h-full w-11 flex items-center justify-center hover:bg-[#ffffff1f] cursor-pointer transition-colors"
+                title="Minimize">
+                <i class="fas fa-minus text-[10px]"></i>
+            </div>
+            <div class="h-full w-11 flex items-center justify-center hover:bg-[#ffffff1f] cursor-pointer transition-colors"
+                title="Maximize">
+                <i class="far fa-square text-[10px]"></i>
+            </div>
+            <div class="h-full w-11 flex items-center justify-center hover:bg-[#e81123] hover:text-white cursor-pointer transition-colors"
+                title="Close" onclick="window.close()">
+                <i class="fas fa-times text-[12px]"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex-grow flex overflow-hidden">
+        <!-- Sidebar Navigation -->
+        <aside class="w-12 md:w-64 bg-[var(--bg-sidebar)] flex flex-col border-r border-[var(--border)] shrink-0">
+            <div class="hidden md:block p-4 text-xs font-bold uppercase tracking-widest opacity-50">Explorer</div>
+            <div class="flex flex-col" id="file-explorer">
+                <div class="flex items-center gap-2 p-2 px-4 text-xs font-semibold opacity-70">
+                    <i class="fas fa-chevron-down"></i> PORTFOLIO_SRC
+                </div>
+                <div onclick="openFile('about.md')"
+                    class="sidebar-item active cursor-pointer py-1 px-8 text-sm flex items-center gap-2"
+                    data-file="about.md">
+                    <i class="fab fa-markdown text-blue-400"></i> about.md
+                </div>
+                <div onclick="openFile('projects.json')"
+                    class="sidebar-item cursor-pointer py-1 px-8 text-sm flex items-center gap-2"
+                    data-file="projects.json">
+                    <i class="fas fa-code text-yellow-400 text-xs"></i> projects.json
+                </div>
+                <div onclick="openFile('skills.html')"
+                    class="sidebar-item cursor-pointer py-1 px-8 text-sm flex items-center gap-2"
+                    data-file="skills.html">
+                    <i class="fab fa-html5 text-orange-500"></i> skills.html
+                </div>
+                <div onclick="openFile('contact.html')"
+                    class="sidebar-item cursor-pointer py-1 px-8 text-sm flex items-center gap-2"
+                    data-file="contact.html">
+                    <i class="fab fa-html5 text-orange-500"></i> contact.html
+                </div>
+                <div onclick="toggleModal('resume')"
+                    class="sidebar-item cursor-pointer py-1 px-8 text-sm flex items-center gap-2">
+                    <i class="far fa-file-pdf text-red-400"></i> resume.pdf
+                </div>
+                <div onclick="window.open('https://codemsportfolio.netlify.app/blog', '_blank')"
+                    class="sidebar-item cursor-pointer py-1 px-8 text-sm flex items-center gap-2">
+                    <i class="fas fa-terminal text-purple-400"></i> Whats_Up.exe
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Editor Area -->
+        <main class="flex-grow flex flex-col min-w-0">
+            <!-- Tabs -->
+            <div class="h-9 flex bg-[var(--bg-tabs)] border-b border-[var(--border)] overflow-x-auto" id="tab-bar">
+            </div>
+
+            <!-- Content Area Header -->
+            <div class="flex justify-between items-center p-2 px-4 bg-[var(--bg-editor)] border-b border-white/5">
+                <div id="breadcrumb" class="text-[10px] opacity-40 uppercase tracking-widest">portfolio > about.md</div>
+                <button id="live-preview-btn" onclick="toggleLiveShare()"
+                    class="flex items-center gap-2 text-[10px] bg-[var(--accent)] hover:bg-blue-600 text-white px-3 py-1 rounded transition-colors uppercase font-bold tracking-wider shadow-lg">
+                    <i class="fas fa-satellite-dish"></i> Live Preview
+                </button>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-grow p-6 overflow-auto bg-[var(--bg-editor)] mono relative" id="editor-content"></div>
+
+            <!-- Terminal Area -->
+            <div class="terminal-container flex flex-col p-4 mono text-sm" id="terminal">
+                <div class="flex gap-4 border-b border-[#222] mb-3 pb-2 opacity-50 text-[10px] uppercase font-bold">
+                    <span class="border-b-2 border-white pb-2">Terminal</span>
+                    <span>Output</span>
+                    <span>Debug Console</span>
+                </div>
+                <div id="terminal-output"
+                    class="flex-grow overflow-y-auto space-y-1 scroll-smooth text-[12px] leading-relaxed"></div>
+                <div class="flex items-center bg-black/50 p-2 rounded">
+                    <span class="text-green-400 mr-2 font-bold">codem@portfolio:~$</span>
+                    <input type="text" id="terminal-input"
+                        class="bg-transparent border-none outline-none flex-grow text-white" autofocus
+                        autocomplete="off">
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- VS Code Status Bar -->
+    <footer class="status-bar">
+        <div class="flex h-full">
+            <div class="status-bar-item bg-[#16825d]">
+                <i class="fas fa-code-branch"></i>
+                <span>main*</span>
+            </div>
+            <div class="status-bar-item">
+                <i class="fas fa-sync"></i>
+            </div>
+            <div class="status-bar-item">
+                <i class="fas fa-times-circle"></i> <span>0</span>
+                <i class="fas fa-exclamation-triangle ml-1"></i> <span>0</span>
+            </div>
+        </div>
+        <div class="flex h-full">
+            <div class="status-bar-item hidden sm:flex">
+                <span>Spaces: 4</span>
+            </div>
+            <div class="status-bar-item hidden sm:flex">
+                <span>UTF-8</span>
+            </div>
+            <div class="status-bar-item text-yellow-300 font-bold" onclick="toggleModal('eggs')">
+                <i class="fas fa-egg"></i>
+                <span>SHOW EASTER EGGS</span>
+            </div>
+            <div class="status-bar-item">
+                <i class="far fa-bell"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Live Preview Overlay -->
+    <div id="live-share-overlay">
+        <nav
+            class="sticky top-0 bg-[#020617]/90 backdrop-blur-xl border-b border-white/10 px-8 py-6 flex justify-between items-center z-50">
+            <div class="font-black tracking-tighter text-3xl italic">CODEM<span class="text-blue-500">.</span></div>
+            <button onclick="toggleLiveShare()"
+                class="text-xs font-bold uppercase tracking-widest bg-white/5 hover:bg-white/10 px-6 py-3 rounded-full transition-all border border-white/10">
+                <i class="fas fa-times mr-2"></i> Exit Environment
+            </button>
+        </nav>
+        <div id="live-content" class="min-h-screen"></div>
+    </div>
+
+    <!-- Modals -->
+    <div id="resume-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 p-4">
+        <div class="bg-[var(--bg-sidebar)] p-8 rounded-2xl border border-[var(--border)] max-w-lg w-full">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold flex items-center gap-3"><i class="far fa-file-pdf text-red-500"></i>
+                    Resume.pdf</h2>
+                <button onclick="toggleModal('resume')" class="text-white/50 hover:text-white"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div
+                class="aspect-[3/4] bg-black/40 rounded-xl flex items-center justify-center border border-[var(--border)] italic opacity-50 text-sm">
+                [Codem_Resume_Latest.pdf Interface]
+            </div>
+            <div class="mt-6 flex justify-end gap-3">
+                <button onclick="toggleModal('resume')"
+                    class="px-6 py-2 bg-white/5 rounded-lg text-xs font-bold uppercase">Close</button>
+                <button class="px-6 py-2 bg-blue-600 rounded-lg text-xs font-bold uppercase"
+                    onclick="showToast('Downloading document...')">Download</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="eggs-modal" class="fixed inset-0 bg-black/95 flex items-center justify-center hidden z-50 p-4">
+        <div
+            class="bg-[#1a1a1a] p-8 rounded-3xl border border-yellow-500/30 max-w-3xl w-full shadow-[0_0_50px_rgba(234,179,8,0.1)]">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-black italic text-yellow-500 flex items-center gap-3">
+                    <i class="fas fa-terminal"></i> EASTER_EGG_PROTOCOLS
+                </h2>
+                <button onclick="toggleModal('eggs')" class="text-white/50 hover:text-white"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto pr-2">
+                <div class="egg-card">
+                    <p class="text-yellow-500 font-bold text-xs mb-1 uppercase tracking-tighter">Command: docker</p>
+                    <p class="text-xs opacity-70">Deploys containers with a nautical surprise.</p>
+                </div>
+                <div class="egg-card">
+                    <p class="text-yellow-500 font-bold text-xs mb-1 uppercase tracking-tighter">Command: tree /f</p>
+                    <p class="text-xs opacity-70">Visualizes the directory structure.</p>
+                </div>
+                <div class="egg-card">
+                    <p class="text-yellow-500 font-bold text-xs mb-1 uppercase tracking-tighter">Command: ls / dir</p>
+                    <p class="text-xs opacity-70">Lists files in the current working directory.</p>
+                </div>
+                <div class="egg-card">
+                    <p class="text-yellow-500 font-bold text-xs mb-1 uppercase tracking-tighter">Command: sudo hire</p>
+                    <p class="text-xs opacity-70">Grants immediate access to the hiring/contact interface.</p>
+                </div>
+                <div class="egg-card">
+                    <p class="text-yellow-500 font-bold text-xs mb-1 uppercase tracking-tighter">Command: theme [name]
+                    </p>
+                    <p class="text-xs opacity-70">Try: <code>theme matrix</code>, <code>theme light</code>,
+                        <code>theme dark</code>.
+                    </p>
+                </div>
+                <div class="egg-card">
+                    <p class="text-yellow-500 font-bold text-xs mb-1 uppercase tracking-tighter">Command: rm -rf</p>
+                    <p class="text-xs opacity-70">Warning: Do not run this command. System integrity at risk.</p>
+                </div>
+                <div class="egg-card">
+                    <p class="text-yellow-500 font-bold text-xs mb-1 uppercase tracking-tighter">Command: joke</p>
+                    <p class="text-xs opacity-70">Fetches a random programming joke from the database.</p>
+                </div>
+                <div class="egg-card">
+                    <p class="text-yellow-500 font-bold text-xs mb-1 uppercase tracking-tighter">Command: coffee</p>
+                    <p class="text-xs opacity-70">Dispenses ASCII caffeine.</p>
+                </div>
+                <div class="egg-card">
+                    <p class="text-yellow-500 font-bold text-xs mb-1 uppercase tracking-tighter">Menu: Run</p>
+                    <p class="text-xs opacity-70">Clicking 'Run' in the top bar instantly compiles and previews HTML
+                        files.</p>
+                </div>
+                <div class="egg-card">
+                    <p class="text-yellow-500 font-bold text-xs mb-1 uppercase tracking-tighter">Search Bar</p>
+                    <p class="text-xs opacity-70">Type in the top search bar to filter and quickly jump between files.
+                    </p>
+                </div>
+                <div class="egg-card">
+                    <p class="text-yellow-500 font-bold text-xs mb-1 uppercase tracking-tighter">Konami Code</p>
+                    <p class="text-xs opacity-70">↑ ↑ ↓ ↓ ← → ← → B A (Try it!)</p>
+                </div>
+            </div>
+            <div class="mt-8 text-center">
+                <p class="text-[10px] opacity-30 uppercase font-mono tracking-[0.3em]">Total Protocols: 13 // Happy
+                    Hunting</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="project-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 p-4">
+        <div class="bg-[var(--bg-sidebar)] p-8 rounded-3xl border border-[var(--border)] max-w-2xl w-full">
+            <div class="flex justify-between items-center mb-6">
+                <h2 id="modal-project-title" class="text-2xl font-black italic text-[var(--accent)]">Project Title</h2>
+                <button onclick="toggleModal('project')" class="text-white/50 hover:text-white"><i
+                        class="fas fa-times"></i></button>
+            </div>
+            <div id="modal-project-content" class="space-y-6"></div>
+        </div>
+    </div>
+
+    <div id="toast">Message here</div>
+
+    <script>
+        const state = { currentFile: 'about.md', openFiles: ['about.md'], isLive: false };
+        let projectDb = {}; // Cache for projects
+
+        const fullAscii = `
+               ..:=++++--..
+              .-%@#*@@@@@@@@@@@#=.
+          .:+#+==+*+==#%@@@@@@@@@@@+:.        
+        .:*@@@@#=========+*#%@@@@@@@@*..      
+       .=@#+++%@@#+============*@@@@@@@*.     
+      .-=========================#@@@@@@*.    
+      :=======+**###=========*#*==+%@@@@@#.   
+     .-===+%@@@@@@*====================*@@*.
+     .========%@@@%%======+@@@@@*=======%@#.
+     .=======+@@@@@*========+%@@@@@*===+@@%-
+     .-====+#@@@@@@+=###*+====*@@@@@%#%@@@%-
+     .-=======@@@@@@@@@@@@@%=====+@@@@@@@@#:
+      .========%@@@@@@@@@@@@#*++#@@@@@@@@@+.
+       .=======#@@@@@@@@@@@@@@@@@@@@@@@@@#.
+        .-====*+==+*@@@@@@@@@@@@@@@@@@@@#.
+         .:==========+@@@@@@@@@@@@@@@@@+.
+           .:-======*#+==#@@@@@@@@@@@#:.
+              .:-==========*@@@@@@@+..
+                  .:-======*@@%-
+
+_________            .___
+\\_   ___ \\  ____   __| _/____   _____
+/    \\  \\/ /  _ \\ / __ |/ __ \\ /     \\
+\\     \\___(  <_> ) /_/ \\  ___/|  Y Y  \\
+ \\______  /\\____/\\____ |\\___  >__|_|  /
+        \\/            \\/    \\/      \\/
+
+SYSTEM ONLINE // SESSION_ID: ${Math.random().toString(36).substr(2, 9).toUpperCase()}
+TIMESTAMP: ${new Date().toLocaleString()}
+`;
+
+        const fileData = {
+            'about.md': `
+<span class="md-comment">&lt;!-- Profile: Codem --&gt;</span>
+<h1 class="text-4xl font-extrabold mb-6 italic"># Architecting the Future<span class="text-blue-500">.</span></h1>
+<p class="mb-6 text-xl opacity-80">Codem is a software developer focused on high-performance distributed systems and immersive web interactions.</p>
+<div class="p-8 bg-blue-500/5 border border-blue-500/10 rounded-2xl mb-8">
+  <p class="mb-4">Currently mastering <span class="text-blue-400 font-bold">Mobile Development</span> and <span class="text-cyan-400 font-bold">Machine Learning</span> integration.</p>
+  <div class="flex gap-4 mt-8 opacity-40 text-xs font-mono uppercase tracking-widest">
+     <span>[ Status: Active ]</span>
+     <span>[ Location: Pakistan ]</span>
+     <span>[ Focus: Scalability ]</span>
+  </div>
+</div>`,
+            'projects.json': `
+<h2 class="text-xl font-bold mb-8 italic flex items-center gap-3"><i class="fas fa-layer-group text-yellow-500"></i> DEPLOYED_ARTIFACTS</h2>
+<div id="dynamic-projects-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="text-sm opacity-50 font-mono">Loading artifacts from secure database...</div>
+</div>`,
+            'skills.html': `
+<div class="mb-8 p-10 bg-blue-500/5 border-2 border-blue-500/10 rounded-3xl flex flex-col items-center gap-8 text-center">
+    <div class="text-6xl animate-float">🚀</div>
+    <div>
+        <h3 class="text-3xl font-black italic mb-3 uppercase tracking-tighter">SOURCE: SKILLS.HTML</h3>
+        <p class="opacity-50 text-sm max-w-lg mx-auto">This file maps the current technical proficiencies across the stack. Initiate render for high-fidelity visualization.</p>
+    </div>
+    <button onclick="toggleLiveShare()" class="bg-blue-600 hover:bg-blue-500 text-white px-12 py-4 rounded-full font-black text-xs uppercase tracking-widest shadow-[0_20px_40px_rgba(37,99,235,0.2)] transition-all hover:-translate-y-1">
+        <i class="fas fa-bolt mr-2"></i> Initiate Render
+    </button>
+</div>
+<pre class="bg-black/30 p-8 rounded-2xl border border-white/5 text-sm overflow-x-auto leading-relaxed">
+<span class="syntax-tag">&lt;section</span> <span class="syntax-attr">id</span>=<span class="syntax-string">"matrix"</span><span class="syntax-tag">&gt;</span>
+    <span class="syntax-tag">&lt;tech</span> <span class="syntax-attr">level</span>=<span class="syntax-string">"expert"</span><span class="syntax-tag">&gt;</span>Golang<span class="syntax-tag">&lt;/tech&gt;</span>
+    <span class="syntax-tag">&lt;tech</span> <span class="syntax-attr">level</span>=<span class="syntax-string">"advanced"</span><span class="syntax-tag">&gt;</span>Rust<span class="syntax-tag">&lt;/tech&gt;</span>
+<span class="syntax-tag">&lt;/section&gt;</span>
+</pre>`,
+            'contact.html': `
+<div class="mb-8 p-10 bg-orange-500/5 border-2 border-orange-500/10 rounded-3xl flex flex-col items-center gap-8 text-center">
+    <div class="text-6xl animate-float">📡</div>
+    <div>
+        <h3 class="text-3xl font-black italic mb-3 uppercase tracking-tighter">SOURCE: CONTACT.HTML</h3>
+        <p class="opacity-50 text-sm max-w-lg mx-auto">Encryption interface for secure peer-to-peer communication. Establish link for interactive form.</p>
+    </div>
+    <button onclick="toggleLiveShare()" class="bg-orange-600 hover:bg-orange-500 text-white px-12 py-4 rounded-full font-black text-xs uppercase tracking-widest shadow-[0_20px_40px_rgba(234,88,12,0.2)] transition-all hover:-translate-y-1">
+        <i class="fas fa-broadcast-tower mr-2"></i> Establish Link
+    </button>
+</div>
+<pre class="bg-black/30 p-8 rounded-2xl border border-white/5 text-sm overflow-x-auto leading-relaxed">
+<span class="syntax-tag">&lt;form</span> <span class="syntax-attr">id</span>=<span class="syntax-string">"comms-link"</span><span class="syntax-tag">&gt;</span>
+    <span class="syntax-tag">&lt;packet</span> <span class="syntax-attr">type</span>=<span class="syntax-string">"AUTH"</span> <span class="syntax-tag">/&gt;</span>
+<span class="syntax-tag">&lt;/form&gt;</span>
+</pre>`
+        };
+
+        const icons = {
+            'about.md': 'fab fa-markdown text-blue-400',
+            'projects.json': 'fas fa-code text-yellow-400 text-xs',
+            'skills.html': 'fab fa-html5 text-orange-500',
+            'contact.html': 'fab fa-html5 text-orange-500'
+        };
+
+        function openFile(fileName) {
+            state.currentFile = fileName;
+            if (!state.openFiles.includes(fileName)) state.openFiles.push(fileName);
+            document.querySelectorAll('.sidebar-item').forEach(el => el.classList.toggle('active', el.dataset.file === fileName));
+            document.getElementById('breadcrumb').textContent = `src > ${fileName}`;
+            document.getElementById('live-preview-btn').style.display = (fileName.endsWith('.html')) ? 'flex' : 'none';
+
+            // Hide search results if open
+            document.getElementById('search-results').classList.add('hidden');
+            document.getElementById('global-search').value = '';
+
+            renderTabs();
+            document.getElementById('editor-content').innerHTML = `
+                <div class="absolute left-0 top-0 bottom-0 w-8 flex flex-col items-center pt-6 opacity-20 select-none text-[9px] border-r border-white/5 font-mono">
+                    ${Array.from({ length: 50 }, (_, i) => `<div>${(i + 1).toString().padStart(2, '0')}</div>`).join('')}
+                </div>
+                <div class="ml-10 max-w-4xl">${fileData[fileName]}</div>
+            `;
+            document.getElementById('editor-content').scrollTop = 0;
+
+            if (fileName === 'projects.json') {
+                loadAndRenderProjects();
+            }
+        }
+
+        function renderTabs() {
+            document.getElementById('tab-bar').innerHTML = state.openFiles.map(file => `
+                <div class="tab ${state.currentFile === file ? 'active' : ''} px-4 py-2 text-xs flex items-center gap-2" onclick="openFile('${file}')">
+                    <i class="${icons[file]}"></i> ${file} 
+                    <span class="ml-2 opacity-30 hover:opacity-100" onclick="closeFile(event, '${file}')">×</span>
+                </div>
+            `).join('');
+        }
+
+        function closeFile(e, fileName) {
+            e.stopPropagation();
+            if (state.openFiles.length === 1) return;
+            state.openFiles = state.openFiles.filter(f => f !== fileName);
+            if (state.currentFile === fileName) openFile(state.openFiles[0]);
+            else renderTabs();
+        }
+
+        function handleRun() {
+            if (state.currentFile.endsWith('.html')) {
+                toggleLiveShare();
+            } else {
+                showToast(`Cannot run ${state.currentFile}. No executable target.`);
+            }
+        }
+
+        function toggleLiveShare() {
+            const overlay = document.getElementById('live-share-overlay');
+            state.isLive = !state.isLive;
+            if (state.isLive) {
+                renderLiveContent();
+                overlay.style.display = 'block';
+                setTimeout(() => overlay.classList.add('visible'), 10);
+            } else {
+                overlay.classList.remove('visible');
+                setTimeout(() => overlay.style.display = 'none', 400);
+            }
+        }
+
+        function renderLiveContent() {
+            const content = document.getElementById('live-content');
+            if (state.currentFile === 'skills.html') {
+                content.innerHTML = `
+                    <div class="max-w-6xl mx-auto py-32 px-10">
+                        <div class="mb-24">
+                            <h1 class="text-8xl font-black italic tracking-tighter mb-4">CORE_STACK<span class="text-blue-500">.</span></h1>
+                            <p class="text-blue-400 font-mono tracking-widest text-sm uppercase">Mapping technical superiority</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                            <div class="glass-panel p-12 rounded-3xl glow-blue">
+                                <h3 class="text-2xl font-bold italic mb-8 border-b border-white/10 pb-4">Architectural Foundation</h3>
+                                <div class="space-y-8">
+                                    ${['Go / Microservices', 'Rust / Performance', 'PostgreSQL / Scaling', 'AWS / Cloud'].map(s => `
+                                        <div>
+                                            <div class="flex justify-between text-[10px] mb-3 opacity-50 font-mono font-bold"><span>${s}</span><span>OPTIMIZED</span></div>
+                                            <div class="h-1 bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-blue-500 shadow-[0_0_10px_#3b82f6]" style="width: 100%"></div></div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <div class="glass-panel p-12 rounded-3xl">
+                                <h3 class="text-2xl font-bold italic mb-8 border-b border-white/10 pb-4">Visual Logic</h3>
+                                <div class="space-y-8">
+                                    ${['Three.js / Shaders', 'React / Framer', 'Tailwind / Design', 'Canvas / Data'].map(s => `
+                                        <div>
+                                            <div class="flex justify-between text-[10px] mb-3 opacity-50 font-mono font-bold"><span>${s}</span><span>HIGH_FIDELITY</span></div>
+                                            <div class="h-1 bg-white/5 rounded-full overflow-hidden"><div class="h-full bg-white/20" style="width: 100%"></div></div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (state.currentFile === 'contact.html') {
+                content.innerHTML = `
+                    <div class="max-w-6xl mx-auto py-32 px-10">
+                        <div class="text-center mb-24">
+                            <h1 class="text-8xl font-black italic tracking-tighter mb-4">SECURE_LINK<span class="text-orange-500">.</span></h1>
+                            <p class="text-orange-400 font-mono tracking-widest text-sm uppercase">Open Channel Protocol Established</p>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+                            <div class="space-y-8">
+                                <div class="glass-panel p-10 rounded-2xl flex items-center gap-8 group cursor-pointer border-l-4 border-orange-500 transition-all hover:glow-orange" onclick="showToast('Mailto linked.')">
+                                    <div class="text-4xl text-orange-500"><i class="fas fa-paper-plane"></i></div>
+                                    <div><p class="text-[10px] uppercase font-black opacity-30 tracking-widest">Protocol: Email</p><p class="text-2xl font-bold italic">hello@codem.dev</p></div>
+                                </div>
+                                <div class="glass-panel p-10 rounded-2xl flex items-center gap-8 group cursor-pointer border-l-4 border-blue-500 transition-all hover:glow-blue">
+                                    <div class="text-4xl text-blue-500"><i class="fab fa-discord"></i></div>
+                                    <div><p class="text-[10px] uppercase font-black opacity-30 tracking-widest">Protocol: Discord</p><p class="text-2xl font-bold italic">codem#0000</p></div>
+                                </div>
+                            </div>
+                            <div class="glass-panel p-12 rounded-3xl">
+                                <h3 class="text-xl font-bold italic mb-8 uppercase tracking-widest opacity-60">Send Transmission</h3>
+                                <div class="space-y-6">
+                                    <input type="text" placeholder="SENDER_IDENTITY" class="w-full bg-white/5 border border-white/10 p-5 rounded-xl focus:outline-none focus:border-orange-500 font-mono text-xs">
+                                    <textarea rows="5" placeholder="ENCRYPTED_PAYLOAD" class="w-full bg-white/5 border border-white/10 p-5 rounded-xl focus:outline-none focus:border-orange-500 font-mono text-xs"></textarea>
+                                    <button onclick="showToast('Transmission encrypted and sent.')" class="w-full py-5 bg-orange-600 hover:bg-orange-500 text-white font-black italic rounded-xl transition-all shadow-xl">INITIATE UPLOAD</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadAndRenderProjects() {
+            const container = document.getElementById('dynamic-projects-list');
+            if (!container) return;
+
+            try {
+                if (Object.keys(projectDb).length === 0) {
+                    const res = await fetch('data/db.json');
+                    if (!res.ok) throw new Error('DB Load Failed');
+                    const data = await res.json();
+                    data.projects.forEach(p => projectDb[p.id] = p);
+                }
+
+                container.innerHTML = Object.values(projectDb).map(p => `
+                    <div class="project-card p-8 rounded-2xl cursor-pointer hover:bg-white/5 transition-colors border border-transparent hover:border-white/5" onclick="viewProject('${p.id}')">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="font-bold text-white text-xl italic">${p.name}</h3>
+                            ${p.imageUrl && p.imageUrl.startsWith('http') ? `<img src="${p.imageUrl}" class="w-10 h-10 rounded-full object-cover opacity-80" alt="${p.name}">` : ''}
+                        </div>
+                        <p class="text-xs opacity-50 mb-6 line-clamp-2">${p.description || 'No description available.'}</p>
+                        <div class="flex flex-wrap gap-2">
+                             ${p.stack ? p.stack.split(',').slice(0, 3).map(s => `
+                                <span class="text-[9px] bg-blue-500/20 text-blue-400 px-3 py-1 rounded-full uppercase font-bold tracking-widest">${s.trim()}</span>
+                             `).join('') : ''}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                container.innerHTML = `<div class="text-red-400 text-xs font-mono">Error loading artifacts: ${err.message}</div>`;
+            }
+        }
+
+        function viewProject(id) {
+            const p = projectDb[id];
+            if (!p) return showToast('Project data not found.');
+
+            document.getElementById('modal-project-title').textContent = p.name;
+
+            // Build Tags
+            const tagsHtml = p.stack ? p.stack.split(',').map(t => `<span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">${t.trim()}</span>`).join('') : '';
+
+            // Build Links
+            const linksHtml = p.links ? p.links.map(l => `<a href="${l.url}" target="_blank" class="text-xs font-bold uppercase tracking-widest text-white hover:text-blue-400 transition-colors border-b border-white/20 pb-1">${l.label} <i class="fas fa-external-link-alt ml-1 text-[9px]"></i></a>`).join('') : '';
+
+            // Image
+            const imgHtml = p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}" class="w-full h-48 object-cover rounded-xl mb-6 border border-white/10">` : '';
+
+            document.getElementById('modal-project-content').innerHTML = `
+                ${imgHtml}
+                <div class="flex justify-between items-center mb-6">
+                    <span class="text-[10px] uppercase font-mono opacity-50 tracking-[0.2em] border border-white/20 px-2 py-1 rounded">${p.osDevice || 'Universal'}</span>
+                    <div class="flex gap-4">${linksHtml}</div>
+                </div>
+                <p class="text-lg opacity-80 leading-relaxed italic font-light">${p.description}</p>
+                <div class="pt-8 mt-4 border-t border-white/5">
+                    <h4 class="text-[10px] uppercase opacity-30 font-black mb-4 tracking-widest">Tech Stack</h4>
+                    <div class="flex flex-wrap gap-2">
+                        ${tagsHtml}
+                    </div>
+                </div>
+            `;
+            toggleModal('project');
+        }
+
+        function toggleModal(id) { document.getElementById(id + '-modal').classList.toggle('hidden'); }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg; t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        // Search Logic
+        const searchInput = document.getElementById('global-search');
+        const searchResults = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            if (term.length < 1) {
+                searchResults.innerHTML = '';
+                searchResults.classList.add('hidden');
+                return;
+            }
+
+            const files = Object.keys(fileData).filter(f => f.includes(term));
+            if (files.length > 0) {
+                searchResults.innerHTML = files.map(f => `
+                    <div class="px-4 py-2 cursor-pointer flex items-center gap-2 text-xs text-gray-300" onclick="openFile('${f}')">
+                        <i class="${icons[f]}"></i> ${f}
+                    </div>
+                `).join('');
+                searchResults.classList.remove('hidden');
+                searchResults.classList.add('flex');
+            } else {
+                searchResults.classList.add('hidden');
+            }
+        });
+
+        // Close search when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.classList.add('hidden');
+            }
+        });
+
+        function triggerDocker() {
+            const whale = document.createElement('div');
+            whale.className = 'whale';
+            whale.innerHTML = `
+      .
+     ":"
+   ___:____     |"\/"|
+ ,'        \`.    \\  /
+ |  O        \\___/  |
+~^~^~^~^~^~^~^~^~^~^~^~^~`;
+            document.body.appendChild(whale);
+            setTimeout(() => whale.remove(), 12000);
+        }
+
+        const terminalInput = document.getElementById('terminal-input');
+        const terminalOutput = document.getElementById('terminal-output');
+
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { handleCommand(terminalInput.value.trim().toLowerCase()); terminalInput.value = ''; }
+        });
+
+        function handleCommand(cmd) {
+            const line = document.createElement('div');
+            line.innerHTML = `<span class="text-green-400 font-bold">codem@portfolio:~$</span> <span class="text-white">${cmd}</span>`;
+            terminalOutput.appendChild(line);
+
+            const response = document.createElement('div');
+            response.className = 'ml-4 opacity-70 mb-3 font-mono text-xs';
+
+            if (cmd === 'neofetch') {
+                response.innerHTML = `<pre class="text-[10px] leading-tight text-blue-400">${fullAscii}</pre>`;
+            } else if (cmd === 'clear') {
+                terminalOutput.innerHTML = '';
+                return;
+            } else if (cmd === 'help') {
+                response.innerHTML = 'System Commands: ls, cat, theme, sudo hire, joke, coffee, docker, tree, rm -rf, time, legend.txt, blog';
+            } else if (cmd === 'whoami') {
+                response.innerHTML = 'root:codem (Lead Architect)';
+            } else if (cmd === 'sudo hire') {
+                response.innerHTML = 'Elevating privileges... Redirecting to Secure Link.';
+                openFile('contact.html');
+                showToast('Hiring Protocol Initiated.');
+            } else if (cmd === 'docker') {
+                response.innerHTML = 'Deploying fleets... Containerization started.';
+                triggerDocker();
+            } else if (cmd === 'ls' || cmd === 'dir') {
+                response.innerHTML = 'about.md  projects.json  skills.html  contact.html  resume.pdf';
+            } else if (cmd === 'tree' || cmd === 'tree /f') {
+                response.innerHTML = `<pre class="text-green-400">
+.
+└── Portfolio
+    ├── about.md
+    ├── projects.json
+    ├── skills.html
+    ├── contact.html
+    └── resume.pdf
+
+0 directories, 5 files</pre>`;
+            } else if (cmd.startsWith('theme')) {
+                const theme = cmd.split(' ')[1];
+                document.body.className = 'flex flex-col'; // Reset
+                if (theme === 'matrix') {
+                    document.body.classList.add('theme-matrix');
+                    response.innerHTML = 'Follow the white rabbit...';
+                } else if (theme === 'light') {
+                    document.body.classList.add('theme-light');
+                    response.innerHTML = 'Light mode applied. My eyes!';
+                } else if (theme === 'dark') {
+                    response.innerHTML = 'Back to the shadows.';
+                } else {
+                    response.innerHTML = 'Usage: theme [dark|light|matrix]';
+                }
+            } else if (cmd === 'joke') {
+                const jokes = [
+                    "Why do programmers prefer dark mode? Because light attracts bugs.",
+                    "How many programmers does it take to change a light bulb? None, that's a hardware problem.",
+                    "I would tell you a UDP joke, but you might not get it."
+                ];
+                response.innerHTML = jokes[Math.floor(Math.random() * jokes.length)];
+            } else if (cmd === 'coffee') {
+                response.innerHTML = `<pre>
+    ( (
+     ) )
+  ........
+  |      |]
+  \\      /
+   \`----'
+</pre>`;
+            } else if (cmd === 'rm -rf' || cmd === 'rm -rf /') {
+                document.body.classList.add('shake');
+                response.innerHTML = '<span class="text-red-500 font-bold">CRITICAL ERROR: SYSTEM DESTRUCTION PREVENTED. NICE TRY.</span>';
+                setTimeout(() => document.body.classList.remove('shake'), 1000);
+            } else if (cmd.startsWith('cat ')) {
+                const file = cmd.split(' ')[1];
+                if (fileData[file]) {
+                    openFile(file);
+                    response.innerHTML = 'Reading stream: ' + file;
+                } else {
+                    response.innerHTML = 'Error: Stream not found.';
+                }
+            } else if (cmd === 'time') {
+                const hour = new Date().getHours();
+                if (hour >= 5 && hour < 12) {
+                    response.innerHTML = 'Good morning, Codem. Create something new today.';
+                } else if (hour >= 12 && hour < 18) {
+                    response.innerHTML = 'Good afternoon. Maintain momentum.';
+                } else {
+                    response.innerHTML = 'Time to get in the zone. The night is young.';
+                }
+            } else if (cmd === 'legend.txt' || cmd === 'cat legend.txt') {
+                response.innerHTML = 'Initializing legendary protocol...';
+                playLegendaryCrawl();
+            } else if (cmd === 'blog') {
+                response.innerHTML = 'Initiating jump to external sector...';
+                setTimeout(() => window.open('https://codemsportfolio.netlify.app/blog', '_blank'), 1000);
+            } else {
+                response.innerHTML = 'Unauthorized command. Type "help" for protocol.';
+            }
+
+            terminalOutput.appendChild(response);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }
+
+        window.onload = () => {
+            openFile('about.md');
+            terminalOutput.innerHTML = `<pre class="text-[10px] leading-tight opacity-40">${fullAscii}</pre>`;
+            terminalInput.focus();
+            updateTimeBasedStatus();
+
+            // Konami Code
+            let keys = [];
+            const konami = 'ArrowUp,ArrowUp,ArrowDown,ArrowDown,ArrowLeft,ArrowRight,ArrowLeft,ArrowRight,b,a';
+            window.addEventListener('keydown', (e) => {
+                keys.push(e.key);
+                if (keys.length > 10) keys.shift();
+                if (keys.join(',') === konami) {
+                    showToast("GOD MODE ENABLED");
+                    document.body.classList.add('theme-matrix');
+                }
+            });
+        };
+
+        function updateTimeBasedStatus() {
+            const hour = new Date().getHours();
+            const statusBar = document.querySelector('.status-bar');
+
+            // Default classes/styles are in CSS, we'll modify the variable directly on body or the element
+            // Morning: 5 - 11
+            // Afternoon: 12 - 17
+            // Evening/Night: 18 - 4
+
+            let color = '#007acc'; // Default Blue
+
+            if (hour >= 5 && hour < 12) {
+                color = '#eab308'; // Morning Gold/Yellow
+            } else if (hour >= 12 && hour < 18) {
+                color = '#007acc'; // Afternoon Blue
+            } else {
+                color = '#7c3aed'; // Night Violet/Purple
+            }
+
+            document.documentElement.style.setProperty('--bg-statusbar', color);
+        }
+
+        function playLegendaryCrawl() {
+            const overlay = document.createElement('div');
+            overlay.className = 'star-wars-overlay';
+            overlay.innerHTML = `
+                <div class="crawl-container">
+                    <p>Not born from frameworks.</p>
+                    <p>Forged in curiosity.</p>
+                    <p>Optimized by failure.</p>
+                    <br>
+                    <p>— Codem</p>
+                </div>
+            `;
+
+            // Audio (Optional, but let's stick to silence unless we have a file, user didn't ask for audio)
+
+            document.body.appendChild(overlay);
+
+            // Remove after animation
+            setTimeout(() => {
+                overlay.style.opacity = '0';
+                overlay.style.transition = 'opacity 1s';
+                setTimeout(() => overlay.remove(), 1000);
+            }, 20000);
+
+            // Click to dismiss
+            overlay.addEventListener('click', () => overlay.remove());
+        }
+    </script>
+</body>
+
+</html>
