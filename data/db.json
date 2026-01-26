@@ -27,6 +27,34 @@
           "url": "https://emojisearch-mu.vercel.app"
         }
       ]
+    },
+    {
+      "id": "web-capture-page",
+      "name": "Codem Web Capture",
+      "description": "An easy-to-use tool(Browser Extension) for capturing websites as PNG images.",
+      "stack": "",
+      "osDevice": "Desktop + Windows + Opera GX",
+      "imageUrl": "https://raw.githubusercontent.com/codemdragon/Portfolio_future/main/assets/1769444641897_image_2026-01-26_212313399.png",
+      "links": [
+        {
+          "label": "Download_V1",
+          "url": "https://www.mediafire.com/file/wmcd68921gyj9ip/Codem-Web-Capture.zip/file"
+        }
+      ]
+    },
+    {
+      "id": "study-hub",
+      "name": "Codem Study Hub",
+      "description": "An interactive learning platform featuring smart flashcards with spaced repetition, downloadable filtered revision notes, and comprehensive study tools. For Computer Science",
+      "stack": "html, css, js",
+      "osDevice": "Desktop + Mobile(Browser Based)",
+      "imageUrl": "https://raw.githubusercontent.com/codemdragon/Portfolio_future/main/assets/1769444749521_image_2026-01-26_212533951.png",
+      "links": [
+        {
+          "label": "Study-Hub",
+          "url": "https://codem-studyset.vercel.app/"
+        }
+      ]
     }
   ]
 }
