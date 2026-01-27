@@ -1128,7 +1128,12 @@ TIMESTAMP: ${new Date().toLocaleString()}
             'time': 'Display current time-based greeting.',
             'theme': 'Change terminal theme (e.g., theme matrix).',
             'blog': 'Open external blog link.',
-            'neofetch': 'Display system information and ASCII logo.'
+            'neofetch': 'Display system information and ASCII logo.',
+            'netstat -ano': 'Show standard local connections (loopback) and common ports.',
+            'tasklist': 'List background services and processes.',
+            'ps': 'List background services and processes (Unix style).',
+            'Start-MpScan -ScanType QuickScan': 'Perform a quick security scan.',
+            'Get-MpThreatDetection': 'Check for active threat detections.'
         };
 
         terminalInput.addEventListener('keydown', (e) => {
@@ -1151,9 +1156,31 @@ TIMESTAMP: ${new Date().toLocaleString()}
                     response.innerHTML = 'Available manuals:<br>' + Object.entries(commandDescriptions).map(([c, d]) => `<span class="text-blue-400 font-bold uppercase">${c}</span> - ${d}`).join('<br>');
                 } else if (commandDescriptions[targetCmd]) {
                     response.innerHTML = `<span class="text-blue-400 font-bold uppercase">${targetCmd}</span> - ${commandDescriptions[targetCmd]}`;
+                } else if (targetCmd === 'ps' || targetCmd === 'tasklist') {
+                    // Special case for commands with aliases in descriptions
+                    response.innerHTML = `<span class="text-blue-400 font-bold uppercase">${targetCmd}</span> - List background services and processes.`;
                 } else {
                     response.innerHTML = `No manual entry for ${targetCmd}`;
                 }
+            } else if (cmd === 'netstat -ano') {
+                response.innerHTML = `<pre class="text-xs">
+TCP    127.0.0.1:443          0.0.0.0:0              LISTENING       112
+TCP    192.168.1.5:5357       0.0.0.0:0              LISTENING       4
+TCP    127.0.0.1:5037         0.0.0.0:0              LISTENING       829
+UDP    0.0.0.0:5353           *:*                                    211</pre>`;
+            } else if (cmd === 'tasklist' || cmd === 'ps') {
+                response.innerHTML = `<pre class="text-xs">
+Image Name                     PID Session Name        Mem Usage
+========================= ======== ================ ============
+explorer.exe                 2480 Console             142,120 K
+svchost.exe                  1152 Services             24,512 K
+code.exe                     8932 Console             312,840 K
+CodemSidebar.exe             4412 Console              18,200 K
+powershell.exe               5620 Console              85,400 K</pre>`;
+            } else if (cmd === 'start-mpscan -scantype quickscan') {
+                response.innerHTML = 'Scan initiated...<br>Progress: [##########] 100%<br>Scan completed. 0 threats detected.';
+            } else if (cmd === 'get-mpthreatdetection') {
+                response.innerHTML = 'No active threats detected. System secure.';
             } else if (cmd === 'clear') {
                 terminalOutput.innerHTML = '';
                 return;
