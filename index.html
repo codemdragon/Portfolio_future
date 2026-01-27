@@ -1179,7 +1179,23 @@ code.exe                     8932 Console             312,840 K
 CodemSidebar.exe             4412 Console              18,200 K
 powershell.exe               5620 Console              85,400 K</pre>`;
             } else if (cmd === 'start-mpscan -scantype quickscan') {
-                response.innerHTML = 'Scan initiated...<br>Progress: [##########] 100%<br>Scan completed. 0 threats detected.';
+                response.innerHTML = 'Scan initiated...<br>Progress: [<span id="scan-bar">          </span>] <span id="scan-pct">0</span>%<br><span id="scan-status"></span>';
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 10;
+                    const bar = response.querySelector('#scan-bar');
+                    const pct = response.querySelector('#scan-pct');
+                    const status = response.querySelector('#scan-status');
+
+                    if (bar) bar.textContent = '#'.repeat(progress / 10).padEnd(10, ' ');
+                    if (pct) pct.textContent = progress;
+
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        if (status) status.textContent = 'Scan completed. 0 threats detected.';
+                    }
+                    terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                }, 80);
             } else if (cmd === 'get-mpthreatdetection') {
                 response.innerHTML = 'No active threats detected. System secure.';
             } else if (cmd === 'grep -r "http" .') {
