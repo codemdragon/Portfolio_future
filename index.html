@@ -1153,7 +1153,9 @@ TIMESTAMP: ${new Date().toLocaleString()}
                 response.innerHTML = `<pre class="text-[10px] leading-tight text-blue-400">${fullAscii}</pre>`;
             } else if (cmd.startsWith('man ')) {
                 const targetCmd = cmd.slice(4).trim();
-                if (targetCmd === 'docker' || targetCmd === 'rm -rf' || targetCmd === 'rm -rf /') {
+                if (targetCmd === 'all') {
+                    response.innerHTML = 'Available manuals: ' + Object.keys(commandDescriptions).join(', ');
+                } else if (targetCmd === 'docker' || targetCmd === 'rm -rf' || targetCmd === 'rm -rf /') {
                     response.innerHTML = `No manual entry for ${targetCmd}`;
                 } else if (commandDescriptions[targetCmd]) {
                     response.innerHTML = `<span class="text-blue-400 font-bold uppercase">${targetCmd}</span> - ${commandDescriptions[targetCmd]}`;
