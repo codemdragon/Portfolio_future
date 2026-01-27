@@ -55,6 +55,21 @@
           "url": "https://codem-studyset.vercel.app/"
         }
       ]
+    },
+    {
+      "id": "aether-io",
+      "name": "Aether.io",
+      "description": "A PWA interval timer for Android used for gym practices. Download via website notification.\nHas QR sharing and full customizability",
+      "stack": "HTML, CSS, JS",
+      "osDevice": "Mobile + Android, (website works on IOS)",
+      "imageUrl": "",
+      "githubUrl": "https://github.com/codemdragon/Fitness-timer-app",
+      "links": [
+        {
+          "label": "Link_to_download",
+          "url": "https://fitness-timer-app-five.vercel.app/"
+        }
+      ]
     }
   ]
 }
