@@ -466,6 +466,53 @@
         .project-img-clickable:hover {
             transform: scale(1.02);
         }
+
+        /* Sleep Joke Styles */
+        #sleep-overlay {
+            position: fixed;
+            inset: 0;
+            background: black;
+            z-index: 20000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #sleep-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .eye-hole {
+            fill: black;
+            transition: transform 0.2s;
+            transform-origin: center;
+            transform: scaleY(0);
+            /* Hidden initially */
+        }
+
+        .eye-hole.visible {
+            transform: scaleY(1);
+        }
+
+        .eye-hole.blink {
+            animation: eye-blink 0.3s ease-in-out;
+        }
+
+        @keyframes eye-blink {
+
+            0%,
+            100% {
+                transform: scaleY(1);
+            }
+
+            50% {
+                transform: scaleY(0.1);
+            }
+        }
     </style>
 </head>
 
@@ -762,6 +809,22 @@
     <!-- Image Zoom Overlay -->
     <div id="zoom-overlay" class="zoom-overlay" onclick="closeZoom()">
         <img id="zoom-img" class="zoom-img" src="" alt="Zoomed Image">
+    </div>
+
+    </div>
+
+    <!-- Sleep Joke Overlay -->
+    <div id="sleep-overlay">
+        <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <defs>
+                <mask id="sleep-mask">
+                    <rect width="100" height="100" fill="white" />
+                    <ellipse class="eye-hole eye-left" cx="45" cy="50" rx="4" ry="3" />
+                    <ellipse class="eye-hole eye-right" cx="55" cy="50" rx="4" ry="3" />
+                </mask>
+            </defs>
+            <rect width="100" height="100" fill="black" mask="url(#sleep-mask)" />
+        </svg>
     </div>
 
     <script>
@@ -1125,6 +1188,31 @@ TIMESTAMP: ${new Date().toLocaleString()}
             setTimeout(() => whale.remove(), 12000);
         }
 
+        function triggerSleep() {
+            const overlay = document.getElementById('sleep-overlay');
+            const eyes = overlay.querySelectorAll('.eye-hole');
+
+            overlay.classList.add('active');
+
+            // Wait 30 seconds as requested
+            setTimeout(() => {
+                eyes.forEach(eye => eye.classList.add('visible'));
+
+                // Perform blinking sequence
+                setTimeout(() => {
+                    eyes.forEach(eye => eye.classList.add('blink'));
+
+                    // Final fade back after showing eyes for a few seconds
+                    setTimeout(() => {
+                        eyes.forEach(eye => eye.classList.remove('visible', 'blink'));
+                        overlay.classList.remove('active');
+                    }, 4000);
+
+                }, 1000);
+
+            }, 30000);
+        }
+
         const terminalInput = document.getElementById('terminal-input');
         const terminalOutput = document.getElementById('terminal-output');
 
@@ -1230,6 +1318,9 @@ powershell.exe               5620 Console              85,400 K</pre>`;
                 }, stepTime);
             } else if (cmd === 'get-mpthreatdetection') {
                 response.innerHTML = 'No active threats detected. System secure.';
+            } else if (cmd === 'sleep') {
+                response.innerHTML = 'System entering low power mode...';
+                triggerSleep();
             } else if (cmd === 'whats_up.exe') {
                 response.innerHTML = 'Initiating jump to external sector...';
                 setTimeout(() => window.open('https://codemsportfolio.netlify.app/blog', '_blank'), 1000);
