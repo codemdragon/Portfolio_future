@@ -493,7 +493,8 @@
                 <span
                     class="hover:bg-[#ffffff1f] px-2 py-1 rounded-sm cursor-pointer transition-colors font-bold text-green-400"
                     onclick="handleRun()">Run</span>
-                <span class="hover:bg-[#ffffff1f] px-2 py-1 rounded-sm cursor-pointer transition-colors">Terminal</span>
+                <span class="hover:bg-[#ffffff1f] px-2 py-1 rounded-sm cursor-pointer transition-colors"
+                    onclick="toggleTerminal(true)">Terminal</span>
                 <span class="hover:bg-[#ffffff1f] px-2 py-1 rounded-sm cursor-pointer transition-colors">Help</span>
             </div>
         </div>
@@ -587,10 +588,16 @@
 
             <!-- Terminal Area -->
             <div class="terminal-container flex flex-col p-4 mono text-sm" id="terminal">
-                <div class="flex gap-4 border-b border-[#222] mb-3 pb-2 opacity-50 text-[10px] uppercase font-bold">
-                    <span class="border-b-2 border-white pb-2">Terminal</span>
-                    <span>Output</span>
-                    <span>Debug Console</span>
+                <div class="flex justify-between items-center border-b border-[#222] mb-3 pb-2">
+                    <div class="flex gap-4 opacity-50 text-[10px] uppercase font-bold">
+                        <span class="border-b-2 border-white pb-2">Terminal</span>
+                        <span>Output</span>
+                        <span>Debug Console</span>
+                    </div>
+                    <div class="flex items-center gap-2 opacity-50 hover:opacity-100 transition-opacity">
+                        <i class="fas fa-times cursor-pointer p-1" onclick="toggleTerminal(false)"
+                            title="Close Terminal"></i>
+                    </div>
                 </div>
                 <div id="terminal-output"
                     class="flex-grow overflow-y-auto space-y-1 scroll-smooth text-[12px] leading-relaxed"></div>
@@ -1373,6 +1380,11 @@ TIMESTAMP: ${new Date().toLocaleString()}
             const overlay = document.getElementById('zoom-overlay');
             overlay.classList.remove('active');
             document.body.style.overflow = '';
+        }
+
+        function toggleTerminal(show) {
+            const terminal = document.getElementById('terminal');
+            terminal.style.display = show ? 'flex' : 'none';
         }
     </script>
 </body>
