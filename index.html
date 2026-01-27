@@ -423,6 +423,49 @@
                 transform: translateY(100vh) scaleY(2);
             }
         }
+
+        /* Image Zoom Styles */
+        .zoom-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10005;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .zoom-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .zoom-img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+            transform: scale(0.5);
+            opacity: 0;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+        }
+
+        .zoom-overlay.active .zoom-img {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .project-img-clickable {
+            cursor: zoom-in;
+            transition: transform 0.3s ease;
+        }
+
+        .project-img-clickable:hover {
+            transform: scale(1.02);
+        }
     </style>
 </head>
 
@@ -709,6 +752,11 @@
 
     <div id="toast">Message here</div>
 
+    <!-- Image Zoom Overlay -->
+    <div id="zoom-overlay" class="zoom-overlay" onclick="closeZoom()">
+        <img id="zoom-img" class="zoom-img" src="" alt="Zoomed Image">
+    </div>
+
     <script>
         const state = { currentFile: 'about.md', openFiles: ['about.md'], isLive: false, testingCount: 0 };
         let projectDb = {}; // Cache for projects
@@ -976,10 +1024,15 @@ TIMESTAMP: ${new Date().toLocaleString()}
             const tagsHtml = p.stack ? p.stack.split(',').map(t => `<span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">${t.trim()}</span>`).join('') : '';
 
             // Build Links
-            const linksHtml = p.links ? p.links.map(l => `<a href="${l.url}" target="_blank" class="text-xs font-bold uppercase tracking-widest text-white hover:text-blue-400 transition-colors border-b border-white/20 pb-1">${l.label} <i class="fas fa-external-link-alt ml-1 text-[9px]"></i></a>`).join('') : '';
+            let linksHtml = p.links ? p.links.map(l => `<a href="${l.url}" target="_blank" class="text-xs font-bold uppercase tracking-widest text-white hover:text-blue-400 transition-colors border-b border-white/20 pb-1">${l.label} <i class="fas fa-external-link-alt ml-1 text-[9px]"></i></a>`).join('') : '';
+
+            // GitHub Link
+            if (p.githubUrl) {
+                linksHtml = `<a href="${p.githubUrl}" target="_blank" class="text-xs font-bold uppercase tracking-widest text-white hover:text-green-400 transition-colors border-b border-white/20 pb-1"><i class="fab fa-github mr-1"></i> GitHub</a>` + (linksHtml ? ' ' + linksHtml : '');
+            }
 
             // Image
-            const imgHtml = p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}" class="w-full h-48 object-cover rounded-xl mb-6 border border-white/10">` : '';
+            const imgHtml = p.imageUrl ? `<img src="${p.imageUrl}" alt="${p.name}" class="w-full h-48 object-cover rounded-xl mb-6 border border-white/10 project-img-clickable" onclick="openZoom(this.src)">` : '';
 
             document.getElementById('modal-project-content').innerHTML = `
                 ${imgHtml}
@@ -1306,6 +1359,20 @@ TIMESTAMP: ${new Date().toLocaleString()}
             };
 
             sequence();
+        }
+
+        function openZoom(src) {
+            const overlay = document.getElementById('zoom-overlay');
+            const img = document.getElementById('zoom-img');
+            img.src = src;
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeZoom() {
+            const overlay = document.getElementById('zoom-overlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
     </script>
 </body>
