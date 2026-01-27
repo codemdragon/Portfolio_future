@@ -765,7 +765,7 @@
     </div>
 
     <script>
-        const state = { currentFile: 'about.md', openFiles: ['about.md'], isLive: false, testingCount: 0 };
+        const state = { currentFile: 'about.md', openFiles: ['about.md'], isLive: false, testingCount: 0, isScanning: false };
         let projectDb = {}; // Cache for projects
 
         const fullAscii = `
@@ -1132,13 +1132,18 @@ TIMESTAMP: ${new Date().toLocaleString()}
             'netstat -ano': 'Show standard local connections (loopback) and common ports.',
             'tasklist': 'List background services and processes.',
             'ps': 'List background services and processes (Unix style).',
-            'Start-MpScan -ScanType QuickScan': 'Perform a quick security scan.',
+            'Start-MpScan -ScanType QuickScan': 'Perform a quick security scan (approx. 1s).',
+            'Start-MpScan -ScanType FullScan': 'Perform a comprehensive security scan (approx. 60s).',
             'Get-MpThreatDetection': 'Check for active threat detections.',
             'grep -r "http" .': 'Search for "http" string recursively in files.'
         };
 
         terminalInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') { handleCommand(terminalInput.value.trim().toLowerCase()); terminalInput.value = ''; }
+            if (e.key === 'Enter') {
+                if (state.isScanning) return; // Block input during scans
+                handleCommand(terminalInput.value.trim().toLowerCase());
+                terminalInput.value = '';
+            }
         });
 
         function handleCommand(cmd) {
@@ -1160,6 +1165,9 @@ TIMESTAMP: ${new Date().toLocaleString()}
                 } else if (targetCmd === 'ps' || targetCmd === 'tasklist') {
                     // Special case for commands with aliases in descriptions
                     response.innerHTML = `<span class="text-blue-400 font-bold uppercase">${targetCmd}</span> - List background services and processes.`;
+                } else if (targetCmd === 'start-mpscan -scantype quickscan' || targetCmd === 'start-mpscan -scantype fullscan') {
+                    const type = targetCmd.includes('quick') ? 'QuickScan' : 'FullScan';
+                    response.innerHTML = `<span class="text-blue-400 font-bold uppercase">${targetCmd}</span> - Perform a ${type.toLowerCase()} security scan.`;
                 } else {
                     response.innerHTML = `No manual entry for ${targetCmd}`;
                 }
@@ -1178,8 +1186,16 @@ svchost.exe                  1152 Services             24,512 K
 code.exe                     8932 Console             312,840 K
 CodemSidebar.exe             4412 Console              18,200 K
 powershell.exe               5620 Console              85,400 K</pre>`;
-            } else if (cmd === 'start-mpscan -scantype quickscan') {
-                response.innerHTML = 'Scan initiated...<br>Progress: [<span id="scan-bar">          </span>] <span id="scan-pct">0</span>%<br><span id="scan-status"></span>';
+            } else if (cmd.startsWith('start-mpscan -scantype ')) {
+                const type = cmd.includes('fullscan') ? 'FullScan' : 'QuickScan';
+                const duration = type === 'FullScan' ? 60000 : 800;
+                const stepCount = 10;
+                const stepTime = duration / stepCount;
+
+                state.isScanning = true;
+                terminalInput.disabled = true;
+                response.innerHTML = `${type} initiated...<br>Progress: [<span id="scan-bar">          </span>] <span id="scan-pct">0</span>%<br><span id="scan-status"></span>`;
+
                 let progress = 0;
                 const interval = setInterval(() => {
                     progress += 10;
@@ -1192,10 +1208,13 @@ powershell.exe               5620 Console              85,400 K</pre>`;
 
                     if (progress >= 100) {
                         clearInterval(interval);
+                        state.isScanning = false;
+                        terminalInput.disabled = false;
+                        terminalInput.focus();
                         if (status) status.textContent = 'Scan completed. 0 threats detected.';
                     }
                     terminalOutput.scrollTop = terminalOutput.scrollHeight;
-                }, 80);
+                }, stepTime);
             } else if (cmd === 'get-mpthreatdetection') {
                 response.innerHTML = 'No active threats detected. System secure.';
             } else if (cmd === 'grep -r "http" .') {
