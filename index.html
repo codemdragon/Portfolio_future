@@ -499,18 +499,19 @@
         }
 
         .eye-hole.blink {
-            animation: eye-blink 0.3s ease-in-out;
+            animation: eye-blink 0.6s ease-in-out infinite;
         }
 
         @keyframes eye-blink {
 
             0%,
+            20%,
             100% {
                 transform: scaleY(1);
             }
 
-            50% {
-                transform: scaleY(0.1);
+            10% {
+                transform: scaleY(0.05);
             }
         }
     </style>
@@ -1198,15 +1199,18 @@ TIMESTAMP: ${new Date().toLocaleString()}
             setTimeout(() => {
                 eyes.forEach(eye => eye.classList.add('visible'));
 
-                // Perform blinking sequence
+                // Start blinking after a short delay
                 setTimeout(() => {
                     eyes.forEach(eye => eye.classList.add('blink'));
 
-                    // Final fade back after showing eyes for a few seconds
+                    // Final fade back after blinking for 3 seconds
                     setTimeout(() => {
-                        eyes.forEach(eye => eye.classList.remove('visible', 'blink'));
                         overlay.classList.remove('active');
-                    }, 4000);
+                        // Delay cleanup until fade is done
+                        setTimeout(() => {
+                            eyes.forEach(eye => eye.classList.remove('visible', 'blink'));
+                        }, 2000);
+                    }, 3000);
 
                 }, 1000);
 
