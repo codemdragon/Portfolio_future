@@ -1116,6 +1116,27 @@ TIMESTAMP: ${new Date().toLocaleString()}
         const terminalInput = document.getElementById('terminal-input');
         const terminalOutput = document.getElementById('terminal-output');
 
+        const commandDescriptions = {
+            'ls': 'List directory contents.',
+            'dir': 'List directory contents (Windows style).',
+            'cat': 'Concatenate and display file content.',
+            'tree': 'Display directory structure in a tree format.',
+            'tree /f': 'Display directory structure including files.',
+            'clear': 'Clear the terminal screen.',
+            'help': 'Display list of available commands.',
+            'whoami': 'Display current user information.',
+            'time': 'Display current time-based greeting.',
+            'joke': 'Display a random programming joke.',
+            'coffee': 'Dispense ASCII caffeine.',
+            'theme': 'Change terminal theme (e.g., theme matrix).',
+            'panic': 'Trigger emergency stabilization protocol.',
+            'testing': 'Check system responsiveness.',
+            'blog': 'Open external blog link.',
+            'sudo hire': 'Initiate hiring protocol privileges.',
+            'neofetch': 'Display system information and ASCII logo.',
+            'legend.txt': 'Initialize legendary protocol crawl.'
+        };
+
         terminalInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') { handleCommand(terminalInput.value.trim().toLowerCase()); terminalInput.value = ''; }
         });
@@ -1130,6 +1151,15 @@ TIMESTAMP: ${new Date().toLocaleString()}
 
             if (cmd === 'neofetch') {
                 response.innerHTML = `<pre class="text-[10px] leading-tight text-blue-400">${fullAscii}</pre>`;
+            } else if (cmd.startsWith('man ')) {
+                const targetCmd = cmd.slice(4).trim();
+                if (targetCmd === 'docker' || targetCmd === 'rm -rf' || targetCmd === 'rm -rf /') {
+                    response.innerHTML = `No manual entry for ${targetCmd}`;
+                } else if (commandDescriptions[targetCmd]) {
+                    response.innerHTML = `<span class="text-blue-400 font-bold uppercase">${targetCmd}</span> - ${commandDescriptions[targetCmd]}`;
+                } else {
+                    response.innerHTML = `No manual entry for ${targetCmd}`;
+                }
             } else if (cmd === 'clear') {
                 terminalOutput.innerHTML = '';
                 return;
