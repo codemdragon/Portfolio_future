@@ -1126,15 +1126,9 @@ TIMESTAMP: ${new Date().toLocaleString()}
             'help': 'Display list of available commands.',
             'whoami': 'Display current user information.',
             'time': 'Display current time-based greeting.',
-            'joke': 'Display a random programming joke.',
-            'coffee': 'Dispense ASCII caffeine.',
             'theme': 'Change terminal theme (e.g., theme matrix).',
-            'panic': 'Trigger emergency stabilization protocol.',
-            'testing': 'Check system responsiveness.',
             'blog': 'Open external blog link.',
-            'sudo hire': 'Initiate hiring protocol privileges.',
-            'neofetch': 'Display system information and ASCII logo.',
-            'legend.txt': 'Initialize legendary protocol crawl.'
+            'neofetch': 'Display system information and ASCII logo.'
         };
 
         terminalInput.addEventListener('keydown', (e) => {
@@ -1154,9 +1148,7 @@ TIMESTAMP: ${new Date().toLocaleString()}
             } else if (cmd.startsWith('man ')) {
                 const targetCmd = cmd.slice(4).trim();
                 if (targetCmd === 'all') {
-                    response.innerHTML = 'Available manuals: ' + Object.keys(commandDescriptions).join(', ');
-                } else if (targetCmd === 'docker' || targetCmd === 'rm -rf' || targetCmd === 'rm -rf /') {
-                    response.innerHTML = `No manual entry for ${targetCmd}`;
+                    response.innerHTML = 'Available manuals:<br>' + Object.entries(commandDescriptions).map(([c, d]) => `<span class="text-blue-400 font-bold uppercase">${c}</span> - ${d}`).join('<br>');
                 } else if (commandDescriptions[targetCmd]) {
                     response.innerHTML = `<span class="text-blue-400 font-bold uppercase">${targetCmd}</span> - ${commandDescriptions[targetCmd]}`;
                 } else {
@@ -1166,7 +1158,7 @@ TIMESTAMP: ${new Date().toLocaleString()}
                 terminalOutput.innerHTML = '';
                 return;
             } else if (cmd === 'help') {
-                response.innerHTML = 'System Commands: ls, cat, theme, sudo hire, joke, coffee, docker, tree, rm -rf, time, legend.txt, blog, panic, testing';
+                response.innerHTML = 'System Commands: ' + Object.keys(commandDescriptions).join(', ');
             } else if (cmd === 'whoami') {
                 response.innerHTML = 'root:codem (Lead Architect)';
             } else if (cmd === 'sudo hire') {
