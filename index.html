@@ -1133,7 +1133,8 @@ TIMESTAMP: ${new Date().toLocaleString()}
             'tasklist': 'List background services and processes.',
             'ps': 'List background services and processes (Unix style).',
             'Start-MpScan -ScanType QuickScan': 'Perform a quick security scan.',
-            'Get-MpThreatDetection': 'Check for active threat detections.'
+            'Get-MpThreatDetection': 'Check for active threat detections.',
+            'grep -r "http" .': 'Search for "http" string recursively in files.'
         };
 
         terminalInput.addEventListener('keydown', (e) => {
@@ -1181,6 +1182,11 @@ powershell.exe               5620 Console              85,400 K</pre>`;
                 response.innerHTML = 'Scan initiated...<br>Progress: [##########] 100%<br>Scan completed. 0 threats detected.';
             } else if (cmd === 'get-mpthreatdetection') {
                 response.innerHTML = 'No active threats detected. System secure.';
+            } else if (cmd === 'grep -r "http" .') {
+                response.innerHTML = `<pre class="text-xs">
+./projects.json:    "link": "https://github.com/codemdragon"
+./projects.json:    "demo": "https://portfolio-future-nine.vercel.app"
+./about.md: Reach out via my portfolio: https://portfolio-future-nine.vercel.app</pre>`;
             } else if (cmd === 'clear') {
                 terminalOutput.innerHTML = '';
                 return;
