@@ -818,6 +818,7 @@
     <script>
         const state = { currentFile: 'about.md', openFiles: ['about.md'], isLive: false, testingCount: 0, isScanning: false };
         let projectDb = {}; // Cache for projects
+        let contactInfo = { email: 'hello@codem.dev', discord: 'codem#0000' }; // Default fallback
 
         const fullAscii = `
                ..:=++++--..
@@ -1078,11 +1079,11 @@ TIMESTAMP: ${new Date().toLocaleString()}
                             <div class="space-y-8">
                                 <div class="glass-panel p-10 rounded-2xl flex items-center gap-8 group cursor-pointer border-l-4 border-orange-500 transition-all hover:glow-orange" onclick="showToast('Mailto linked.')">
                                     <div class="text-4xl text-orange-500"><i class="fas fa-paper-plane"></i></div>
-                                    <div><p class="text-[10px] uppercase font-black opacity-30 tracking-widest">Protocol: Email</p><p class="text-2xl font-bold italic">hello@codem.dev</p></div>
+                                    <div><p class="text-[10px] uppercase font-black opacity-30 tracking-widest">Protocol: Email</p><p class="text-2xl font-bold italic">${contactInfo.email}</p></div>
                                 </div>
                                 <div class="glass-panel p-10 rounded-2xl flex items-center gap-8 group cursor-pointer border-l-4 border-blue-500 transition-all hover:glow-blue">
                                     <div class="text-4xl text-blue-500"><i class="fab fa-discord"></i></div>
-                                    <div><p class="text-[10px] uppercase font-black opacity-30 tracking-widest">Protocol: Discord</p><p class="text-2xl font-bold italic">codem#0000</p></div>
+                                    <div><p class="text-[10px] uppercase font-black opacity-30 tracking-widest">Protocol: Discord</p><p class="text-2xl font-bold italic">${contactInfo.discord}</p></div>
                                 </div>
                             </div>
                             <div class="glass-panel p-12 rounded-3xl">
@@ -1112,6 +1113,7 @@ TIMESTAMP: ${new Date().toLocaleString()}
                     if (!res.ok) throw new Error('DB Load Failed');
                     const data = await res.json();
                     data.projects.forEach(p => projectDb[p.id] = p);
+                    if (data.contact) contactInfo = data.contact;
                 }
 
                 const projects = Object.values(projectDb);
