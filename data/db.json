@@ -70,6 +70,51 @@
           "url": "https://fitness-timer-app-five.vercel.app/"
         }
       ]
+    },
+    {
+      "id": "opencv-mousepad",
+      "name": "Codem Virtual Mousepad",
+      "description": "Bring your mousepad to life by using your hands to control it using the force. A gesture-based mouse control system.",
+      "stack": "python, Open CV",
+      "osDevice": "Desktop/Windows, python file",
+      "imageUrl": "https://raw.githubusercontent.com/codemdragon/Portfolio_future/main/assets/1770370697249_image_2026-02-06_143738079.png",
+      "githubUrl": "https://github.com/codemdragon/Mouse",
+      "links": [
+        {
+          "label": "PythonFile",
+          "url": "https://github.com/codemdragon/Mouse"
+        }
+      ]
+    },
+    {
+      "id": "youtube-downloader",
+      "name": "Codem Convertor",
+      "description": "An epic tool to convert your Music and vids over from yt. With the addition of an in app music tester. You'll need ffmpeg - grab it straight from the link in settings or download from https://www.ffmpeg.org/download.html. V1=Music Player/Downloader, V2=Loops/Spins, V3=Playlists/Thumbnails, V4=Local API, Port Management & App Manipulation, V5=Auto Updated Module added to fix crashing & Auto download updates.",
+      "stack": "Python",
+      "osDevice": "Desktop,Windows",
+      "imageUrl": "https://raw.githubusercontent.com/codemdragon/Portfolio_future/main/assets/1770370889972_image_2026-02-06_144104761.png",
+      "githubUrl": "https://github.com/codemdragon/Codem-Convertor-MusicPlayer.git",
+      "links": [
+        {
+          "label": "Download_V1",
+          "url": "https://www.mediafire.com/file/0qtet8h4v39hlkn/Codem%27s_Convertor.zip\nDownload_V2"
+        }
+      ]
+    },
+    {
+      "id": "Assistant-Codem",
+      "name": "Codem Assistant",
+      "description": "A friendly desktop companion that helps you stay organized with reminders, timers, and calendar events.",
+      "stack": "Python, Tkinter",
+      "osDevice": "Desktop,Windows",
+      "imageUrl": "https://raw.githubusercontent.com/codemdragon/Portfolio_future/main/assets/1770370969069_image_2026-02-06_144247148.png",
+      "githubUrl": "",
+      "links": [
+        {
+          "label": "Download",
+          "url": "https://www.mediafire.com/file/qjb7jsukg5bs4o2/Assistant.zip/file"
+        }
+      ]
     }
   ]
 }
