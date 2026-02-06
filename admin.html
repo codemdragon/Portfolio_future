@@ -328,6 +328,25 @@
                 </div>
             </div>
 
+            <!-- Global Config -->
+            <div class="card">
+                <h3>Global Configuration (Contact)</h3>
+                <div class="row">
+                    <div class="input-group">
+                        <label>Contact Email</label>
+                        <input type="text" id="c-email" placeholder="e.g. hello@codem.dev">
+                    </div>
+                    <div class="input-group">
+                        <label>Discord Handle</label>
+                        <input type="text" id="c-discord" placeholder="e.g. codem#0000">
+                    </div>
+                </div>
+                <!-- <button class="btn-primary" onclick="saveConfig()">Save Configuration</button> -->
+                <!-- No separate button needed if we treat "Push" as the main save, but let's have a local update for config -->
+                <button class="btn-primary" onclick="saveConfig()" style="background: #1f6feb;">Update Config
+                    Locally</button>
+            </div>
+
             <!-- List -->
             <div class="card">
                 <h3>Manage Projects</h3>
@@ -396,7 +415,9 @@
                 CURRENT_SHA = data.sha;
                 const content = atob(data.content);
                 db = JSON.parse(content);
+                db = JSON.parse(content);
                 renderList();
+                renderConfig();
             } catch (e) {
                 console.error(e);
                 alert('Error loading data. Check console.');
@@ -417,6 +438,21 @@
                     </div>
                 </li>
             `).join('');
+        }
+
+        function renderConfig() {
+            if (db.contact) {
+                document.getElementById('c-email').value = db.contact.email || '';
+                document.getElementById('c-discord').value = db.contact.discord || '';
+            }
+        }
+
+        function saveConfig() {
+            db.contact = {
+                email: document.getElementById('c-email').value,
+                discord: document.getElementById('c-discord').value
+            };
+            alert('Configuration updated locally. Remember to Push to Live Site!');
         }
 
         async function saveProject() {
