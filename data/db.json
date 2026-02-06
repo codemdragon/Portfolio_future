@@ -12,7 +12,9 @@
           "label": "Simon Sight",
           "url": "https://github.com/codemdragon/Simon-Sight.git"
         }
-      ]
+      ],
+      "isMain": true,
+      "releaseDate": "2025-11-15"
     },
     {
       "id": "Emoji-Search",
@@ -26,7 +28,9 @@
           "label": "Emoji_Search",
           "url": "https://emojisearch-mu.vercel.app"
         }
-      ]
+      ],
+      "isMain": false,
+      "releaseDate": "2025-12-01"
     },
     {
       "id": "web-capture-page",
@@ -40,7 +44,9 @@
           "label": "Download_V1",
           "url": "https://www.mediafire.com/file/wmcd68921gyj9ip/Codem-Web-Capture.zip/file"
         }
-      ]
+      ],
+      "isMain": false,
+      "releaseDate": "2026-01-20"
     },
     {
       "id": "study-hub",
@@ -54,7 +60,9 @@
           "label": "Study-Hub",
           "url": "https://codem-studyset.vercel.app/"
         }
-      ]
+      ],
+      "isMain": false,
+      "releaseDate": "2025-10-10"
     },
     {
       "id": "aether-io",
@@ -69,7 +77,9 @@
           "label": "Link_to_download",
           "url": "https://fitness-timer-app-five.vercel.app/"
         }
-      ]
+      ],
+      "isMain": false,
+      "releaseDate": "2025-09-01"
     },
     {
       "id": "opencv-mousepad",
@@ -84,7 +94,9 @@
           "label": "PythonFile",
           "url": "https://github.com/codemdragon/Mouse"
         }
-      ]
+      ],
+      "isMain": false,
+      "releaseDate": "2026-01-25"
     },
     {
       "id": "youtube-downloader",
@@ -99,7 +111,9 @@
           "label": "Download_V1",
           "url": "https://www.mediafire.com/file/0qtet8h4v39hlkn/Codem%27s_Convertor.zip\nDownload_V2"
         }
-      ]
+      ],
+      "isMain": false,
+      "releaseDate": "2026-01-10"
     },
     {
       "id": "Assistant-Codem",
@@ -114,7 +128,9 @@
           "label": "Download",
           "url": "https://www.mediafire.com/file/qjb7jsukg5bs4o2/Assistant.zip/file"
         }
-      ]
+      ],
+      "isMain": true,
+      "releaseDate": "2026-02-01"
     }
   ]
 }
