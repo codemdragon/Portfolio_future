@@ -13,8 +13,9 @@
           "url": "https://github.com/codemdragon/Simon-Sight.git"
         }
       ],
-      "isMain": true,
-      "releaseDate": "2025-11-15"
+      "isMain": false,
+      "releaseDate": "2025-11-15",
+      "githubUrl": ""
     },
     {
       "id": "Emoji-Search",
@@ -112,7 +113,7 @@
           "url": "https://www.mediafire.com/file/0qtet8h4v39hlkn/Codem%27s_Convertor.zip\nDownload_V2"
         }
       ],
-      "isMain": false,
+      "isMain": true,
       "releaseDate": "2026-01-10"
     },
     {
@@ -129,7 +130,7 @@
           "url": "https://www.mediafire.com/file/qjb7jsukg5bs4o2/Assistant.zip/file"
         }
       ],
-      "isMain": true,
+      "isMain": false,
       "releaseDate": "2026-02-01"
     }
   ]
