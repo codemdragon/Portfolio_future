@@ -275,6 +275,13 @@
                     </div>
                 </div>
 
+                <div class="input-group"
+                    style="display:flex; align-items:center; gap:10px; margin-bottom:1rem; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px;">
+                    <input type="checkbox" id="p-isMain" style="width:auto; margin:0;">
+                    <label for="p-isMain" style="margin:0; color:var(--white); cursor:pointer; font-weight:600;">⭐ Set
+                        as Flagship Project (Main)</label>
+                </div>
+
                 <div class="input-group">
                     <label>Description</label>
                     <textarea id="p-desc" rows="3" placeholder="Brief project description..."></textarea>
@@ -401,7 +408,7 @@
             list.innerHTML = db.projects.map(p => `
                 <li>
                     <div class="item-info">
-                        <strong>${p.name}</strong>
+                        <strong>${p.isMain ? '⭐ ' : ''}${p.name}</strong>
                         <span>${p.stack}</span>
                     </div>
                     <div>
@@ -449,20 +456,17 @@
                 osDevice: document.getElementById('p-device').value,
                 imageUrl: imgUrl,
                 githubUrl: document.getElementById('p-github').value.trim(),
-                links
+                links,
+                isMain: document.getElementById('p-isMain').checked
             };
 
             const idx = db.projects.findIndex(p => p.id === id);
             if (idx >= 0) {
-                // Update
-                if (editingId && editingId !== id) {
-                    // ID changed? Prevent dupes or warn
-                    alert('Cannot change ID directly. Create new and delete old.');
-                    return;
-                }
-                db.projects[idx] = project;
+                // Update - Merge to preserve fields like releaseDate
+                db.projects[idx] = { ...db.projects[idx], ...project };
             } else {
-                // Create
+                // Create - Add releaseDate for new projects (default to today)
+                project.releaseDate = new Date().toISOString().split('T')[0];
                 db.projects.push(project);
             }
 
@@ -483,7 +487,9 @@
             document.getElementById('p-stack').value = p.stack || '';
             document.getElementById('p-device').value = p.osDevice || '';
             document.getElementById('p-img').value = p.imageUrl || '';
+            document.getElementById('p-img').value = p.imageUrl || '';
             document.getElementById('p-github').value = p.githubUrl || '';
+            document.getElementById('p-isMain').checked = p.isMain || false;
 
             if (p.links) {
                 document.getElementById('p-links').value = p.links.map(x => `${x.label},${x.url}`).join('\\n');
@@ -513,6 +519,7 @@
             document.querySelectorAll('input, textarea').forEach(i => {
                 if (i.id !== 'repo-owner' && i.id !== 'repo-name' && i.id !== 'commit-msg') i.value = '';
             });
+            document.getElementById('p-isMain').checked = false;
             document.getElementById('img-preview').style.display = 'none';
         }
 
