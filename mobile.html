@@ -1309,8 +1309,7 @@
                     </div>
 
                     <div class="modal-actions">
-                        <a href="#" class="btn">Source Code</a>
-                        <a href="#" class="btn">Live Demo</a>
+                        <!-- Dynamic Links -->
                     </div>
                 </div>
             </div>
@@ -1729,6 +1728,8 @@
             const mIcon = document.getElementById('m-icon');
             const mIconContainer = document.getElementById('m-icon-container');
 
+            const mActions = document.querySelector('.modal-actions');
+
             window.openModalData = function (p, platform, icon, color) {
                 if (mTitle) mTitle.textContent = p.name;
                 if (mSubtitle) {
@@ -1742,6 +1743,36 @@
                 if (mIcon && mIconContainer) {
                     mIcon.className = `modal-icon ${icon}`;
                     mIconContainer.style.color = color;
+                }
+
+                // --- Dynamic Links Logic ---
+                if (mActions) {
+                    mActions.innerHTML = ''; // Clear existing
+
+                    // 1. Source Code (GitHub)
+                    if (p.githubUrl) {
+                        const ghBtn = document.createElement('a');
+                        ghBtn.href = p.githubUrl;
+                        ghBtn.target = '_blank';
+                        ghBtn.className = 'btn';
+                        ghBtn.innerHTML = '<i class="fa-brands fa-github"></i> Source Code';
+                        mActions.appendChild(ghBtn);
+                    }
+
+                    // 2. Other Links
+                    if (p.links && Array.isArray(p.links)) {
+                        p.links.forEach(l => {
+                            // Skip if it's just a duplicate github link labeled "github"
+                            if (l.label.toLowerCase().includes('github')) return;
+
+                            const linkBtn = document.createElement('a');
+                            linkBtn.href = l.url;
+                            linkBtn.target = '_blank';
+                            linkBtn.className = 'btn';
+                            linkBtn.innerHTML = `<i class="fa-solid fa-external-link-alt"></i> ${l.label}`;
+                            mActions.appendChild(linkBtn);
+                        });
+                    }
                 }
 
                 if (modalOverlay) modalOverlay.classList.add('active');
