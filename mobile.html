@@ -1097,17 +1097,11 @@
             }
         }
 
-        .hamburger {
-            display: none;
-            /* Hidden on desktop */
-        }
-
-        .mobile-nav {
-            display: none;
-            /* Hidden on desktop logic, handled by media query but safe to default */
-        }
-
         @media (min-width: 769px) {
+            .hamburger {
+                display: none;
+            }
+
             .mobile-nav {
                 display: none !important;
             }
