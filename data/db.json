@@ -131,6 +131,18 @@
       ],
       "isMain": true,
       "releaseDate": "2026-02-01"
+    },
+    {
+      "id": "custom-terminal",
+      "name": "Custom Terminal",
+      "description": "Ever wanted to customize your powershell but had no idea how, well this is a simple guide on how you can do it just like I did step by step. ",
+      "stack": "Powershell",
+      "osDevice": "Desktop, Windows",
+      "imageUrl": "https://raw.githubusercontent.com/codemdragon/Portfolio_future/main/assets/1770466616129_image_2026-02-07_171647665.png",
+      "githubUrl": "https://github.com/codemdragon/Custom-Terminal.git",
+      "links": [],
+      "isMain": false,
+      "releaseDate": "2026-02-07"
     }
   ],
   "contact": {
