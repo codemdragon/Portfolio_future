@@ -184,7 +184,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            padding-top: 70px;
+            padding-top: 120px;
         }
 
         .hero-content {
@@ -525,7 +525,7 @@
 
         /* --- PROJECTS SEARCH & FILTER --- */
         .projects-header {
-            margin-bottom: 40px;
+            margin-bottom: 60px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -738,6 +738,36 @@
 
             .cell-content h3 {
                 font-size: 1.5rem;
+            }
+        }
+
+        /* Mobile Grid Refinement */
+        @media (max-width: 767px) {
+
+            .os-grid,
+            .project-grid {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 15px !important;
+            }
+
+            .os-card {
+                padding: 15px;
+            }
+
+            .os-card i {
+                font-size: 2.5rem;
+            }
+
+            .os-card h3 {
+                font-size: 1.1rem;
+            }
+
+            .project-content {
+                padding: 15px;
+            }
+
+            .project-content h3 {
+                font-size: 1.1rem;
             }
         }
 
@@ -1250,7 +1280,6 @@
                 <div class="social-links">
                     <a href="#"><i class="fa-brands fa-github"></i></a>
                     <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
                 </div>
                 <p>&copy; 2026 TOP G // DEV_CORE SYSTEM</p>
             </div>
@@ -1543,6 +1572,7 @@
                 const translateZ = Math.round(r);
 
                 carousel.style.transitionDuration = `${config.rotationSpeed}s`;
+                // Use continuous rotation logic
                 carousel.style.transform = `translateZ(-${translateZ}px) rotateY(-${config.currentPanel * angle}deg)`;
 
                 const scene = document.querySelector('.scene');
@@ -1564,8 +1594,17 @@
                 indicatorsContainer.innerHTML = '';
                 for (let i = 0; i < config.panelCount; i++) {
                     const ind = document.createElement('div');
-                    ind.className = `indicator ${i === config.currentPanel ? 'active' : ''}`;
+                    // Handle modulo for active indicator
+                    const activeIndex = ((config.currentPanel % config.panelCount) + config.panelCount) % config.panelCount;
+                    ind.className = `indicator ${i === activeIndex ? 'active' : ''}`;
+
                     ind.addEventListener('click', () => {
+                        // Calculate nearest target panel to minimize rotation
+                        // This simplistic approach jumps; for continuous feel, we usually just update currentPanel
+                        // But clicking specific indicator usually implies jumping to it.
+                        // For simplicity in continuous mode, we can just set currentPanel to the target index 
+                        // relative to the current rotation, but that's complex. 
+                        // Let's just set it and let it spin.
                         config.currentPanel = i;
                         updateCarousel();
                         updateControls();
@@ -1577,7 +1616,8 @@
 
             function updateIndicators() {
                 const inds = document.querySelectorAll('.indicator');
-                inds.forEach((ind, i) => ind.classList.toggle('active', i === config.currentPanel));
+                const activeIndex = ((config.currentPanel % config.panelCount) + config.panelCount) % config.panelCount;
+                inds.forEach((ind, i) => ind.classList.toggle('active', i === activeIndex));
             }
 
             function updateControls() {
@@ -1596,7 +1636,7 @@
             function startAutoRotate() {
                 clearInterval(config.autoRotateInterval);
                 config.autoRotateInterval = setInterval(() => {
-                    config.currentPanel = (config.currentPanel + 1) % config.panelCount;
+                    config.currentPanel++; // Continuous increment
                     updateCarousel();
                     updateControls();
                 }, 3000);
@@ -1616,7 +1656,7 @@
             if (prevBtn) {
                 prevBtn.addEventListener('click', () => {
                     stopAutoRotate(); config.autoRotate = false; updateControls();
-                    config.currentPanel = (config.currentPanel - 1 + config.panelCount) % config.panelCount;
+                    config.currentPanel--; // Continuous decrement
                     updateCarousel();
                 });
             }
@@ -1624,7 +1664,7 @@
             if (nextBtn) {
                 nextBtn.addEventListener('click', () => {
                     stopAutoRotate(); config.autoRotate = false; updateControls();
-                    config.currentPanel = (config.currentPanel + 1) % config.panelCount;
+                    config.currentPanel++; // Continuous increment
                     updateCarousel();
                 });
             }
@@ -1664,13 +1704,13 @@
                 if (touchEndX < touchStartX - threshold) {
                     // Swipe Left -> Next
                     stopAutoRotate(); config.autoRotate = false; updateControls();
-                    config.currentPanel = (config.currentPanel + 1) % config.panelCount;
+                    config.currentPanel++; // Continuous increment
                     updateCarousel();
                 }
                 if (touchEndX > touchStartX + threshold) {
                     // Swipe Right -> Prev
                     stopAutoRotate(); config.autoRotate = false; updateControls();
-                    config.currentPanel = (config.currentPanel - 1 + config.panelCount) % config.panelCount;
+                    config.currentPanel--; // Continuous decrement
                     updateCarousel();
                 }
             }
