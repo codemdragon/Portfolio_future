@@ -1025,32 +1025,6 @@
                 color: var(--primary);
                 letter-spacing: 2px;
             }
-
-            .project-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-
-            .project-img {
-                height: 120px;
-            }
-
-            .project-content {
-                padding: 15px;
-            }
-
-            .project-content h3 {
-                font-size: 1.1rem;
-            }
-
-            .project-content p {
-                font-size: 0.8rem;
-                display: -webkit-box;
-                -webkit-line-clamp: 3;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                margin-bottom: 10px;
-            }
         }
 
         .hamburger {
@@ -1276,6 +1250,7 @@
                 <div class="social-links">
                     <a href="#"><i class="fa-brands fa-github"></i></a>
                     <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
                 </div>
                 <p>&copy; 2026 TOP G // DEV_CORE SYSTEM</p>
             </div>
@@ -1602,9 +1577,7 @@
 
             function updateIndicators() {
                 const inds = document.querySelectorAll('.indicator');
-                // logic to handle continuous rotation index
-                const activeIndex = ((config.currentPanel % config.panelCount) + config.panelCount) % config.panelCount;
-                inds.forEach((ind, i) => ind.classList.toggle('active', i === activeIndex));
+                inds.forEach((ind, i) => ind.classList.toggle('active', i === config.currentPanel));
             }
 
             function updateControls() {
@@ -1623,7 +1596,7 @@
             function startAutoRotate() {
                 clearInterval(config.autoRotateInterval);
                 config.autoRotateInterval = setInterval(() => {
-                    config.currentPanel++;
+                    config.currentPanel = (config.currentPanel + 1) % config.panelCount;
                     updateCarousel();
                     updateControls();
                 }, 3000);
@@ -1643,7 +1616,7 @@
             if (prevBtn) {
                 prevBtn.addEventListener('click', () => {
                     stopAutoRotate(); config.autoRotate = false; updateControls();
-                    config.currentPanel--;
+                    config.currentPanel = (config.currentPanel - 1 + config.panelCount) % config.panelCount;
                     updateCarousel();
                 });
             }
@@ -1651,7 +1624,7 @@
             if (nextBtn) {
                 nextBtn.addEventListener('click', () => {
                     stopAutoRotate(); config.autoRotate = false; updateControls();
-                    config.currentPanel++;
+                    config.currentPanel = (config.currentPanel + 1) % config.panelCount;
                     updateCarousel();
                 });
             }
@@ -1691,13 +1664,13 @@
                 if (touchEndX < touchStartX - threshold) {
                     // Swipe Left -> Next
                     stopAutoRotate(); config.autoRotate = false; updateControls();
-                    config.currentPanel++;
+                    config.currentPanel = (config.currentPanel + 1) % config.panelCount;
                     updateCarousel();
                 }
                 if (touchEndX > touchStartX + threshold) {
                     // Swipe Right -> Prev
                     stopAutoRotate(); config.autoRotate = false; updateControls();
-                    config.currentPanel--;
+                    config.currentPanel = (config.currentPanel - 1 + config.panelCount) % config.panelCount;
                     updateCarousel();
                 }
             }
