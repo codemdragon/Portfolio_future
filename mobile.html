@@ -1025,6 +1025,32 @@
                 color: var(--primary);
                 letter-spacing: 2px;
             }
+
+            .project-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .project-img {
+                height: 120px;
+            }
+
+            .project-content {
+                padding: 15px;
+            }
+
+            .project-content h3 {
+                font-size: 1.1rem;
+            }
+
+            .project-content p {
+                font-size: 0.8rem;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                margin-bottom: 10px;
+            }
         }
 
         .hamburger {
@@ -1197,7 +1223,8 @@
                     <div class="search-container">
                         <input type="text" id="projectSearch" class="search-input"
                             placeholder="Search projects by name, tech, or description...">
-                    </div>                </div>
+                    </div>
+                </div>
                 <div class="filter-buttons">
                     <button class="filter-btn active" data-filter="all">All</button>
                     <button class="filter-btn" data-filter="Windows">Windows</button>
@@ -1211,207 +1238,206 @@
             <div class="project-grid" id="projectGrid">
                 <!-- Dynamic Content -->
             </div>
-        </div>
-    </section>
+            </div>
+        </section>
 
-    <!-- CONTACT SECTION -->
-    <section id="contact">
-        <div class="container">
-            <h2 class="section-title">Initialize Comms</h2>
-            <div class="contact-wrapper">
-                <div class="corner tl"></div>
-                <div class="corner tr"></div>
-                <div class="corner bl"></div>
-                <div class="corner br"></div>
+        <!-- CONTACT SECTION -->
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title">Initialize Comms</h2>
+                <div class="contact-wrapper">
+                    <div class="corner tl"></div>
+                    <div class="corner tr"></div>
+                    <div class="corner bl"></div>
+                    <div class="corner br"></div>
 
-                <form>
-                    <div class="form-group">
-                        <label>USER_ID</label>
-                        <input type="text" class="form-control" placeholder="Enter your name">
+                    <form>
+                        <div class="form-group">
+                            <label>USER_ID</label>
+                            <input type="text" class="form-control" placeholder="Enter your name">
+                        </div>
+                        <div class="form-group">
+                            <label>ENCRYPTED_PACKET</label>
+                            <input type="email" class="form-control" placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label>PAYLOAD_MESSAGE</label>
+                            <input type="text" class="form-control" placeholder="Type your message">
+                        </div>
+                        <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Send Data</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="container">
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-github"></i></a>
+                    <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+                <p>&copy; 2026 TOP G // DEV_CORE SYSTEM</p>
+            </div>
+        </footer>
+
+        <!-- MODAL -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal-content">
+                <button class="close-modal" id="closeModal">&times;</button>
+                <div class="modal-header">
+                    <div id="m-icon-container">
+                        <i id="m-icon" class="modal-icon fa-brands fa-windows"></i>
                     </div>
-                    <div class="form-group">
-                        <label>ENCRYPTED_PACKET</label>
-                        <input type="email" class="form-control" placeholder="Enter your email">
+                    <div class="modal-title-group">
+                        <h2 id="m-title">Project Name</h2>
+                        <span id="m-subtitle" class="modal-subtitle">Windows / System</span>
                     </div>
-                    <div class="form-group">
-                        <label>PAYLOAD_MESSAGE</label>
-                        <input type="text" class="form-control" placeholder="Type your message">
+                </div>
+                <div class="modal-body">
+                    <img id="m-img" src="" class="modal-img">
+                    <p id="m-desc">Description goes here...</p>
+
+                    <div class="tech-stack-box">
+                        <span class="tech-stack-label">Modules Used:</span>
+                        <div id="m-tech" class="tech-stack-list">C#, WPF, .NET 6</div>
                     </div>
-                    <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Send Data</button>
-                </form>
-            </div>
-        </div>
-    </section>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="container">
-            <div class="social-links">
-                <a href="#"><i class="fa-brands fa-github"></i></a>
-                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="#"><i class="fa-brands fa-twitter"></i></a>
-            </div>
-            <p>&copy; 2026 TOP G // DEV_CORE SYSTEM</p>
-        </div>
-    </footer>
-
-    <!-- MODAL -->
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal-content">
-            <button class="close-modal" id="closeModal">&times;</button>
-            <div class="modal-header">
-                <div id="m-icon-container">
-                    <i id="m-icon" class="modal-icon fa-brands fa-windows"></i>
-                </div>
-                <div class="modal-title-group">
-                    <h2 id="m-title">Project Name</h2>
-                    <span id="m-subtitle" class="modal-subtitle">Windows / System</span>
-                </div>
-            </div>
-            <div class="modal-body">
-                <img id="m-img" src="" class="modal-img">
-                <p id="m-desc">Description goes here...</p>
-
-                <div class="tech-stack-box">
-                    <span class="tech-stack-label">Modules Used:</span>
-                    <div id="m-tech" class="tech-stack-list">C#, WPF, .NET 6</div>
-                </div>
-
-                <div class="modal-actions">
-                    <a href="#" class="btn">Source Code</a>
-                    <a href="#" class="btn">Live Demo</a>
+                    <div class="modal-actions">
+                        <a href="#" class="btn">Source Code</a>
+                        <a href="#" class="btn">Live Demo</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        // --- TYPING EFFECT ---
-        const terminalContent = document.getElementById('terminal-content');
-        const lines = [
-            { text: "> initializing core systems...", delay: 500 },
-            { text: "> loading modules: [WINDOWS, LINUX, ANDROID, WEB]", delay: 800 },
-            { text: "> mounting drives...", delay: 300 },
-            { text: "> status: ONLINE", delay: 200 },
-            { text: "> ready for input...", delay: 100, cursor: true }
-        ];
+        <script>
+            // --- TYPING EFFECT ---
+            const terminalContent = document.getElementById('terminal-content');
+            const lines = [
+                { text: "> initializing core systems...", delay: 500 },
+                { text: "> loading modules: [WINDOWS, LINUX, ANDROID, WEB]", delay: 800 },
+                { text: "> mounting drives...", delay: 300 },
+                { text: "> status: ONLINE", delay: 200 },
+                { text: "> ready for input...", delay: 100, cursor: true }
+            ];
 
-        let lineIndex = 0;
-        let charIndex = 0;
+            let lineIndex = 0;
+            let charIndex = 0;
 
-        function typeLine() {
-            if (!terminalContent) return;
-            if (lineIndex < lines.length) {
-                const currentLineData = lines[lineIndex];
+            function typeLine() {
+                if (!terminalContent) return;
+                if (lineIndex < lines.length) {
+                    const currentLineData = lines[lineIndex];
 
-                if (charIndex === 0) {
-                    const lineDiv = document.createElement('div');
-                    lineDiv.className = 'command-line';
-                    lineDiv.innerHTML = `<span class="prompt">root@dev-core:~$</span><span class="type-text"></span>`;
-                    terminalContent.appendChild(lineDiv);
-                }
+                    if (charIndex === 0) {
+                        const lineDiv = document.createElement('div');
+                        lineDiv.className = 'command-line';
+                        lineDiv.innerHTML = `<span class="prompt">root@dev-core:~$</span><span class="type-text"></span>`;
+                        terminalContent.appendChild(lineDiv);
+                    }
 
-                const typeSpan = terminalContent.lastElementChild.querySelector('.type-text');
-                const fullText = currentLineData.text;
+                    const typeSpan = terminalContent.lastElementChild.querySelector('.type-text');
+                    const fullText = currentLineData.text;
 
-                if (charIndex < fullText.length) {
-                    typeSpan.textContent += fullText.charAt(charIndex);
-                    charIndex++;
-                    setTimeout(typeLine, 30);
+                    if (charIndex < fullText.length) {
+                        typeSpan.textContent += fullText.charAt(charIndex);
+                        charIndex++;
+                        setTimeout(typeLine, 30);
+                    } else {
+                        lineIndex++;
+                        charIndex = 0;
+                        setTimeout(typeLine, currentLineData.delay);
+                    }
                 } else {
-                    lineIndex++;
-                    charIndex = 0;
-                    setTimeout(typeLine, currentLineData.delay);
+                    const cursorSpan = document.createElement('span');
+                    cursorSpan.className = 'cursor';
+                    terminalContent.lastElementChild.appendChild(cursorSpan);
                 }
-            } else {
-                const cursorSpan = document.createElement('span');
-                cursorSpan.className = 'cursor';
-                terminalContent.lastElementChild.appendChild(cursorSpan);
             }
-        }
 
-        // --- HAMBURGER MENU ---
-        const hamburgerBtn = document.getElementById('hamburgerBtn');
-        const mobileNav = document.getElementById('mobileNav');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
+            // --- HAMBURGER MENU ---
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
 
-        if (hamburgerBtn && mobileNav) {
-            hamburgerBtn.addEventListener('click', () => {
-                hamburgerBtn.classList.toggle('active');
-                mobileNav.classList.toggle('active');
-                if (mobileNav.classList.contains('active')) {
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    document.body.style.overflow = '';
-                }
-            });
+            if (hamburgerBtn && mobileNav) {
+                hamburgerBtn.addEventListener('click', () => {
+                    hamburgerBtn.classList.toggle('active');
+                    mobileNav.classList.toggle('active');
+                    if (mobileNav.classList.contains('active')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                });
 
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    hamburgerBtn.classList.remove('active');
-                    mobileNav.classList.remove('active');
-                    document.body.style.overflow = '';
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        hamburgerBtn.classList.remove('active');
+                        mobileNav.classList.remove('active');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+
+            // --- DATA FETCHING & INIT ---
+            document.addEventListener('DOMContentLoaded', () => {
+                setTimeout(typeLine, 500);
+
+                fetch('data/db.json')
+                    .then(response => response.json())
+                    .then(data => {
+                        renderContent(data);
+                    })
+                    .catch(error => {
+                        console.error('Error loading data:', error);
+                        document.getElementById('carousel').innerHTML = '<div style="color:red; text-align:center; padding:20px;">Failed to load modules.</div>';
+                    });
+
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) target.scrollIntoView({ behavior: 'smooth' });
+                    });
                 });
             });
-        }
 
-        // --- DATA FETCHING & INIT ---
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(typeLine, 500);
+            function renderContent(data) {
+                const projects = data.projects || [];
+                const contact = data.contact || {};
 
-            fetch('data/db.json')
-                .then(response => response.json())
-                .then(data => {
-                    renderContent(data);
-                })
-                .catch(error => {
-                    console.error('Error loading data:', error);
-                    document.getElementById('carousel').innerHTML = '<div style="color:red; text-align:center; padding:20px;">Failed to load modules.</div>';
-                });
-            
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if(target) target.scrollIntoView({ behavior: 'smooth' });
-                });
-            });
-        });
+                const main = projects.filter(p => p.isMain);
+                const others = projects.filter(p => !p.isMain).sort((a, b) => new Date(b.releaseDate || 0) - new Date(a.releaseDate || 0));
 
-        function renderContent(data) {
-            const projects = data.projects || [];
-            const contact = data.contact || {};
+                const allProjects = [...main, ...others];
+                const carouselProjects = allProjects.slice(0, 8);
 
-            const main = projects.filter(p => p.isMain);
-            const others = projects.filter(p => !p.isMain).sort((a, b) => new Date(b.releaseDate || 0) - new Date(a.releaseDate || 0));
-            
-            const allProjects = [...main, ...others];
-            const carouselProjects = allProjects.slice(0, 8);
+                // Returns platform info
+                const getPlatformInfo = (osDevice) => {
+                    const os = (osDevice || '').toLowerCase();
+                    if (os.includes('windows') || os.includes('desktop')) return { platform: 'Windows', icon: 'fa-brands fa-windows', color: '#00a4ef' };
+                    if (os.includes('android') || os.includes('mobile')) return { platform: 'Android', icon: 'fa-brands fa-android', color: '#3ddc84' };
+                    if (os.includes('linux')) return { platform: 'Linux', icon: 'fa-brands fa-linux', color: '#f6bc26' };
+                    return { platform: 'Web', icon: 'fa-solid fa-code', color: '#ff5252' };
+                };
 
-            // Returns platform info
-            const getPlatformInfo = (osDevice) => {
-                const os = (osDevice || '').toLowerCase();
-                if (os.includes('windows') || os.includes('desktop')) return { platform: 'Windows', icon: 'fa-brands fa-windows', color: '#00a4ef' };
-                if (os.includes('android') || os.includes('mobile')) return { platform: 'Android', icon: 'fa-brands fa-android', color: '#3ddc84' };
-                if (os.includes('linux')) return { platform: 'Linux', icon: 'fa-brands fa-linux', color: '#f6bc26' };
-                return { platform: 'Web', icon: 'fa-solid fa-code', color: '#ff5252' };
-            };
+                // 2. Render Carousel
+                const carousel = document.getElementById('carousel');
+                carousel.innerHTML = '';
 
-            // 2. Render Carousel
-            const carousel = document.getElementById('carousel');
-            carousel.innerHTML = '';
+                carouselProjects.forEach((p, index) => {
+                    const { platform, icon, color } = getPlatformInfo(p.osDevice);
 
-            carouselProjects.forEach((p, index) => {
-                const { platform, icon, color } = getPlatformInfo(p.osDevice);
-                
-                const cell = document.createElement('div');
-                cell.className = 'carousel__cell';
-                cell.dataset.id = p.id;
-                cell.dataset.title = p.name;
-                cell.dataset.platform = platform;
-                cell.dataset.color = color;
-                
-                cell.innerHTML = `
+                    const cell = document.createElement('div');
+                    cell.className = 'carousel__cell';
+                    cell.dataset.id = p.id;
+                    cell.dataset.title = p.name;
+                    cell.dataset.platform = platform;
+                    cell.dataset.color = color;
+
+                    cell.innerHTML = `
                     <img src="${p.imageUrl || `https://picsum.photos/seed/${p.id}/600/400`}" class="cell-image">
                     <div class="cell-overlay"></div>
                     <div class="cell-content">
@@ -1419,40 +1445,40 @@
                         <span style="color:${color}">${platform} / ${p.stack.split(',')[0]}</span>
                     </div>
                 `;
-                
-                cell.addEventListener('click', (e) => {
-                    if (isDragging) return; 
-                    config.currentPanel = index;
-                    updateCarousel();
-                    openModalData(p, platform, icon, color);
+
+                    cell.addEventListener('click', (e) => {
+                        if (isDragging) return;
+                        config.currentPanel = index;
+                        updateCarousel();
+                        openModalData(p, platform, icon, color);
+                    });
+
+                    carousel.appendChild(cell);
                 });
 
-                carousel.appendChild(cell);
-            });
+                config.panelCount = carouselProjects.length;
+                initCarousel();
 
-            config.panelCount = carouselProjects.length;
-            initCarousel();
+                // 3. Render Project Grid
+                const grid = document.getElementById('projectGrid');
+                grid.innerHTML = '';
 
-            // 3. Render Project Grid
-            const grid = document.getElementById('projectGrid');
-            grid.innerHTML = '';
+                allProjects.forEach(p => {
+                    const { platform, icon, color } = getPlatformInfo(p.osDevice);
 
-            allProjects.forEach(p => {
-                const { platform, icon, color } = getPlatformInfo(p.osDevice);
-                
-                const card = document.createElement('article');
-                card.className = 'project-card';
-                card.dataset.platform = platform;
-                card.dataset.title = p.name;
-                card.dataset.desc = p.description;
-                card.dataset.tech = p.stack;
+                    const card = document.createElement('article');
+                    card.className = 'project-card';
+                    card.dataset.platform = platform;
+                    card.dataset.title = p.name;
+                    card.dataset.desc = p.description;
+                    card.dataset.tech = p.stack;
 
-                const ghLink = p.githubUrl || (p.links && p.links[0] ? p.links[0].url : '#');
-                const liveLink = p.links && p.links.find(l => !l.label.toLowerCase().includes('github')) ? p.links.find(l => !l.label.toLowerCase().includes('github')).url : '#';
+                    const ghLink = p.githubUrl || (p.links && p.links[0] ? p.links[0].url : '#');
+                    const liveLink = p.links && p.links.find(l => !l.label.toLowerCase().includes('github')) ? p.links.find(l => !l.label.toLowerCase().includes('github')).url : '#';
 
-                const descText = truncate(p.description, 80); 
+                    const descText = truncate(p.description, 80);
 
-                card.innerHTML = `
+                    card.innerHTML = `
                     <div class="project-img"
                         style="background-image: url('${p.imageUrl || `https://picsum.photos/seed/${p.id}/600/400`}');"></div>
                     <div class="project-content">
@@ -1467,296 +1493,298 @@
                     </div>
                 `;
 
-                card.addEventListener('click', (e) => {
-                    if (e.target.closest('a')) return;
-                    openModalData(p, platform, icon, color);
+                    card.addEventListener('click', (e) => {
+                        if (e.target.closest('a')) return;
+                        openModalData(p, platform, icon, color);
+                    });
+
+                    grid.appendChild(card);
                 });
 
-                grid.appendChild(card);
-            });
+                // 4. Contact
+                const contactWrapper = document.querySelector('.contact-wrapper');
+                if (contact && contactWrapper) {
+                    const existingInfo = contactWrapper.querySelector('.contact-info-block');
+                    if (existingInfo) existingInfo.remove();
 
-            // 4. Contact
-            const contactWrapper = document.querySelector('.contact-wrapper');
-            if (contact && contactWrapper) {
-                 const existingInfo = contactWrapper.querySelector('.contact-info-block');
-                 if(existingInfo) existingInfo.remove();
-
-                 const infoDiv = document.createElement('div');
-                infoDiv.className = 'contact-info-block';
-                infoDiv.style.marginBottom = '25px';
-                infoDiv.style.color = 'var(--text-dim)';
-                infoDiv.style.textAlign = 'center';
-                infoDiv.style.borderBottom = '1px solid #333';
-                infoDiv.style.paddingBottom = '15px';
-                infoDiv.innerHTML = `
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'contact-info-block';
+                    infoDiv.style.marginBottom = '25px';
+                    infoDiv.style.color = 'var(--text-dim)';
+                    infoDiv.style.textAlign = 'center';
+                    infoDiv.style.borderBottom = '1px solid #333';
+                    infoDiv.style.paddingBottom = '15px';
+                    infoDiv.innerHTML = `
                     <div style="margin-bottom:10px;"><i class="fa-solid fa-envelope" style="color:var(--primary); margin-right:8px;"></i> ${contact.email || 'N/A'}</div>
                     <div><i class="fa-brands fa-discord" style="color:var(--secondary); margin-right:8px;"></i> ${contact.discord || 'N/A'}</div>
                 `;
-                contactWrapper.insertBefore(infoDiv, contactWrapper.firstChild);
+                    contactWrapper.insertBefore(infoDiv, contactWrapper.firstChild);
+                }
             }
-        }
 
-        function truncate(str, n) {
-            if (!str) return '';
-            return (str.length > n) ? str.substr(0, n - 1) + '...' : str;
-        }
-
-        // --- CAROUSEL LOGIC ---
-        const carouselEl = document.getElementById('carousel');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const autoRotateBtn = document.getElementById('autoRotateBtn');
-        const indicatorsContainer = document.getElementById('indicators');
-
-        let config = {
-            currentPanel: 0,
-            panelCount: 8,
-            cellSize: 280,
-            perspective: 1000,
-            rotationSpeed: 1.0,
-            autoRotate: true,
-            autoRotateInterval: null
-        };
-
-        function initCarousel() {
-            if (!document.getElementById('carousel')) return;
-            updateCarousel();
-            createIndicators();
-            updateControls();
-            if (config.autoRotate) startAutoRotate();
-            
-            const container = document.getElementById('projects-carousel');
-            if (container) {
-                container.addEventListener('touchstart', handleTouchStart, { passive: true });
-                container.addEventListener('touchmove', handleTouchMove, { passive: true });
-                container.addEventListener('touchend', handleTouchEnd, false);
+            function truncate(str, n) {
+                if (!str) return '';
+                return (str.length > n) ? str.substr(0, n - 1) + '...' : str;
             }
-        }
 
-        function updateCarousel() {
-            const carousel = document.getElementById('carousel');
-            if (!carousel) return;
-            
-            const angle = 360 / config.panelCount;
-            const r = (config.cellSize / 2) / Math.tan(Math.PI / config.panelCount);
-            const translateZ = Math.round(r);
+            // --- CAROUSEL LOGIC ---
+            const carouselEl = document.getElementById('carousel');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const autoRotateBtn = document.getElementById('autoRotateBtn');
+            const indicatorsContainer = document.getElementById('indicators');
 
-            carousel.style.transitionDuration = `${config.rotationSpeed}s`;
-            carousel.style.transform = `translateZ(-${translateZ}px) rotateY(-${config.currentPanel * angle}deg)`;
+            let config = {
+                currentPanel: 0,
+                panelCount: 8,
+                cellSize: 280,
+                perspective: 1000,
+                rotationSpeed: 1.0,
+                autoRotate: true,
+                autoRotateInterval: null
+            };
 
-            const scene = document.querySelector('.scene');
-            if (scene) scene.style.perspective = `${config.perspective}px`;
+            function initCarousel() {
+                if (!document.getElementById('carousel')) return;
+                updateCarousel();
+                createIndicators();
+                updateControls();
+                if (config.autoRotate) startAutoRotate();
 
-            const cells = document.querySelectorAll('.carousel__cell');
-            cells.forEach((cell, i) => {
-                const cellAngle = i * angle;
-                cell.style.transform = `rotateY(${cellAngle}deg) translateZ(${translateZ}px)`;
-                cell.style.width = `${config.cellSize}px`;
-                cell.style.height = `${config.cellSize * 0.65}px`;
-            });
+                const container = document.getElementById('projects-carousel');
+                if (container) {
+                    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+                    container.addEventListener('touchmove', handleTouchMove, { passive: true });
+                    container.addEventListener('touchend', handleTouchEnd, false);
+                }
+            }
 
-            updateIndicators();
-        }
+            function updateCarousel() {
+                const carousel = document.getElementById('carousel');
+                if (!carousel) return;
 
-        function createIndicators() {
-            if (!indicatorsContainer) return;
-            indicatorsContainer.innerHTML = '';
-            for (let i = 0; i < config.panelCount; i++) {
-                const ind = document.createElement('div');
-                ind.className = `indicator ${i === config.currentPanel ? 'active' : ''}`;
-                ind.addEventListener('click', () => {
-                    config.currentPanel = i;
+                const angle = 360 / config.panelCount;
+                const r = (config.cellSize / 2) / Math.tan(Math.PI / config.panelCount);
+                const translateZ = Math.round(r);
+
+                carousel.style.transitionDuration = `${config.rotationSpeed}s`;
+                carousel.style.transform = `translateZ(-${translateZ}px) rotateY(-${config.currentPanel * angle}deg)`;
+
+                const scene = document.querySelector('.scene');
+                if (scene) scene.style.perspective = `${config.perspective}px`;
+
+                const cells = document.querySelectorAll('.carousel__cell');
+                cells.forEach((cell, i) => {
+                    const cellAngle = i * angle;
+                    cell.style.transform = `rotateY(${cellAngle}deg) translateZ(${translateZ}px)`;
+                    cell.style.width = `${config.cellSize}px`;
+                    cell.style.height = `${config.cellSize * 0.65}px`;
+                });
+
+                updateIndicators();
+            }
+
+            function createIndicators() {
+                if (!indicatorsContainer) return;
+                indicatorsContainer.innerHTML = '';
+                for (let i = 0; i < config.panelCount; i++) {
+                    const ind = document.createElement('div');
+                    ind.className = `indicator ${i === config.currentPanel ? 'active' : ''}`;
+                    ind.addEventListener('click', () => {
+                        config.currentPanel = i;
+                        updateCarousel();
+                        updateControls();
+                        resetAutoRotate();
+                    });
+                    indicatorsContainer.appendChild(ind);
+                }
+            }
+
+            function updateIndicators() {
+                const inds = document.querySelectorAll('.indicator');
+                // logic to handle continuous rotation index
+                const activeIndex = ((config.currentPanel % config.panelCount) + config.panelCount) % config.panelCount;
+                inds.forEach((ind, i) => ind.classList.toggle('active', i === activeIndex));
+            }
+
+            function updateControls() {
+                if (!autoRotateBtn) return;
+                if (config.autoRotate) {
+                    autoRotateBtn.innerHTML = '<i class="fas fa-pause"></i> Stop';
+                    autoRotateBtn.style.background = 'var(--primary)';
+                    autoRotateBtn.style.color = 'var(--bg-dark)';
+                } else {
+                    autoRotateBtn.innerHTML = '<i class="fas fa-play"></i> Spin';
+                    autoRotateBtn.style.background = 'transparent';
+                    autoRotateBtn.style.color = 'var(--primary)';
+                }
+            }
+
+            function startAutoRotate() {
+                clearInterval(config.autoRotateInterval);
+                config.autoRotateInterval = setInterval(() => {
+                    config.currentPanel++;
                     updateCarousel();
                     updateControls();
-                    resetAutoRotate();
+                }, 3000);
+            }
+
+            function stopAutoRotate() {
+                clearInterval(config.autoRotateInterval);
+            }
+
+            function resetAutoRotate() {
+                if (config.autoRotate) {
+                    stopAutoRotate();
+                    startAutoRotate();
+                }
+            }
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    stopAutoRotate(); config.autoRotate = false; updateControls();
+                    config.currentPanel--;
+                    updateCarousel();
                 });
-                indicatorsContainer.appendChild(ind);
-            }
-        }
-
-        function updateIndicators() {
-            const inds = document.querySelectorAll('.indicator');
-            inds.forEach((ind, i) => ind.classList.toggle('active', i === config.currentPanel));
-        }
-
-        function updateControls() {
-            if (!autoRotateBtn) return;
-            if (config.autoRotate) {
-                autoRotateBtn.innerHTML = '<i class="fas fa-pause"></i> Stop';
-                autoRotateBtn.style.background = 'var(--primary)';
-                autoRotateBtn.style.color = 'var(--bg-dark)';
-            } else {
-                autoRotateBtn.innerHTML = '<i class="fas fa-play"></i> Spin';
-                autoRotateBtn.style.background = 'transparent';
-                autoRotateBtn.style.color = 'var(--primary)';
-            }
-        }
-
-        function startAutoRotate() {
-            clearInterval(config.autoRotateInterval);
-            config.autoRotateInterval = setInterval(() => {
-                config.currentPanel = (config.currentPanel + 1) % config.panelCount;
-                updateCarousel();
-                updateControls();
-            }, 3000);
-        }
-
-        function stopAutoRotate() {
-            clearInterval(config.autoRotateInterval);
-        }
-
-        function resetAutoRotate() {
-            if (config.autoRotate) {
-                stopAutoRotate();
-                startAutoRotate();
-            }
-        }
-
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                stopAutoRotate(); config.autoRotate = false; updateControls();
-                config.currentPanel = (config.currentPanel - 1 + config.panelCount) % config.panelCount;
-                updateCarousel();
-            });
-        }
-
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                stopAutoRotate(); config.autoRotate = false; updateControls();
-                config.currentPanel = (config.currentPanel + 1) % config.panelCount;
-                updateCarousel();
-            });
-        }
-
-        if (autoRotateBtn) {
-            autoRotateBtn.addEventListener('click', () => {
-                config.autoRotate = !config.autoRotate;
-                if (config.autoRotate) startAutoRotate(); else stopAutoRotate();
-                updateControls();
-            });
-        }
-
-        // --- SWIPE LOGIC ---
-        let touchStartX = 0;
-        let touchEndX = 0;
-        let isDragging = false;
-
-        function handleTouchStart(evt) {
-            touchStartX = evt.changedTouches[0].screenX;
-            isDragging = false;
-        }
-
-        function handleTouchMove(evt) {
-            if (Math.abs(evt.changedTouches[0].screenX - touchStartX) > 10) {
-                isDragging = true;
-            }
-        }
-
-        function handleTouchEnd(evt) {
-            touchEndX = evt.changedTouches[0].screenX;
-            handleSwipe();
-            setTimeout(() => { isDragging = false; }, 100);
-        }
-
-        function handleSwipe() {
-            const threshold = 50;
-            if (touchEndX < touchStartX - threshold) {
-                // Swipe Left -> Next
-                stopAutoRotate(); config.autoRotate = false; updateControls();
-                config.currentPanel = (config.currentPanel + 1) % config.panelCount;
-                updateCarousel();
-            }
-            if (touchEndX > touchStartX + threshold) {
-                // Swipe Right -> Prev
-                stopAutoRotate(); config.autoRotate = false; updateControls();
-                config.currentPanel = (config.currentPanel - 1 + config.panelCount) % config.panelCount;
-                updateCarousel();
-            }
-        }
-
-        // --- MODAL LOGIC ---
-        const modalOverlay = document.getElementById('modalOverlay');
-        const closeModal = document.getElementById('closeModal');
-        
-        // Elements
-        const mTitle = document.getElementById('m-title');
-        const mSubtitle = document.getElementById('m-subtitle');
-        const mDesc = document.getElementById('m-desc');
-        const mTech = document.getElementById('m-tech');
-        const mImg = document.getElementById('m-img');
-        const mIcon = document.getElementById('m-icon');
-        const mIconContainer = document.getElementById('m-icon-container');
-
-        window.openModalData = function (p, platform, icon, color) {
-            if (mTitle) mTitle.textContent = p.name;
-            if (mSubtitle) {
-                mSubtitle.textContent = platform;
-                mSubtitle.style.setProperty('--modal-color', color);
-            }
-            if (mDesc) mDesc.textContent = p.description;
-            if (mTech) mTech.textContent = p.stack;
-            if (mImg) mImg.src = p.imageUrl || `https://picsum.photos/seed/${p.id}/800/600`;
-
-            if (mIcon && mIconContainer) {
-                mIcon.className = `modal-icon ${icon}`;
-                mIconContainer.style.color = color;
             }
 
-            if (modalOverlay) modalOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        };
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    stopAutoRotate(); config.autoRotate = false; updateControls();
+                    config.currentPanel++;
+                    updateCarousel();
+                });
+            }
 
-        if (closeModal) closeModal.addEventListener('click', () => {
-            modalOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-        if (modalOverlay) modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) {
+            if (autoRotateBtn) {
+                autoRotateBtn.addEventListener('click', () => {
+                    config.autoRotate = !config.autoRotate;
+                    if (config.autoRotate) startAutoRotate(); else stopAutoRotate();
+                    updateControls();
+                });
+            }
+
+            // --- SWIPE LOGIC ---
+            let touchStartX = 0;
+            let touchEndX = 0;
+            let isDragging = false;
+
+            function handleTouchStart(evt) {
+                touchStartX = evt.changedTouches[0].screenX;
+                isDragging = false;
+            }
+
+            function handleTouchMove(evt) {
+                if (Math.abs(evt.changedTouches[0].screenX - touchStartX) > 10) {
+                    isDragging = true;
+                }
+            }
+
+            function handleTouchEnd(evt) {
+                touchEndX = evt.changedTouches[0].screenX;
+                handleSwipe();
+                setTimeout(() => { isDragging = false; }, 100);
+            }
+
+            function handleSwipe() {
+                const threshold = 50;
+                if (touchEndX < touchStartX - threshold) {
+                    // Swipe Left -> Next
+                    stopAutoRotate(); config.autoRotate = false; updateControls();
+                    config.currentPanel++;
+                    updateCarousel();
+                }
+                if (touchEndX > touchStartX + threshold) {
+                    // Swipe Right -> Prev
+                    stopAutoRotate(); config.autoRotate = false; updateControls();
+                    config.currentPanel--;
+                    updateCarousel();
+                }
+            }
+
+            // --- MODAL LOGIC ---
+            const modalOverlay = document.getElementById('modalOverlay');
+            const closeModal = document.getElementById('closeModal');
+
+            // Elements
+            const mTitle = document.getElementById('m-title');
+            const mSubtitle = document.getElementById('m-subtitle');
+            const mDesc = document.getElementById('m-desc');
+            const mTech = document.getElementById('m-tech');
+            const mImg = document.getElementById('m-img');
+            const mIcon = document.getElementById('m-icon');
+            const mIconContainer = document.getElementById('m-icon-container');
+
+            window.openModalData = function (p, platform, icon, color) {
+                if (mTitle) mTitle.textContent = p.name;
+                if (mSubtitle) {
+                    mSubtitle.textContent = platform;
+                    mSubtitle.style.setProperty('--modal-color', color);
+                }
+                if (mDesc) mDesc.textContent = p.description;
+                if (mTech) mTech.textContent = p.stack;
+                if (mImg) mImg.src = p.imageUrl || `https://picsum.photos/seed/${p.id}/800/600`;
+
+                if (mIcon && mIconContainer) {
+                    mIcon.className = `modal-icon ${icon}`;
+                    mIconContainer.style.color = color;
+                }
+
+                if (modalOverlay) modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            };
+
+            if (closeModal) closeModal.addEventListener('click', () => {
                 modalOverlay.classList.remove('active');
                 document.body.style.overflow = '';
-            }
-        });
-
-        // --- FILTER LOGIC ---
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const searchInput = document.getElementById('projectSearch');
-
-        function filterProjects() {
-            const activeBtn = document.querySelector('.filter-btn.active');
-            const filterValue = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
-            const searchTerm = searchInput.value.toLowerCase();
-
-            const projectCards = document.querySelectorAll('#projectGrid .project-card');
-
-            projectCards.forEach(card => {
-                const platform = card.getAttribute('data-platform');
-                const title = (card.getAttribute('data-title') || '').toLowerCase();
-                const desc = (card.getAttribute('data-desc') || '').toLowerCase();
-                const tech = (card.getAttribute('data-tech') || '').toLowerCase();
-
-                const matchesFilter = filterValue === 'all' || platform === filterValue;
-                const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm) || tech.includes(searchTerm);
-
-                if (matchesFilter && matchesSearch) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
+            });
+            if (modalOverlay) modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    modalOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
                 }
             });
-        }
 
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                filterProjects();
+            // --- FILTER LOGIC ---
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const searchInput = document.getElementById('projectSearch');
+
+            function filterProjects() {
+                const activeBtn = document.querySelector('.filter-btn.active');
+                const filterValue = activeBtn ? activeBtn.getAttribute('data-filter') : 'all';
+                const searchTerm = searchInput.value.toLowerCase();
+
+                const projectCards = document.querySelectorAll('#projectGrid .project-card');
+
+                projectCards.forEach(card => {
+                    const platform = card.getAttribute('data-platform');
+                    const title = (card.getAttribute('data-title') || '').toLowerCase();
+                    const desc = (card.getAttribute('data-desc') || '').toLowerCase();
+                    const tech = (card.getAttribute('data-tech') || '').toLowerCase();
+
+                    const matchesFilter = filterValue === 'all' || platform === filterValue;
+                    const matchesSearch = title.includes(searchTerm) || desc.includes(searchTerm) || tech.includes(searchTerm);
+
+                    if (matchesFilter && matchesSearch) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            }
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    filterProjects();
+                });
             });
-        });
 
-        if (searchInput) {
-            searchInput.addEventListener('input', filterProjects);
-        }
-    </script>
+            if (searchInput) {
+                searchInput.addEventListener('input', filterProjects);
+            }
+        </script>
 </body>
 
 </html>
