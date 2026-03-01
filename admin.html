@@ -415,7 +415,6 @@
                 CURRENT_SHA = data.sha;
                 const content = atob(data.content);
                 db = JSON.parse(content);
-                db = JSON.parse(content);
                 renderList();
                 renderConfig();
             } catch (e) {
@@ -478,7 +477,7 @@
 
             // Parse Links
             const linkText = document.getElementById('p-links').value;
-            const links = linkText.split('\\n').map(line => {
+            const links = linkText.split('\n').map(line => {
                 const [l, u] = line.split(',');
                 if (l && u) return { label: l.trim(), url: u.trim() };
                 return null;
@@ -523,12 +522,11 @@
             document.getElementById('p-stack').value = p.stack || '';
             document.getElementById('p-device').value = p.osDevice || '';
             document.getElementById('p-img').value = p.imageUrl || '';
-            document.getElementById('p-img').value = p.imageUrl || '';
             document.getElementById('p-github').value = p.githubUrl || '';
             document.getElementById('p-isMain').checked = p.isMain || false;
 
             if (p.links) {
-                document.getElementById('p-links').value = p.links.map(x => `${x.label},${x.url}`).join('\\n');
+                document.getElementById('p-links').value = p.links.map(x => `${x.label},${x.url}`).join('\n');
             }
 
             if (p.imageUrl) {
