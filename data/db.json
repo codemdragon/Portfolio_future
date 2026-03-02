@@ -164,6 +164,18 @@
       "links": [],
       "isMain": false,
       "releaseDate": "2026-02-07"
+    },
+    {
+      "id": "kayoanime",
+      "name": "Bulk Downloader kayoanime.cam",
+      "description": "A browser extension for Opera GX (and any Chromium browser) that bulk-downloads all episodes of an anime series from kayoanime.cam including the series thumbnail  with one click.",
+      "stack": "json, html, css, ",
+      "osDevice": "Desktop, Opera GX, Chromium",
+      "imageUrl": "https://raw.githubusercontent.com/codemdragon/Portfolio_future/main/assets/1772478401984_Screenshot%202026-03-03%20000612.png",
+      "githubUrl": "https://github.com/codemdragon/Bulk-Downloader-kayoanime.cam",
+      "links": [],
+      "isMain": false,
+      "releaseDate": "2026-03-02"
     }
   ],
   "contact": {
