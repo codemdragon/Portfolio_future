@@ -13,8 +13,9 @@
           "url": "https://github.com/codemdragon/Simon-Sight.git"
         }
       ],
-      "isMain": true,
-      "releaseDate": "2025-11-15"
+      "isMain": false,
+      "releaseDate": "2025-11-15",
+      "githubUrl": ""
     },
     {
       "id": "Emoji-Search",
@@ -78,7 +79,7 @@
           "url": "https://fitness-timer-app-five.vercel.app/"
         }
       ],
-      "isMain": false,
+      "isMain": true,
       "releaseDate": "2025-09-01"
     },
     {
@@ -132,7 +133,7 @@
           "url": "https://www.mediafire.com/file/9g8eaz1fpr1tns3/CodemMusicPlayerV6.zip/file"
         }
       ],
-      "isMain": false,
+      "isMain": true,
       "releaseDate": "2026-01-10"
     },
     {
@@ -149,7 +150,7 @@
           "url": "https://www.mediafire.com/file/qjb7jsukg5bs4o2/Assistant.zip/file"
         }
       ],
-      "isMain": true,
+      "isMain": false,
       "releaseDate": "2026-02-01"
     },
     {
