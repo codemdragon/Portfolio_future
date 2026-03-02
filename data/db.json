@@ -176,6 +176,18 @@
       "links": [],
       "isMain": false,
       "releaseDate": "2026-03-02"
+    },
+    {
+      "id": "tizen-codem-studios",
+      "name": "Codem Studios",
+      "description": "Codem Studios is a custom-built media player application specifically designed for **Tizen TVs (Samsung Smart TVs)**. It provides a seamless way to browse and play media from external storage (USB) with a modern, focus-driven user interface.",
+      "stack": "TIZEN STUDIO, html, css, js, tizen extension",
+      "osDevice": "TIzen OS, Smart TV",
+      "imageUrl": "",
+      "githubUrl": "https://github.com/codemdragon/Codem-Studios",
+      "links": [],
+      "isMain": true,
+      "releaseDate": "2026-03-02"
     }
   ],
   "contact": {
