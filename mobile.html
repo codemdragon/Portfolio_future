@@ -1784,29 +1784,54 @@
                 if (mActions) {
                     mActions.innerHTML = ''; // Clear existing
 
-                    // 1. Source Code (GitHub)
+                    let validLinks = [];
                     if (p.githubUrl) {
-                        const ghBtn = document.createElement('a');
-                        ghBtn.href = p.githubUrl;
-                        ghBtn.target = '_blank';
-                        ghBtn.className = 'btn';
-                        ghBtn.innerHTML = '<i class="fa-brands fa-github"></i> Source Code';
-                        mActions.appendChild(ghBtn);
+                        validLinks.push({ label: 'Source Code (GitHub)', url: p.githubUrl });
+                    }
+                    if (p.links && Array.isArray(p.links)) {
+                        let reversedLinks = [...p.links].reverse();
+                        reversedLinks.forEach(l => {
+                            if (!l.label.toLowerCase().includes('github')) {
+                                validLinks.push(l);
+                            }
+                        });
                     }
 
-                    // 2. Other Links
-                    if (p.links && Array.isArray(p.links)) {
-                        p.links.forEach(l => {
-                            // Skip if it's just a duplicate github link labeled "github"
-                            if (l.label.toLowerCase().includes('github')) return;
+                    if (validLinks.length > 0) {
+                        const selectWrap = document.createElement('div');
+                        selectWrap.style.position = 'relative';
+                        selectWrap.style.width = '100%';
 
-                            const linkBtn = document.createElement('a');
-                            linkBtn.href = l.url;
-                            linkBtn.target = '_blank';
-                            linkBtn.className = 'btn';
-                            linkBtn.innerHTML = `<i class="fa-solid fa-external-link-alt"></i> ${l.label}`;
-                            mActions.appendChild(linkBtn);
+                        const selectEl = document.createElement('select');
+                        selectEl.className = 'btn';
+                        selectEl.style.width = '100%';
+                        selectEl.style.appearance = 'none';
+                        selectEl.style.background = 'var(--bg-panel)';
+                        selectEl.style.color = 'var(--primary)';
+                        selectEl.style.textAlign = 'center';
+
+                        // Create an initial placeholder option
+                        const defaultOpt = document.createElement('option');
+                        defaultOpt.value = '';
+                        defaultOpt.textContent = 'Links & Downloads ▼';
+                        selectEl.appendChild(defaultOpt);
+
+                        validLinks.forEach(link => {
+                            const opt = document.createElement('option');
+                            opt.value = link.url;
+                            opt.textContent = `✦ ${link.label}`;
+                            selectEl.appendChild(opt);
                         });
+
+                        selectEl.addEventListener('change', (e) => {
+                            if (e.target.value) {
+                                window.open(e.target.value, '_blank');
+                                e.target.selectedIndex = 0; // reset to placeholder
+                            }
+                        });
+
+                        selectWrap.appendChild(selectEl);
+                        mActions.appendChild(selectWrap);
                     }
                 }
 
