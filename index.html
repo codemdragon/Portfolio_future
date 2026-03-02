@@ -1203,11 +1203,33 @@ TIMESTAMP: ${new Date().toLocaleString()}
             const tagsHtml = p.stack ? p.stack.split(',').map(t => `<span class="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">${t.trim()}</span>`).join('') : '';
 
             // Build Links
-            let linksHtml = p.links ? p.links.map(l => `<a href="${l.url}" target="_blank" class="text-xs font-bold uppercase tracking-widest text-white hover:text-blue-400 transition-colors border-b border-white/20 pb-1">${l.label} <i class="fas fa-external-link-alt ml-1 text-[9px]"></i></a>`).join('') : '';
-
-            // GitHub Link
+            let validLinks = [];
             if (p.githubUrl) {
-                linksHtml = `<a href="${p.githubUrl}" target="_blank" class="text-xs font-bold uppercase tracking-widest text-white hover:text-green-400 transition-colors border-b border-white/20 pb-1"><i class="fab fa-github mr-1"></i> GitHub</a>` + (linksHtml ? ' ' + linksHtml : '');
+                validLinks.push({ label: 'GitHub', url: p.githubUrl, icon: 'fab fa-github' });
+            }
+            if (p.links && Array.isArray(p.links)) {
+                let reversedLinks = [...p.links].reverse();
+                reversedLinks.forEach(l => {
+                    validLinks.push({ label: l.label, url: l.url, icon: 'fas fa-external-link-alt' });
+                });
+            }
+
+            let linksHtml = '';
+            if (validLinks.length > 0) {
+                linksHtml = `
+                    <div class="relative group dropdown-container">
+                        <button class="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-white hover:text-blue-400 transition-colors border-b border-white/20 pb-1 cursor-pointer">
+                            Links & Downloads <i class="fas fa-chevron-down text-[9px]"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-56 bg-[#161616] border border-white/10 rounded shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-[9999] overflow-hidden text-left">
+                            ${validLinks.map(l => `
+                                <a href="${l.url}" target="_blank" class="block px-4 py-3 text-xs font-bold uppercase tracking-widest text-white hover:bg-white/5 hover:text-blue-400 transition-colors border-b border-white/5 last:border-0 truncate">
+                                    <i class="${l.icon} mr-2"></i> ${l.label}
+                                </a>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
             }
 
             // Image
