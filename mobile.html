@@ -1666,7 +1666,9 @@
 
                 carousel.style.transitionDuration = `${config.rotationSpeed}s`;
                 // Use continuous rotation logic
-                carousel.style.transform = `translateZ(-${translateZ}px) rotateY(-${config.currentPanel * angle}deg)`;
+                // AFTER (normalize so rotation is always a positive value)
+                const normalizedPanel = ((config.currentPanel % config.panelCount) + config.panelCount) % config.panelCount;
+                carousel.style.transform = `translateZ(-${translateZ}px) rotateY(-${normalizedPanel * angle}deg)`;
 
                 const scene = document.querySelector('.scene');
                 if (scene) scene.style.perspective = `${config.perspective}px`;
