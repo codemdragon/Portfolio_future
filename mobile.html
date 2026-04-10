@@ -1550,12 +1550,15 @@
                     </div>
                 `;
 
-                    cell.addEventListener('click', (e) => {
-                        if (isDragging) return;
-                        config.currentPanel = index;
-                        updateCarousel();
-                        openModalData(p, platform, icon, color);
-                    });
+                cell.addEventListener('click', (e) => {
+                    if (isDragging) return;
+                    // Adjust currentPanel by the delta to reach this index, preserving the offset
+                    const activeIndex = ((config.currentPanel % config.panelCount) + config.panelCount) % config.panelCount;
+                    const delta = index - activeIndex;
+                    config.currentPanel += delta;
+                    updateCarousel();
+                    openModalData(p, platform, icon, color);
+                });
 
                     carousel.appendChild(cell);
                 });
