@@ -1122,7 +1122,8 @@
                     <li><a href="#ecosystem">// ECOSYSTEMS</a></li>
                     <li><a href="#projects">// PROJECTS</a></li>
                     <li><a href="#contact">// CONTACT</a></li>
-                    <li><a href="#" id="resume-link-desktop" target="_blank" style="color: var(--primary);">// RESUME</a></li>
+                    <li><a href="#" id="resume-link-desktop" target="_blank" style="color: var(--primary);">//
+                            RESUME</a></li>
                 </ul>
 
                 <!-- Hamburger Icon -->
@@ -1139,7 +1140,8 @@
                 <a href="#ecosystem" class="mobile-link">// ECOSYSTEMS</a>
                 <a href="#projects" class="mobile-link">// PROJECTS</a>
                 <a href="#contact" class="mobile-link">// CONTACT</a>
-                <a href="#" id="resume-link-mobile" class="mobile-link" target="_blank" style="color: var(--primary);">// RESUME</a>
+                <a href="#" id="resume-link-mobile" class="mobile-link" target="_blank"
+                    style="color: var(--primary);">// RESUME</a>
             </div>
         </div>
     </header>
@@ -1151,7 +1153,8 @@
                 <div class="hero-content">
                     <div class="hero-text">
                         <h1 id="hero-title">Multi-Platform<br><span>Full Stack</span> Engineer</h1>
-                        <p id="hero-subtitle">Bridging the gap between desktop, mobile, and web infrastructures. Specialized in Windows,
+                        <p id="hero-subtitle">Bridging the gap between desktop, mobile, and web infrastructures.
+                            Specialized in Windows,
                             Linux, Android, and modern web technologies.</p>
                         <a href="#projects" class="btn">View Modules</a>
                     </div>
@@ -1301,15 +1304,19 @@
                         </div>
                         <div class="form-group">
                             <label>ENCRYPTED_PACKET</label>
-                            <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+                            <input type="email" name="email" class="form-control" placeholder="Enter your email"
+                                required>
                         </div>
                         <div class="form-group">
                             <label>PAYLOAD_MESSAGE</label>
-                            <input type="text" name="message" class="form-control" placeholder="Type your message" required>
+                            <input type="text" name="message" class="form-control" placeholder="Type your message"
+                                required>
                         </div>
-                        <button type="submit" id="mobile-contact-submit" class="btn" style="width: 100%; margin-top: 10px;">Send Data</button>
+                        <button type="submit" id="mobile-contact-submit" class="btn"
+                            style="width: 100%; margin-top: 10px;">Send Data</button>
                     </form>
-                    <p id="mobile-contact-status" style="text-align:center; margin-top:12px; font-size:0.9rem; display:none;"></p>
+                    <p id="mobile-contact-status"
+                        style="text-align:center; margin-top:12px; font-size:0.9rem; display:none;"></p>
                 </div>
             </div>
         </section>
@@ -1442,7 +1449,7 @@
                             const formspreeUrl = data.universal.formspreeUrl;
                             if (contactForm && formspreeUrl) {
                                 contactForm.action = formspreeUrl;
-                                contactForm.addEventListener('submit', async function(e) {
+                                contactForm.addEventListener('submit', async function (e) {
                                     e.preventDefault();
                                     const submitBtn = document.getElementById('mobile-contact-submit');
                                     const statusEl = document.getElementById('mobile-contact-status');
@@ -1632,7 +1639,7 @@
             const indicatorsContainer = document.getElementById('indicators');
 
             let config = {
-                currentPanel: 0,
+                currentPanel: 1000,
                 panelCount: 8,
                 cellSize: 280,
                 perspective: 1000,
@@ -1666,9 +1673,7 @@
 
                 carousel.style.transitionDuration = `${config.rotationSpeed}s`;
                 // Use continuous rotation logic
-                // AFTER (normalize so rotation is always a positive value)
-                const normalizedPanel = ((config.currentPanel % config.panelCount) + config.panelCount) % config.panelCount;
-                carousel.style.transform = `translateZ(-${translateZ}px) rotateY(-${normalizedPanel * angle}deg)`;
+                carousel.style.transform = `translateZ(-${translateZ}px) rotateY(-${config.currentPanel * angle}deg)`;
 
                 const scene = document.querySelector('.scene');
                 if (scene) scene.style.perspective = `${config.perspective}px`;
