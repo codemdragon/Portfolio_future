@@ -1121,6 +1121,7 @@
                     <li><a href="#ecosystem">// ECOSYSTEMS</a></li>
                     <li><a href="#projects">// PROJECTS</a></li>
                     <li><a href="#contact">// CONTACT</a></li>
+                    <li><a href="#" id="resume-link-desktop" target="_blank" style="color: var(--primary);">// RESUME</a></li>
                 </ul>
 
                 <!-- Hamburger Icon -->
@@ -1137,6 +1138,7 @@
                 <a href="#ecosystem" class="mobile-link">// ECOSYSTEMS</a>
                 <a href="#projects" class="mobile-link">// PROJECTS</a>
                 <a href="#contact" class="mobile-link">// CONTACT</a>
+                <a href="#" id="resume-link-mobile" class="mobile-link" target="_blank" style="color: var(--primary);">// RESUME</a>
             </div>
         </div>
     </header>
@@ -1147,8 +1149,8 @@
             <div class="container">
                 <div class="hero-content">
                     <div class="hero-text">
-                        <h1>Multi-Platform<br><span>Full Stack</span> Engineer</h1>
-                        <p>Bridging the gap between desktop, mobile, and web infrastructures. Specialized in Windows,
+                        <h1 id="hero-title">Multi-Platform<br><span>Full Stack</span> Engineer</h1>
+                        <p id="hero-subtitle">Bridging the gap between desktop, mobile, and web infrastructures. Specialized in Windows,
                             Linux, Android, and modern web technologies.</p>
                         <a href="#projects" class="btn">View Modules</a>
                     </div>
@@ -1291,18 +1293,18 @@
                     <div class="corner bl"></div>
                     <div class="corner br"></div>
 
-                    <form>
+                    <form id="contact-form" method="POST">
                         <div class="form-group">
                             <label>USER_ID</label>
-                            <input type="text" class="form-control" placeholder="Enter your name">
+                            <input type="text" name="name" class="form-control" placeholder="Enter your name" required>
                         </div>
                         <div class="form-group">
                             <label>ENCRYPTED_PACKET</label>
-                            <input type="email" class="form-control" placeholder="Enter your email">
+                            <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
                         </div>
                         <div class="form-group">
                             <label>PAYLOAD_MESSAGE</label>
-                            <input type="text" class="form-control" placeholder="Type your message">
+                            <input type="text" name="message" class="form-control" placeholder="Type your message" required>
                         </div>
                         <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Send Data</button>
                     </form>
@@ -1427,6 +1429,22 @@
                 fetch('data/db.json')
                     .then(response => response.json())
                     .then(data => {
+                        if (data.universal && data.universal.resumeUrl) {
+                            const rd = document.getElementById('resume-link-desktop');
+                            const rm = document.getElementById('resume-link-mobile');
+                            if (rd) rd.href = data.universal.resumeUrl;
+                            if (rm) rm.href = data.universal.resumeUrl;
+                        }
+                        if (data.universal && data.universal.formspreeUrl) {
+                            const contactForm = document.getElementById('contact-form');
+                            if (contactForm) contactForm.action = data.universal.formspreeUrl;
+                        }
+                        if (data.mobile) {
+                            const ht = document.getElementById('hero-title');
+                            const hs = document.getElementById('hero-subtitle');
+                            if (ht && data.mobile.heroTitleHtml) ht.innerHTML = data.mobile.heroTitleHtml;
+                            if (hs && data.mobile.heroSubtitle) hs.innerText = data.mobile.heroSubtitle;
+                        }
                         renderContent(data);
                     })
                     .catch(error => {
