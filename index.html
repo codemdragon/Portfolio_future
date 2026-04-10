@@ -712,7 +712,7 @@
             <div class="mt-6 flex justify-end gap-3">
                 <button onclick="toggleModal('resume')"
                     class="px-6 py-2 bg-white/5 rounded-lg text-xs font-bold uppercase">Close</button>
-                <button class="px-6 py-2 bg-blue-600 rounded-lg text-xs font-bold uppercase"
+                <button id="resume-download-btn" class="px-6 py-2 bg-blue-600 rounded-lg text-xs font-bold uppercase"
                     onclick="showToast('Downloading document...')">Download</button>
             </div>
         </div>
@@ -824,6 +824,29 @@
         const state = { currentFile: 'about.md', openFiles: ['about.md'], isLive: false, testingCount: 0, isScanning: false };
         let projectDb = {}; // Cache for projects
         let contactInfo = { email: 'hello@codem.dev', discord: 'codem#0000' }; // Default fallback
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const res = await fetch('data/db.json');
+                const data = await res.json();
+                if (data.projects) data.projects.forEach(p => projectDb[p.id] = p);
+                if (data.contact) contactInfo = data.contact;
+                if (data.pc) {
+                    if (data.pc.aboutHtml) fileData['about.md'] = data.pc.aboutHtml;
+                    if (data.pc.skillsHtml) fileData['skills.html'] = data.pc.skillsHtml;
+                }
+                if (data.universal && data.universal.resumeUrl) {
+                    const downloadBtn = document.getElementById('resume-download-btn');
+                    if (downloadBtn) {
+                        downloadBtn.onclick = () => { window.open(data.universal.resumeUrl, '_blank'); };
+                    }
+                }
+                // Refresh if the current file was just updated by DB fetch
+                if (state.currentFile === 'about.md' || state.currentFile === 'skills.html') {
+                    openFile(state.currentFile);
+                }
+            } catch (e) { console.error("Failed to load DB on startup", e); }
+        });
 
         const fullAscii = `
                ..:=++++--..
@@ -1113,14 +1136,7 @@ TIMESTAMP: ${new Date().toLocaleString()}
             if (!mainContainer) return; // Not on projects page
 
             try {
-                if (Object.keys(projectDb).length === 0) {
-                    const res = await fetch('data/db.json');
-                    if (!res.ok) throw new Error('DB Load Failed');
-                    const data = await res.json();
-                    data.projects.forEach(p => projectDb[p.id] = p);
-                    if (data.contact) contactInfo = data.contact;
-                }
-
+                // Remove the inner fetch since it is handled by DOMContentLoaded
                 const projects = Object.values(projectDb);
                 const threeWeeksAgo = new Date();
                 threeWeeksAgo.setDate(threeWeeksAgo.getDate() - 21);
