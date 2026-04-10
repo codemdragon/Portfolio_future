@@ -191,19 +191,19 @@
     }
   ],
   "contact": {
-    "email": "codemlabs1@gmail.com",
+    "email": "hello@codem.dev",
     "discord": "codem#0000"
   },
   "universal": {
-    "resumeUrl": "",
+    "resumeUrl": "https://raw.githubusercontent.com/codemdragon/Portfolio_future/main/assets/Resume.pdf",
     "formspreeUrl": "https://formspree.io/f/xdaprdja"
   },
   "pc": {
-    "aboutHtml": "",
-    "skillsHtml": ""
+    "aboutHtml": "<span class=\"md-comment\">&lt;!-- Profile: Codem --&gt;</span>\n<h1 class=\"text-4xl font-extrabold mb-6 italic\"># Architecting the Future<span class=\"text-blue-500\">.</span></h1>\n<p class=\"mb-6 text-xl opacity-80\">Codem is a software developer focused on high-performance distributed systems and immersive web interactions.</p>\n<div class=\"p-8 bg-blue-500/5 border border-blue-500/10 rounded-2xl mb-8\">\n  <p class=\"mb-4\">Currently mastering <span class=\"text-blue-400 font-bold\">Mobile Development</span> and <span class=\"text-cyan-400 font-bold\">Machine Learning</span> integration.</p>\n  <div class=\"flex gap-4 mt-8 opacity-40 text-xs font-mono uppercase tracking-widest\">\n     <span>[ Status: Active ]</span>\n     <span>[ Location: Pakistan ]</span>\n     <span>[ Focus: Scalability ]</span>\n  </div>\n</div>",
+    "skillsHtml": "<div class=\"mb-8 p-10 bg-blue-500/5 border-2 border-blue-500/10 rounded-3xl flex flex-col items-center gap-8 text-center\">\n    <div class=\"text-6xl animate-float\">🚀</div>\n    <div>\n        <h3 class=\"text-3xl font-black italic mb-3 uppercase tracking-tighter\">SOURCE: SKILLS.HTML</h3>\n        <p class=\"opacity-50 text-sm max-w-lg mx-auto\">This file maps the current technical proficiencies across the stack. Initiate render for high-fidelity visualization.</p>\n    </div>\n    <button onclick=\"toggleLiveShare()\" class=\"bg-blue-600 hover:bg-blue-500 text-white px-12 py-4 rounded-full font-black text-xs uppercase tracking-widest shadow-[0_20px_40px_rgba(37,99,235,0.2)] transition-all hover:-translate-y-1\">\n        <i class=\"fas fa-bolt mr-2\"></i> Initiate Render\n    </button>\n</div>\n<pre class=\"bg-black/30 p-8 rounded-2xl border border-white/5 text-sm overflow-x-auto leading-relaxed\">\n<span class=\"syntax-tag\">&lt;section</span> <span class=\"syntax-attr\">id</span>=<span class=\"syntax-string\">\"matrix\"</span><span class=\"syntax-tag\">&gt;</span>\n    <span class=\"syntax-tag\">&lt;tech</span> <span class=\"syntax-attr\">level</span>=<span class=\"syntax-string\">\"expert\"</span><span class=\"syntax-tag\">&gt;</span>HTML / CSS / JS / React / Tailwind<span class=\"syntax-tag\">&lt;/tech&gt;</span>\n    <span class=\"syntax-tag\">&lt;tech</span> <span class=\"syntax-attr\">level</span>=<span class=\"syntax-string\">\"expert\"</span><span class=\"syntax-tag\">&gt;</span>Python + ML (OpenCV, Gesture Recognition)<span class=\"syntax-tag\">&lt;/tech&gt;</span>\n    <span class=\"syntax-tag\">&lt;tech</span> <span class=\"syntax-attr\">level</span>=<span class=\"syntax-string\">\"advanced\"</span><span class=\"syntax-tag\">&gt;</span>API Creation + Management + AI Integration<span class=\"syntax-tag\">&lt;/tech&gt;</span>\n    <span class=\"syntax-tag\">&lt;tech</span> <span class=\"syntax-attr\">level</span>=<span class=\"syntax-string\">\"advanced\"</span><span class=\"syntax-tag\">&gt;</span>Android Studio (APK / PWA / Manifest)<span class=\"syntax-tag\">&lt;/tech&gt;</span>\n    <span class=\"syntax-tag\">&lt;tech</span> <span class=\"syntax-attr\">level</span>=<span class=\"syntax-string\">\"advanced\"</span><span class=\"syntax-tag\">&gt;</span>Windows / Linux / Android / Git<span class=\"syntax-tag\">&lt;/tech&gt;</span>\n    <span class=\"syntax-tag\">&lt;tech</span> <span class=\"syntax-attr\">level</span>=<span class=\"syntax-string\">\"advanced\"</span><span class=\"syntax-tag\">&gt;</span>Pyinstaller (EXE) + Prompt Engineering<span class=\"syntax-tag\">&lt;/tech&gt;</span>\n    <span class=\"syntax-tag\">&lt;tech</span> <span class=\"syntax-attr\">level</span>=<span class=\"syntax-string\">\"intermediate\"</span><span class=\"syntax-tag\">&gt;</span>Pygame / Tkinter / PyQt5 / Canvas<span class=\"syntax-tag\">&lt;/tech&gt;</span>\n    <span class=\"syntax-tag\">&lt;tech</span> <span class=\"syntax-attr\">level</span>=<span class=\"syntax-string\">\"intermediate\"</span><span class=\"syntax-tag\">&gt;</span>C++ + VPN (Tailscale / ZeroTier)<span class=\"syntax-tag\">&lt;/tech&gt;</span>\n<span class=\"syntax-tag\">&lt;/section&gt;</span>\n</pre>"
   },
   "mobile": {
-    "heroTitleHtml": "",
-    "heroSubtitle": ""
+    "heroTitleHtml": "Multi-Platform<br><span>Full Stack</span> Engineer",
+    "heroSubtitle": "Bridging the gap between desktop, mobile, and web infrastructures. Specialized in Windows, Linux, Android, and modern web technologies."
   }
 }
