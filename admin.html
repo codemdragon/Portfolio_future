@@ -223,6 +223,37 @@
             color: var(--text-sec);
             margin-top: 4px;
         }
+
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0;
+            overflow-x: auto;
+        }
+
+        .admin-tab {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            color: var(--text-sec);
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            white-space: nowrap;
+        }
+
+        .admin-tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 
@@ -246,6 +277,13 @@
         </div>
 
         <div class="container">
+            <div class="admin-tabs">
+                <div class="admin-tab active" onclick="switchTab('universal')" id="tab-btn-universal">Universal</div>
+                <div class="admin-tab" onclick="switchTab('pc')" id="tab-btn-pc">PC Content</div>
+                <div class="admin-tab" onclick="switchTab('mobile')" id="tab-btn-mobile">Mobile Content</div>
+            </div>
+
+            <div id="tab-universal" class="tab-content active">
             <!-- Settings -->
             <div class="card">
                 <h3>Repository Configuration</h3>
@@ -341,8 +379,14 @@
                         <input type="text" id="c-discord" placeholder="e.g. codem#0000">
                     </div>
                 </div>
-                <!-- <button class="btn-primary" onclick="saveConfig()">Save Configuration</button> -->
-                <!-- No separate button needed if we treat "Push" as the main save, but let's have a local update for config -->
+                <div class="input-group">
+                    <label>Resume URL (Universal)</label>
+                    <input type="text" id="c-resume" placeholder="https://.../Resume.pdf">
+                </div>
+                <div class="input-group">
+                    <label>Formspree URL (Universal)</label>
+                    <input type="text" id="c-formspree" placeholder="https://formspree.io/f/...">
+                </div>
                 <button class="btn-primary" onclick="saveConfig()" style="background: #1f6feb;">Update Config
                     Locally</button>
             </div>
@@ -353,6 +397,40 @@
                 <ul class="item-list" id="project-list">
                     <!-- Dynamic -->
                 </ul>
+            </div>
+
+            </div>
+
+            <!-- PC TAB -->
+            <div id="tab-pc" class="tab-content">
+                <div class="card">
+                    <h3>PC Content Configuration</h3>
+                    <div class="input-group">
+                        <label>About Text (about.md HTML)</label>
+                        <textarea id="pc-about" rows="12" placeholder="Raw HTML..."></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label>Skills Text (skills.html HTML)</label>
+                        <textarea id="pc-skills" rows="12" placeholder="Raw HTML..."></textarea>
+                    </div>
+                    <button class="btn-primary" onclick="saveConfig()" style="background: #1f6feb;">Update Config Locally</button>
+                </div>
+            </div>
+
+            <!-- MOBILE TAB -->
+            <div id="tab-mobile" class="tab-content">
+                <div class="card">
+                    <h3>Mobile Content Configuration</h3>
+                    <div class="input-group">
+                        <label>Hero Title (HTML allowed, e.g. &lt;span&gt;)</label>
+                        <textarea id="mobile-hero-title" rows="3" placeholder="Hero Title..."></textarea>
+                    </div>
+                    <div class="input-group">
+                        <label>Hero Subtitle</label>
+                        <textarea id="mobile-hero-subtitle" rows="5" placeholder="Hero Subtitle..."></textarea>
+                    </div>
+                    <button class="btn-primary" onclick="saveConfig()" style="background: #1f6feb;">Update Config Locally</button>
+                </div>
             </div>
 
             <!-- Commit -->
@@ -439,10 +517,29 @@
             `).join('');
         }
 
+        function switchTab(tabName) {
+            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-btn-' + tabName).classList.add('active');
+            document.getElementById('tab-' + tabName).classList.add('active');
+        }
+
         function renderConfig() {
             if (db.contact) {
                 document.getElementById('c-email').value = db.contact.email || '';
                 document.getElementById('c-discord').value = db.contact.discord || '';
+            }
+            if (db.universal) {
+                document.getElementById('c-resume').value = db.universal.resumeUrl || '';
+                document.getElementById('c-formspree').value = db.universal.formspreeUrl || '';
+            }
+            if (db.pc) {
+                document.getElementById('pc-about').value = db.pc.aboutHtml || '';
+                document.getElementById('pc-skills').value = db.pc.skillsHtml || '';
+            }
+            if (db.mobile) {
+                document.getElementById('mobile-hero-title').value = db.mobile.heroTitleHtml || '';
+                document.getElementById('mobile-hero-subtitle').value = db.mobile.heroSubtitle || '';
             }
         }
 
@@ -450,6 +547,18 @@
             db.contact = {
                 email: document.getElementById('c-email').value,
                 discord: document.getElementById('c-discord').value
+            };
+            db.universal = {
+                resumeUrl: document.getElementById('c-resume').value,
+                formspreeUrl: document.getElementById('c-formspree').value
+            };
+            db.pc = {
+                aboutHtml: document.getElementById('pc-about').value,
+                skillsHtml: document.getElementById('pc-skills').value
+            };
+            db.mobile = {
+                heroTitleHtml: document.getElementById('mobile-hero-title').value,
+                heroSubtitle: document.getElementById('mobile-hero-subtitle').value
             };
             alert('Configuration updated locally. Remember to Push to Live Site!');
         }
