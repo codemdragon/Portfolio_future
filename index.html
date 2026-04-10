@@ -841,6 +841,9 @@
                         downloadBtn.onclick = () => { window.open(data.universal.resumeUrl, '_blank'); };
                     }
                 }
+                if (data.universal && data.universal.formspreeUrl) {
+                    state._formspreeUrl = data.universal.formspreeUrl;
+                }
                 // Refresh if the current file was just updated by DB fetch
                 if (state.currentFile === 'about.md' || state.currentFile === 'skills.html') {
                     openFile(state.currentFile);
@@ -1097,6 +1100,7 @@ TIMESTAMP: ${new Date().toLocaleString()}
                     </div>
                 `;
             } else if (state.currentFile === 'contact.html') {
+                const formspreeUrl = state._formspreeUrl || '';
                 content.innerHTML = `
                     <div class="max-w-6xl mx-auto py-32 px-10">
                         <div class="text-center mb-24">
@@ -1105,7 +1109,7 @@ TIMESTAMP: ${new Date().toLocaleString()}
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
                             <div class="space-y-8">
-                                <div class="glass-panel p-10 rounded-2xl flex items-center gap-8 group cursor-pointer border-l-4 border-orange-500 transition-all hover:glow-orange" onclick="showToast('Mailto linked.')">
+                                <div class="glass-panel p-10 rounded-2xl flex items-center gap-8 group cursor-pointer border-l-4 border-orange-500 transition-all hover:glow-orange" onclick="window.location.href='mailto:${contactInfo.email}'">
                                     <div class="text-4xl text-orange-500"><i class="fas fa-paper-plane"></i></div>
                                     <div><p class="text-[10px] uppercase font-black opacity-30 tracking-widest">Protocol: Email</p><p class="text-2xl font-bold italic">${contactInfo.email}</p></div>
                                 </div>
@@ -1116,15 +1120,54 @@ TIMESTAMP: ${new Date().toLocaleString()}
                             </div>
                             <div class="glass-panel p-12 rounded-3xl">
                                 <h3 class="text-xl font-bold italic mb-8 uppercase tracking-widest opacity-60">Send Transmission</h3>
-                                <div class="space-y-6">
-                                    <input type="text" placeholder="SENDER_IDENTITY" class="w-full bg-white/5 border border-white/10 p-5 rounded-xl focus:outline-none focus:border-orange-500 font-mono text-xs">
-                                    <textarea rows="5" placeholder="ENCRYPTED_PAYLOAD" class="w-full bg-white/5 border border-white/10 p-5 rounded-xl focus:outline-none focus:border-orange-500 font-mono text-xs"></textarea>
-                                    <button onclick="showToast('Transmission encrypted and sent.')" class="w-full py-5 bg-orange-600 hover:bg-orange-500 text-white font-black italic rounded-xl transition-all shadow-xl">INITIATE UPLOAD</button>
-                                </div>
+                                <form id="pc-contact-form" action="${formspreeUrl}" method="POST" class="space-y-6">
+                                    <input type="text" name="name" placeholder="SENDER_IDENTITY" required class="w-full bg-white/5 border border-white/10 p-5 rounded-xl focus:outline-none focus:border-orange-500 font-mono text-xs">
+                                    <input type="email" name="email" placeholder="SENDER_EMAIL" required class="w-full bg-white/5 border border-white/10 p-5 rounded-xl focus:outline-none focus:border-orange-500 font-mono text-xs">
+                                    <textarea rows="5" name="message" placeholder="ENCRYPTED_PAYLOAD" required class="w-full bg-white/5 border border-white/10 p-5 rounded-xl focus:outline-none focus:border-orange-500 font-mono text-xs"></textarea>
+                                    <button type="submit" id="pc-contact-submit" class="w-full py-5 bg-orange-600 hover:bg-orange-500 text-white font-black italic rounded-xl transition-all shadow-xl">INITIATE UPLOAD</button>
+                                </form>
+                                <p id="pc-contact-status" class="text-center mt-4 text-sm hidden"></p>
                             </div>
                         </div>
                     </div>
                 `;
+                // Attach AJAX submit handler for the Formspree form
+                const pcForm = document.getElementById('pc-contact-form');
+                if (pcForm && formspreeUrl) {
+                    pcForm.addEventListener('submit', async function(e) {
+                        e.preventDefault();
+                        const submitBtn = document.getElementById('pc-contact-submit');
+                        const statusEl = document.getElementById('pc-contact-status');
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = 'TRANSMITTING...';
+                        statusEl.classList.add('hidden');
+                        try {
+                            const formData = new FormData(pcForm);
+                            const res = await fetch(formspreeUrl, {
+                                method: 'POST',
+                                body: formData,
+                                headers: { 'Accept': 'application/json' }
+                            });
+                            if (res.ok) {
+                                statusEl.textContent = '✅ Transmission sent successfully.';
+                                statusEl.style.color = '#4ade80';
+                                statusEl.classList.remove('hidden');
+                                pcForm.reset();
+                                showToast('Transmission encrypted and sent.');
+                            } else {
+                                throw new Error('Server returned ' + res.status);
+                            }
+                        } catch (err) {
+                            statusEl.textContent = '❌ Transmission failed. Try again.';
+                            statusEl.style.color = '#f87171';
+                            statusEl.classList.remove('hidden');
+                            showToast('Transmission failed.');
+                        } finally {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'INITIATE UPLOAD';
+                        }
+                    });
+                }
             }
         }
 
