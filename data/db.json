@@ -191,7 +191,19 @@
     }
   ],
   "contact": {
-    "email": "hello@codem.dev",
+    "email": "codemlabs1@gmail.com",
     "discord": "codem#0000"
+  },
+  "universal": {
+    "resumeUrl": "",
+    "formspreeUrl": "https://formspree.io/f/xdaprdja"
+  },
+  "pc": {
+    "aboutHtml": "",
+    "skillsHtml": ""
+  },
+  "mobile": {
+    "heroTitleHtml": "",
+    "heroSubtitle": ""
   }
 }
