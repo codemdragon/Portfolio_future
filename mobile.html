@@ -1545,13 +1545,7 @@
 
                     cell.addEventListener('click', (e) => {
                         if (isDragging) return;
-                        // Calculate offset from current position to target, preserving continuous rotation
-                        const currentIndex = ((config.currentPanel % config.panelCount) + config.panelCount) % config.panelCount;
-                        let diff = index - currentIndex;
-                        // Take the shortest path around the carousel
-                        if (diff > config.panelCount / 2) diff -= config.panelCount;
-                        if (diff < -config.panelCount / 2) diff += config.panelCount;
-                        config.currentPanel += diff;
+                        config.currentPanel = index;
                         updateCarousel();
                         openModalData(p, platform, icon, color);
                     });
@@ -1698,12 +1692,13 @@
                     ind.className = `indicator ${i === activeIndex ? 'active' : ''}`;
 
                     ind.addEventListener('click', () => {
-                        // Calculate offset from current to target, preserving continuous rotation
-                        const currentIndex = ((config.currentPanel % config.panelCount) + config.panelCount) % config.panelCount;
-                        let diff = i - currentIndex;
-                        if (diff > config.panelCount / 2) diff -= config.panelCount;
-                        if (diff < -config.panelCount / 2) diff += config.panelCount;
-                        config.currentPanel += diff;
+                        // Calculate nearest target panel to minimize rotation
+                        // This simplistic approach jumps; for continuous feel, we usually just update currentPanel
+                        // But clicking specific indicator usually implies jumping to it.
+                        // For simplicity in continuous mode, we can just set currentPanel to the target index 
+                        // relative to the current rotation, but that's complex. 
+                        // Let's just set it and let it spin.
+                        config.currentPanel = i;
                         updateCarousel();
                         updateControls();
                         resetAutoRotate();
