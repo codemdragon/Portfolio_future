@@ -188,6 +188,18 @@
       "links": [],
       "isMain": true,
       "releaseDate": "2026-03-02"
+    },
+    {
+      "id": "discord-bot-music",
+      "name": "Music Discord Bot",
+      "description": "A discord bot you can set up for your rasberry pi easily, guide included. Slash commands and so much more\nTested on Pi 3:\nPython 3.13\nDependencies: python3 python3-venv python3-pip ffmpeg libopus0 nodejs git ",
+      "stack": "python",
+      "osDevice": "rasberry pi OS",
+      "imageUrl": "https://raw.githubusercontent.com/codemdragon/Portfolio_future/main/assets/1776148792896_Screenshot%202026-04-14%20113831.png",
+      "githubUrl": "https://github.com/codemdragon/discord-bot.git",
+      "links": [],
+      "isMain": false,
+      "releaseDate": "2026-04-14"
     }
   ],
   "contact": {
