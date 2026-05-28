@@ -941,6 +941,49 @@
             background: rgba(0, 243, 255, 0.05);
         }
 
+        .textarea-control {
+            padding: 10px;
+            min-height: 120px;
+            max-height: 400px;
+            resize: vertical;
+            overflow-y: auto;
+            border: none;
+            border: 1px solid #333;
+            border-radius: var(--border-radius);
+        }
+
+        .textarea-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+        }
+
+        /* Themed Scrollbar */
+        .textarea-control::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .textarea-control::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        .textarea-control::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.6);
+        }
+
+        .textarea-control::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+            box-shadow: 0 0 15px rgba(188, 19, 254, 0.8);
+        }
+
+        /* Firefox Scrollbar */
+        .textarea-control {
+            scrollbar-color: var(--primary) rgba(0, 0, 0, 0.3);
+            scrollbar-width: thin;
+        }
+
         /* --- FOOTER --- */
         footer {
             padding: 50px 0;
@@ -1309,8 +1352,7 @@
                         </div>
                         <div class="form-group">
                             <label>PAYLOAD_MESSAGE</label>
-                            <input type="text" name="message" class="form-control" placeholder="Type your message"
-                                required>
+                            <textarea name="message" class="form-control textarea-control" placeholder="Type your message" required></textarea>
                         </div>
                         <button type="submit" id="mobile-contact-submit" class="btn"
                             style="width: 100%; margin-top: 10px;">Send Data</button>
