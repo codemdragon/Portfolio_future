@@ -597,7 +597,7 @@
                     data-file="contact.html">
                     <i class="fab fa-html5 text-orange-500"></i> contact.html
                 </div>
-                <div onclick="toggleModal('resume')"
+                <div onclick="openResumeModal()"
                     class="sidebar-item cursor-pointer py-1 px-8 text-sm flex items-center gap-2">
                     <i class="far fa-file-pdf text-red-400"></i> resume.pdf
                 </div>
@@ -696,6 +696,36 @@
         <div id="live-content" class="min-h-screen"></div>
     </div>
 
+    <!-- Resume HTML Modal (NEW) -->
+    <div id="resume-html-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.97); z-index:9999; flex-direction:column;">
+        <!-- Titlebar -->
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 20px; background:#1e1e1e; border-bottom:1px solid rgba(255,255,255,0.1); flex-shrink:0; font-family:'Fira Code',monospace;">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <i class="far fa-file-code" style="color:#60a5fa;"></i>
+                <span style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:2px; opacity:0.7; color:#d4d4d4;">resume.html — Preview</span>
+                <span style="font-size:9px; background:rgba(59,130,246,0.15); color:#60a5fa; border:1px solid rgba(59,130,246,0.25); padding:2px 8px; border-radius:3px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">LIVE</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <a id="resume-html-download" href="#" target="_blank"
+                    style="display:inline-flex; align-items:center; gap:6px; font-size:10px; background:#2563eb; color:white; padding:5px 14px; border-radius:4px; text-decoration:none; font-weight:700; text-transform:uppercase; letter-spacing:1px; transition:background 0.2s;"
+                    onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#2563eb'">
+                    <i class="fas fa-download"></i> Download PDF
+                </a>
+                <button onclick="closeResumeModal()"
+                    style="color:rgba(255,255,255,0.5); background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); cursor:pointer; padding:5px 14px; border-radius:4px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:1px; transition:background 0.2s;"
+                    onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+                    ✕ ESC
+                </button>
+            </div>
+        </div>
+        <!-- iframe fills the rest -->
+        <iframe id="resume-html-frame"
+            style="flex:1; width:100%; border:none; background:#fff; display:block; min-height:0;"
+            sandbox="allow-same-origin allow-scripts allow-popups"
+            title="Resume Preview">
+        </iframe>
+    </div>
+
     <!-- Modals -->
     <div id="resume-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center hidden z-50 p-4">
         <div class="bg-[var(--bg-sidebar)] p-8 rounded-2xl border border-[var(--border)] max-w-lg w-full">
@@ -778,6 +808,10 @@
                     <p class="text-yellow-500 font-bold text-xs mb-1 uppercase tracking-tighter">Konami Code</p>
                     <p class="text-xs opacity-70">↑ ↑ ↓ ↓ ← → ← → B A (Try it!)</p>
                 </div>
+                <div class="egg-card">
+                    <p class="text-yellow-500 font-bold text-xs mb-1 uppercase tracking-tighter">Command: resume / cv</p>
+                    <p class="text-xs opacity-70">Opens the interactive resume popup with your configured HTML.</p>
+                </div>
             </div>
             <div class="mt-8 text-center">
                 <p class="text-[10px] opacity-30 uppercase font-mono tracking-[0.3em]">Total Protocols: 13 // Happy
@@ -843,6 +877,12 @@
                 }
                 if (data.universal && data.universal.formspreeUrl) {
                     state._formspreeUrl = data.universal.formspreeUrl;
+                }
+                if (data.universal && data.universal.resumeHtml) {
+                    state._resumeHtml = data.universal.resumeHtml;
+                }
+                if (data.universal && data.universal.resumeUrl) {
+                    state._resumeUrl = data.universal.resumeUrl;
                 }
                 // Refresh if the current file was just updated by DB fetch
                 if (state.currentFile === 'about.md' || state.currentFile === 'skills.html') {
@@ -1429,7 +1469,9 @@ TIMESTAMP: ${new Date().toLocaleString()}
             'Start-MpScan -ScanType FullScan': 'Perform a comprehensive security scan (approx. 60s).',
             'Get-MpThreatDetection': 'Check for active threat detections.',
             'grep -r "http" .': 'Search for "http" string recursively in files.',
-            'Whats_Up.exe': 'Execute legacy communication bridge and open external blog.'
+            'Whats_Up.exe': 'Execute legacy communication bridge and open external blog.',
+            'resume': 'Display the interactive resume popup.',
+            'cv': 'Display the interactive resume popup (alias for resume).'
         };
 
         terminalInput.addEventListener('keydown', (e) => {
@@ -1639,6 +1681,10 @@ powershell.exe               5620 Console              85,400 K</pre>`;
             } else if (cmd === 'legend.txt' || cmd === 'cat legend.txt') {
                 response.innerHTML = 'Initializing legendary protocol...';
                 playLegendaryCrawl();
+            } else if (cmd === 'resume' || cmd === 'cv' || cmd === 'display resume' ||
+                       cmd === 'my resume' || cmd === 'open resume' || cmd === 'show resume') {
+                response.innerHTML = 'Loading credential file... <span style="color:#60a5fa">resume.html</span>';
+                setTimeout(() => openResumeModal(), 300);
             } else if (cmd === 'blog') {
                 response.innerHTML = 'Initiating jump to external sector...';
                 setTimeout(() => window.open('https://codemsportfolio.netlify.app/blog', '_blank'), 1000);
@@ -1664,6 +1710,54 @@ powershell.exe               5620 Console              85,400 K</pre>`;
             terminalOutput.appendChild(response);
             terminalOutput.scrollTop = terminalOutput.scrollHeight;
         }
+
+        function openResumeModal() {
+            const modal = document.getElementById('resume-html-modal');
+            const frame = document.getElementById('resume-html-frame');
+            const downloadBtn = document.getElementById('resume-html-download');
+
+            const html = state._resumeHtml;
+            if (html) {
+                frame.srcdoc = html;
+            } else {
+                frame.srcdoc = `<!DOCTYPE html>
+<html><body style="font-family:sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#0d1117;color:#8b949e;flex-direction:column;gap:16px;text-align:center;padding:2rem;">
+  <div style="font-size:4rem;">📄</div>
+  <h2 style="color:#c9d1d9;font-weight:600;margin:0;">Resume not configured</h2>
+  <p style="max-width:400px;line-height:1.6;margin:0;">
+    Go to the <strong style="color:#60a5fa;">Admin Panel → Universal → Resume Configuration</strong>
+    to add your resume HTML and upload your PDF.
+  </p>
+</body></html>`;
+            }
+
+            if (downloadBtn) {
+                const pdfUrl = state._resumeUrl;
+                downloadBtn.href = pdfUrl || '#';
+                downloadBtn.style.opacity = pdfUrl ? '1' : '0.4';
+                downloadBtn.title = pdfUrl ? 'Download Resume PDF' : 'No PDF configured in admin panel';
+            }
+
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeResumeModal() {
+            const modal = document.getElementById('resume-html-modal');
+            if (modal) {
+                modal.style.display = 'none';
+                const frame = document.getElementById('resume-html-frame');
+                if (frame) frame.srcdoc = '';
+            }
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const m = document.getElementById('resume-html-modal');
+                if (m && m.style.display !== 'none') closeResumeModal();
+            }
+        });
 
         window.onload = () => {
             openFile('about.md');

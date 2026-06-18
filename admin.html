@@ -254,6 +254,89 @@
         .tab-content.active {
             display: block;
         }
+
+        /* Resume HTML Preview */
+        #resume-html-preview-frame {
+            width: 100%;
+            height: 400px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #fff;
+            margin-top: 10px;
+        }
+
+        .resume-upload-zone {
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            background: #010409;
+            transition: border-color 0.2s;
+        }
+
+        .resume-upload-zone:hover {
+            border-color: var(--primary);
+        }
+
+        .resume-upload-zone input[type="file"] {
+            display: none;
+        }
+
+        .resume-upload-label {
+            display: inline-block;
+            padding: 8px 20px;
+            background: #1f6feb;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .resume-upload-label:hover {
+            background: #388bfd;
+        }
+
+        .pdf-link-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #010409;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            word-break: break-all;
+        }
+
+        .pdf-link-display a {
+            color: var(--primary);
+            text-decoration: none;
+            flex: 1;
+        }
+
+        .pdf-link-display a:hover {
+            text-decoration: underline;
+        }
+
+        #upload-pdf-status {
+            font-size: 0.8rem;
+            margin-top: 6px;
+            color: var(--text-sec);
+        }
+
+        .tag-pill {
+            display: inline-block;
+            background: rgba(0, 122, 204, 0.15);
+            color: var(--primary);
+            border: 1px solid rgba(0, 122, 204, 0.3);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+            margin-right: 4px;
+        }
     </style>
 </head>
 
@@ -283,121 +366,205 @@
                 <div class="admin-tab" onclick="switchTab('mobile')" id="tab-btn-mobile">Mobile Content</div>
             </div>
 
+            <!-- UNIVERSAL TAB -->
             <div id="tab-universal" class="tab-content active">
-            <!-- Settings -->
-            <div class="card">
-                <h3>Repository Configuration</h3>
-                <div class="row">
+
+                <!-- Settings -->
+                <div class="card">
+                    <h3>Repository Configuration</h3>
+                    <div class="row">
+                        <div class="input-group">
+                            <label>Owner</label>
+                            <input type="text" id="repo-owner" value="codemdragon">
+                        </div>
+                        <div class="input-group">
+                            <label>Repository</label>
+                            <input type="text" id="repo-name" value="Portfolio_future">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project Form -->
+                <div class="card">
+                    <h3 id="form-title">Add New Project</h3>
+                    <div class="row">
+                        <div class="input-group">
+                            <label>Project Name</label>
+                            <input type="text" id="p-name" placeholder="e.g. Aetheris Engine">
+                        </div>
+                        <div class="input-group">
+                            <label>Project ID (Unique)</label>
+                            <input type="text" id="p-id" placeholder="e.g. aetheris">
+                        </div>
+                    </div>
+
+                    <div class="input-group"
+                        style="display:flex; align-items:center; gap:10px; margin-bottom:1rem; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px;">
+                        <input type="checkbox" id="p-isMain" style="width:auto; margin:0;">
+                        <label for="p-isMain" style="margin:0; color:var(--white); cursor:pointer; font-weight:600;">⭐ Set
+                            as Flagship Project (Main)</label>
+                    </div>
+
                     <div class="input-group">
-                        <label>Owner</label>
-                        <input type="text" id="repo-owner" value="codemdragon">
+                        <label>Description</label>
+                        <textarea id="p-desc" rows="3" placeholder="Brief project description..."></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-group">
+                            <label>Tech Stack</label>
+                            <input type="text" id="p-stack" placeholder="e.g. React, Node.js, WebGL">
+                        </div>
+                        <div class="input-group">
+                            <label>OS / Device</label>
+                            <input type="text" id="p-device" placeholder="e.g. Desktop / Windows">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>GitHub Repository URL (Optional)</label>
+                        <input type="text" id="p-github" placeholder="https://github.com/username/repo">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Project Image</label>
+                        <input type="text" id="p-img" placeholder="https://..." style="margin-bottom:5px;">
+                        <div style="display:flex; gap:10px;">
+                            <input type="file" id="p-img-file" accept="image/*" style="padding: 4px;">
+                            <span id="upload-status"
+                                style="font-size:0.8rem; color:var(--text-sec); align-self:center;"></span>
+                        </div>
+                        <img id="img-preview" src=""
+                            style="display:none; width: 100px; height: auto; margin-top: 10px; border-radius: 4px; border: 1px solid var(--border);">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Links (Format: Title,URL per line)</label>
+                        <textarea id="p-links" rows="3"
+                            placeholder="Live Demo,https://demo.com&#10;Source,https://github.com/..."></textarea>
+                        <div class="helper-text">Enter one link per line, separated by a comma (e.g. Label,URL)</div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn-primary" id="btn-save" onclick="saveProject()">Add Project</button>
+                        <button style="background:transparent; color:#8b949e;" onclick="resetForm()">Clear</button>
+                    </div>
+                </div>
+
+                <!-- Global Config -->
+                <div class="card">
+                    <h3>Global Configuration (Contact)</h3>
+                    <div class="row">
+                        <div class="input-group">
+                            <label>Contact Email</label>
+                            <input type="text" id="c-email" placeholder="e.g. hello@codem.dev">
+                        </div>
+                        <div class="input-group">
+                            <label>Discord Handle</label>
+                            <input type="text" id="c-discord" placeholder="e.g. codem#0000">
+                        </div>
                     </div>
                     <div class="input-group">
-                        <label>Repository</label>
-                        <input type="text" id="repo-name" value="Portfolio_future">
+                        <label>Formspree URL (Universal)</label>
+                        <input type="text" id="c-formspree" placeholder="https://formspree.io/f/...">
                     </div>
+                    <button class="btn-primary" onclick="saveConfig()" style="background: #1f6feb;">Update Config
+                        Locally</button>
                 </div>
-            </div>
 
-            <!-- Project Form -->
-            <div class="card">
-                <h3 id="form-title">Add New Project</h3>
-                <div class="row">
+                <!-- ═══════════════════════════════════════════════════
+                     RESUME SECTION (NEW)
+                ═══════════════════════════════════════════════════ -->
+                <div class="card" style="border-color: rgba(0,122,204,0.4);">
+                    <h3 style="display:flex; align-items:center; gap:8px;">
+                        📄 Resume Configuration
+                        <span class="tag-pill">Universal</span>
+                    </h3>
+                    <p style="font-size:0.85rem; color:var(--text-sec); margin-bottom:1.2rem;">
+                        Upload a PDF for download + write HTML for the interactive popup. The popup is triggered in the
+                        portfolio terminal by commands like <code style="color:var(--primary);">resume</code>,
+                        <code style="color:var(--primary);">cv</code>, or <code style="color:var(--primary);">display resume</code>.
+                    </p>
+
+                    <!-- PDF Upload -->
                     <div class="input-group">
-                        <label>Project Name</label>
-                        <input type="text" id="p-name" placeholder="e.g. Aetheris Engine">
+                        <label>Resume PDF (for Download button)</label>
+                        <div class="resume-upload-zone" id="pdf-drop-zone">
+                            <div style="font-size:2rem; margin-bottom:6px;">📥</div>
+                            <p style="font-size:0.85rem; color:var(--text-sec); margin-bottom:4px;">Drag & drop a PDF, or click to browse</p>
+                            <input type="file" id="resume-pdf-file" accept=".pdf">
+                            <label for="resume-pdf-file" class="resume-upload-label">Choose PDF</label>
+                        </div>
+                        <div id="upload-pdf-status"></div>
+                        <div style="margin-top:8px;">
+                            <label style="margin-bottom:4px; display:block;">Or paste existing PDF URL directly:</label>
+                            <input type="text" id="c-resume" placeholder="https://raw.githubusercontent.com/.../Resume.pdf">
+                        </div>
+                        <div id="pdf-link-preview" style="display:none;" class="pdf-link-display">
+                            📎 <a id="pdf-link-anchor" href="#" target="_blank">View PDF</a>
+                            <button onclick="clearPdfUrl()" style="background:#da3633; color:white; padding:3px 8px; font-size:0.75rem; border-radius:4px; width:auto;">✕</button>
+                        </div>
                     </div>
+
+                    <hr style="border-color: var(--border); margin: 1.2rem 0;">
+
+                    <!-- Resume HTML Editor -->
                     <div class="input-group">
-                        <label>Project ID (Unique)</label>
-                        <input type="text" id="p-id" placeholder="e.g. aetheris">
+                        <label>Resume Popup HTML</label>
+                        <p style="font-size:0.8rem; color:var(--text-sec); margin-bottom:8px;">
+                            This HTML is rendered inside an iframe popup when the visitor types
+                            <code style="color:var(--primary);">resume</code> / <code style="color:var(--primary);">cv</code> in the terminal,
+                            or clicks "Display Resume" on mobile. Style it however you like — full HTML page or just a body fragment.
+                        </p>
+                        <textarea id="c-resume-html" rows="16" placeholder="<!-- Paste your resume HTML here -->
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: sans-serif; background: #111; color: #eee; padding: 2rem; }
+    h1 { color: #007acc; }
+  </style>
+</head>
+<body>
+  <h1>Codem</h1>
+  <p>Software Developer · Pakistan</p>
+  <!-- ... -->
+</body>
+</html>" style="font-family: monospace; font-size: 0.82rem; line-height:1.5;"></textarea>
+
+                        <!-- Preview + Template buttons -->
+                        <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+                            <button onclick="previewResumeHtml()" style="background:#1f6feb; color:white; width:auto; padding:6px 16px; font-size:0.82rem;">
+                                👁 Preview Popup
+                            </button>
+                            <button onclick="insertResumeTemplate()" style="background:#2d333b; color:#c9d1d9; border:1px solid var(--border); width:auto; padding:6px 16px; font-size:0.82rem;">
+                                📋 Insert Starter Template
+                            </button>
+                        </div>
+
+                        <!-- Live Preview Frame (hidden until preview clicked) -->
+                        <div id="resume-preview-wrapper" style="display:none; margin-top:12px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <span style="font-size:0.8rem; color:var(--text-sec);">Preview (iframe rendering):</span>
+                                <button onclick="closeResumePreview()" style="background:transparent; color:var(--text-sec); padding:2px 8px; font-size:0.8rem; width:auto; border:1px solid var(--border); border-radius:4px;">✕ Close</button>
+                            </div>
+                            <iframe id="resume-html-preview-frame" sandbox="allow-same-origin allow-scripts"></iframe>
+                        </div>
                     </div>
-                </div>
 
-                <div class="input-group"
-                    style="display:flex; align-items:center; gap:10px; margin-bottom:1rem; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px;">
-                    <input type="checkbox" id="p-isMain" style="width:auto; margin:0;">
-                    <label for="p-isMain" style="margin:0; color:var(--white); cursor:pointer; font-weight:600;">⭐ Set
-                        as Flagship Project (Main)</label>
+                    <button class="btn-primary" onclick="saveConfig()" style="background:#1f6feb; margin-top:4px;">
+                        💾 Save Resume Config Locally
+                    </button>
                 </div>
+                <!-- ═══════════════════════════════════════════════════ -->
 
-                <div class="input-group">
-                    <label>Description</label>
-                    <textarea id="p-desc" rows="3" placeholder="Brief project description..."></textarea>
+                <!-- List -->
+                <div class="card">
+                    <h3>Manage Projects</h3>
+                    <ul class="item-list" id="project-list">
+                        <!-- Dynamic -->
+                    </ul>
                 </div>
-
-                <div class="row">
-                    <div class="input-group">
-                        <label>Tech Stack</label>
-                        <input type="text" id="p-stack" placeholder="e.g. React, Node.js, WebGL">
-                    </div>
-                    <div class="input-group">
-                        <label>OS / Device</label>
-                        <input type="text" id="p-device" placeholder="e.g. Desktop / Windows">
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label>GitHub Repository URL (Optional)</label>
-                    <input type="text" id="p-github" placeholder="https://github.com/username/repo">
-                </div>
-
-                <div class="input-group">
-                    <label>Project Image</label>
-                    <input type="text" id="p-img" placeholder="https://..." style="margin-bottom:5px;">
-                    <div style="display:flex; gap:10px;">
-                        <input type="file" id="p-img-file" accept="image/*" style="padding: 4px;">
-                        <span id="upload-status"
-                            style="font-size:0.8rem; color:var(--text-sec); align-self:center;"></span>
-                    </div>
-                    <img id="img-preview" src=""
-                        style="display:none; width: 100px; height: auto; margin-top: 10px; border-radius: 4px; border: 1px solid var(--border);">
-                </div>
-
-                <div class="input-group">
-                    <label>Links (Format: Title,URL per line)</label>
-                    <textarea id="p-links" rows="3"
-                        placeholder="Live Demo,https://demo.com&#10;Source,https://github.com/..."></textarea>
-                    <div class="helper-text">Enter one link per line, separated by a comma (e.g. Label,URL)</div>
-                </div>
-
-                <div style="display: flex; gap: 10px;">
-                    <button class="btn-primary" id="btn-save" onclick="saveProject()">Add Project</button>
-                    <button style="background:transparent; color:#8b949e;" onclick="resetForm()">Clear</button>
-                </div>
-            </div>
-
-            <!-- Global Config -->
-            <div class="card">
-                <h3>Global Configuration (Contact)</h3>
-                <div class="row">
-                    <div class="input-group">
-                        <label>Contact Email</label>
-                        <input type="text" id="c-email" placeholder="e.g. hello@codem.dev">
-                    </div>
-                    <div class="input-group">
-                        <label>Discord Handle</label>
-                        <input type="text" id="c-discord" placeholder="e.g. codem#0000">
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label>Resume URL (Universal)</label>
-                    <input type="text" id="c-resume" placeholder="https://.../Resume.pdf">
-                </div>
-                <div class="input-group">
-                    <label>Formspree URL (Universal)</label>
-                    <input type="text" id="c-formspree" placeholder="https://formspree.io/f/...">
-                </div>
-                <button class="btn-primary" onclick="saveConfig()" style="background: #1f6feb;">Update Config
-                    Locally</button>
-            </div>
-
-            <!-- List -->
-            <div class="card">
-                <h3>Manage Projects</h3>
-                <ul class="item-list" id="project-list">
-                    <!-- Dynamic -->
-                </ul>
-            </div>
 
             </div>
 
@@ -532,6 +699,11 @@
             if (db.universal) {
                 document.getElementById('c-resume').value = db.universal.resumeUrl || '';
                 document.getElementById('c-formspree').value = db.universal.formspreeUrl || '';
+                if (db.universal.resumeHtml) {
+                    document.getElementById('c-resume-html').value = db.universal.resumeHtml;
+                }
+                // Show PDF link preview if URL exists
+                updatePdfLinkPreview(db.universal.resumeUrl || '');
             }
             if (db.pc) {
                 document.getElementById('pc-about').value = db.pc.aboutHtml || '';
@@ -550,7 +722,8 @@
             };
             db.universal = {
                 resumeUrl: document.getElementById('c-resume').value,
-                formspreeUrl: document.getElementById('c-formspree').value
+                formspreeUrl: document.getElementById('c-formspree').value,
+                resumeHtml: document.getElementById('c-resume-html').value
             };
             db.pc = {
                 aboutHtml: document.getElementById('pc-about').value,
@@ -562,6 +735,250 @@
             };
             alert('Configuration updated locally. Remember to Push to Live Site!');
         }
+
+        // ─── RESUME PDF UPLOAD ─────────────────────────────────────────────
+        const resumePdfInput = document.getElementById('resume-pdf-file');
+        const pdfDropZone = document.getElementById('pdf-drop-zone');
+
+        resumePdfInput.addEventListener('change', async (e) => {
+            if (e.target.files.length > 0) {
+                await handlePdfUpload(e.target.files[0]);
+            }
+        });
+
+        // Drag and drop
+        pdfDropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            pdfDropZone.style.borderColor = 'var(--primary)';
+        });
+        pdfDropZone.addEventListener('dragleave', () => {
+            pdfDropZone.style.borderColor = 'var(--border)';
+        });
+        pdfDropZone.addEventListener('drop', async (e) => {
+            e.preventDefault();
+            pdfDropZone.style.borderColor = 'var(--border)';
+            const file = e.dataTransfer.files[0];
+            if (file && file.type === 'application/pdf') {
+                await handlePdfUpload(file);
+            } else {
+                document.getElementById('upload-pdf-status').textContent = '⚠ Only PDF files accepted.';
+            }
+        });
+
+        async function handlePdfUpload(file) {
+            const statusEl = document.getElementById('upload-pdf-status');
+            statusEl.style.color = '#8b949e';
+            statusEl.textContent = `⏳ Uploading "${file.name}"...`;
+
+            try {
+                const url = await uploadFileToBranch(file, `assets/resume/${file.name}`);
+                document.getElementById('c-resume').value = url;
+                updatePdfLinkPreview(url);
+                statusEl.style.color = '#3fb950';
+                statusEl.textContent = `✅ Uploaded! URL set in field below.`;
+            } catch (err) {
+                statusEl.style.color = '#f85149';
+                statusEl.textContent = `❌ Upload failed: ${err.message}`;
+            }
+        }
+
+        async function uploadFileToBranch(file, path) {
+            const owner = document.getElementById('repo-owner').value;
+            const repo = document.getElementById('repo-name').value;
+            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+            // Check if file already exists (to get its SHA for update)
+            let existingSha = null;
+            try {
+                const checkRes = await fetch(url, { headers: { 'Authorization': `token ${token}` } });
+                if (checkRes.ok) {
+                    const checkData = await checkRes.json();
+                    existingSha = checkData.sha;
+                }
+            } catch (_) {}
+
+            const reader = new FileReader();
+            return new Promise((resolve, reject) => {
+                reader.onload = async () => {
+                    const content = reader.result.split(',')[1];
+                    try {
+                        const body = {
+                            message: `Upload resume PDF: ${file.name}`,
+                            content: content
+                        };
+                        if (existingSha) body.sha = existingSha;
+
+                        const res = await fetch(url, {
+                            method: 'PUT',
+                            headers: { 'Authorization': `token ${token}` },
+                            body: JSON.stringify(body)
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.message || 'Upload failed');
+                        resolve(data.content.download_url);
+                    } catch (e) { reject(e); }
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function updatePdfLinkPreview(url) {
+            const wrapper = document.getElementById('pdf-link-preview');
+            const anchor = document.getElementById('pdf-link-anchor');
+            if (url) {
+                anchor.href = url;
+                anchor.textContent = url.length > 60 ? url.slice(0, 57) + '...' : url;
+                wrapper.style.display = 'flex';
+            } else {
+                wrapper.style.display = 'none';
+            }
+        }
+
+        function clearPdfUrl() {
+            document.getElementById('c-resume').value = '';
+            updatePdfLinkPreview('');
+            document.getElementById('upload-pdf-status').textContent = 'PDF URL cleared.';
+        }
+
+        // Keep PDF URL field in sync with preview
+        document.getElementById('c-resume').addEventListener('input', (e) => {
+            updatePdfLinkPreview(e.target.value);
+        });
+
+        // ─── RESUME HTML PREVIEW ───────────────────────────────────────────
+        function previewResumeHtml() {
+            const html = document.getElementById('c-resume-html').value;
+            const frame = document.getElementById('resume-html-preview-frame');
+            const wrapper = document.getElementById('resume-preview-wrapper');
+
+            wrapper.style.display = 'block';
+            frame.srcdoc = html || '<p style="font-family:sans-serif;padding:20px;color:#888;">No HTML entered yet.</p>';
+        }
+
+        function closeResumePreview() {
+            document.getElementById('resume-preview-wrapper').style.display = 'none';
+        }
+
+        function insertResumeTemplate() {
+            const existing = document.getElementById('c-resume-html').value.trim();
+            if (existing && !confirm('This will replace your current HTML. Continue?')) return;
+
+            document.getElementById('c-resume-html').value = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Codem — Resume</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inter:wght@300;400;600;700&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    .header { border-bottom: 1px solid #30363d; padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
+    h1 { font-size: 2rem; color: #fff; font-weight: 700; }
+    .subtitle { color: #007acc; font-family: 'Fira Code', monospace; font-size: 0.9rem; margin-top: 0.3rem; }
+    .contact-row { display: flex; gap: 1.5rem; margin-top: 0.8rem; font-size: 0.85rem; color: #8b949e; flex-wrap: wrap; }
+    .section { margin-bottom: 1.5rem; }
+    .section-title {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #007acc;
+      font-family: 'Fira Code', monospace;
+      margin-bottom: 0.8rem;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #21262d;
+    }
+    .job { margin-bottom: 1rem; }
+    .job-title { font-weight: 600; color: #fff; }
+    .job-meta { font-size: 0.8rem; color: #8b949e; margin-bottom: 0.3rem; }
+    ul { padding-left: 1.2rem; }
+    li { margin-bottom: 0.2rem; font-size: 0.9rem; }
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-tag {
+      background: rgba(0,122,204,0.1);
+      border: 1px solid rgba(0,122,204,0.3);
+      color: #58a6ff;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-family: 'Fira Code', monospace;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Codem</h1>
+    <div class="subtitle">> Software Developer // Full-Stack</div>
+    <div class="contact-row">
+      <span>📧 codemlabs1@gmail.com</span>
+      <span>🌍 Pakistan</span>
+      <span>💬 Discord: codem1</span>
+      <span>🔗 github.com/codemdragon</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Summary</div>
+    <p style="font-size:0.9rem;">
+      Self-taught developer with expertise across web, desktop, mobile, and embedded platforms.
+      Passionate about building tools that solve real problems — from gesture-based controllers to smart TV apps.
+    </p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Skills</div>
+    <div class="skills-grid">
+      <span class="skill-tag">HTML/CSS/JS</span>
+      <span class="skill-tag">Python</span>
+      <span class="skill-tag">OpenCV</span>
+      <span class="skill-tag">React</span>
+      <span class="skill-tag">Tailwind</span>
+      <span class="skill-tag">Android (PWA/APK)</span>
+      <span class="skill-tag">Tkinter</span>
+      <span class="skill-tag">Git</span>
+      <span class="skill-tag">Linux</span>
+      <span class="skill-tag">PowerShell</span>
+      <span class="skill-tag">Prompt Engineering</span>
+      <span class="skill-tag">Tizen OS</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Notable Projects</div>
+    <div class="job">
+      <div class="job-title">Codem Convertor (Music Player)</div>
+      <div class="job-meta">Python · Desktop · 8 versions</div>
+      <ul><li>YouTube download, local music player, playlist support, auto-update module</li></ul>
+    </div>
+    <div class="job">
+      <div class="job-title">Codem Studios (Tizen TV App)</div>
+      <div class="job-meta">HTML/CSS/JS · Tizen OS</div>
+      <ul><li>Custom media player for Samsung Smart TVs with USB browsing</li></ul>
+    </div>
+    <div class="job">
+      <div class="job-title">Virtual Mousepad / Projector Controller</div>
+      <div class="job-meta">Python · OpenCV · MediaPipe</div>
+      <ul><li>Touchless gesture control via webcam with perspective transform and EMA smoothing</li></ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Education</div>
+    <div class="job">
+      <div class="job-title">CAIE AS Level Computer Science</div>
+      <div class="job-meta">In progress · 2025–2026</div>
+    </div>
+  </div>
+</body>
+</html>`;
+        }
+        // ─────────────────────────────────────────────────────────────────
 
         async function saveProject() {
             const id = document.getElementById('p-id').value.trim();
@@ -606,10 +1023,8 @@
 
             const idx = db.projects.findIndex(p => p.id === id);
             if (idx >= 0) {
-                // Update - Merge to preserve fields like releaseDate
                 db.projects[idx] = { ...db.projects[idx], ...project };
             } else {
-                // Create - Add releaseDate for new projects (default to today)
                 project.releaseDate = new Date().toISOString().split('T')[0];
                 db.projects.push(project);
             }
@@ -625,7 +1040,7 @@
 
             editingId = id;
             document.getElementById('p-id').value = p.id;
-            document.getElementById('p-id').disabled = true; // Lock ID editing
+            document.getElementById('p-id').disabled = true;
             document.getElementById('p-name').value = p.name || '';
             document.getElementById('p-desc').value = p.description || '';
             document.getElementById('p-stack').value = p.stack || '';
@@ -702,7 +1117,7 @@
             try {
                 const body = {
                     message: document.getElementById('commit-msg').value,
-                    content: btoa(JSON.stringify(db, null, 2)),
+                    content: btoa(unescape(encodeURIComponent(JSON.stringify(db, null, 2)))),
                     sha: CURRENT_SHA
                 };
 
