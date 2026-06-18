@@ -2072,6 +2072,15 @@
                 document.body.style.overflow = '';
             }
 
+            // Automatically open resume if URL contains #resume
+            function checkDirectLinks() {
+                if (window.location.hash === '#resume' || window.location.hash === '#download-resume') {
+                    if (typeof openMobileResumeModal === 'function') openMobileResumeModal();
+                }
+            }
+            window.addEventListener('load', checkDirectLinks);
+            window.addEventListener('hashchange', checkDirectLinks);
+
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     const m = document.getElementById('mobile-resume-modal');

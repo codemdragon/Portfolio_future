@@ -1890,6 +1890,17 @@ powershell.exe               5620 Console              85,400 K</pre>`;
             sequence();
         }
 
+        // Automatically open resume if URL contains #resume or #download-resume
+        function checkDirectLinks() {
+            if (window.location.hash === '#resume') {
+                if (typeof openResumeModal === 'function') openResumeModal();
+            } else if (window.location.hash === '#download-resume') {
+                if (typeof toggleModal === 'function') toggleModal('resume');
+            }
+        }
+        window.addEventListener('load', checkDirectLinks);
+        window.addEventListener('hashchange', checkDirectLinks);
+
         function openZoom(src) {
             const overlay = document.getElementById('zoom-overlay');
             const img = document.getElementById('zoom-img');
