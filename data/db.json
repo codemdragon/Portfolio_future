@@ -210,6 +210,32 @@
       "releaseDate": "2026-04-14"
     }
   ],
+  "workExperience": [
+    {
+      "id": "kebab-o-clock",
+      "role": "Software Developer",
+      "task": "Working With Kebab O Clock",
+      "description": "Built the company website from scratch. Currently working on implementing the payment gateway version to process transactions securely.",
+      "link": "https://www.kebaboclock.co.uk",
+      "images": []
+    },
+    {
+      "id": "buried-blind-circuits",
+      "role": "Software Developer",
+      "task": "Buried Blind Circuits",
+      "description": "Developed Python IMAP email automation systems. Contributed to training AI models. Currently involved in Android application development.",
+      "link": "https://blindburiedcircuits.com/",
+      "images": []
+    },
+    {
+      "id": "ujala-parents-voice",
+      "role": "Game Developer",
+      "task": "Ujala (Parents Voice Association)",
+      "description": "Created Python and HTML-based educational games specifically customized for special needs students to aid in their learning process.",
+      "link": "https://parentsvoice-association.org",
+      "images": []
+    }
+  ],
   "contact": {
     "email": "codemlabs1@gmail.com",
     "discord": "codem1"
