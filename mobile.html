@@ -1165,8 +1165,7 @@
                     <li><a href="#ecosystem">// ECOSYSTEMS</a></li>
                     <li><a href="#projects">// PROJECTS</a></li>
                     <li><a href="#contact">// CONTACT</a></li>
-                    <li><a href="#" id="resume-link-desktop" onclick="event.preventDefault(); openMobileResumeModal();" style="color: var(--primary);">//
-                            RESUME</a></li>
+                    <li><a href="#resume" id="resume-link-desktop" onclick="event.preventDefault(); openMobileResumeModal();" style="color: var(--primary);">// RESUME</a></li>
                 </ul>
 
                 <!-- Hamburger Icon -->
@@ -1183,7 +1182,7 @@
                 <a href="#ecosystem" class="mobile-link">// ECOSYSTEMS</a>
                 <a href="#projects" class="mobile-link">// PROJECTS</a>
                 <a href="#contact" class="mobile-link">// CONTACT</a>
-                <a href="#" id="resume-link-mobile" class="mobile-link" onclick="event.preventDefault(); openMobileResumeModal();"
+                <a href="#resume" id="resume-link-mobile" class="mobile-link" onclick="event.preventDefault(); openMobileResumeModal();"
                     style="color: var(--primary);">// RESUME</a>
             </div>
         </div>
@@ -1518,6 +1517,12 @@
                         }
                         if (data.universal && data.universal.resumeUrl) {
                             window._mobileResumePdfUrl = data.universal.resumeUrl;
+                        }
+
+                        // Check hash AFTER data is loaded — prevents the race condition where
+                        // openMobileResumeModal() fires before _mobileResumeHtml is populated.
+                        if (window.location.hash === '#resume' || window.location.hash === '#download-resume') {
+                            openMobileResumeModal();
                         }
                         if (data.universal && data.universal.formspreeUrl) {
                             const contactForm = document.getElementById('contact-form');
@@ -2072,14 +2077,12 @@
                 document.body.style.overflow = '';
             }
 
-            // Automatically open resume if URL contains #resume
-            function checkDirectLinks() {
+            // Handle #resume hash navigation (hashchange covers in-page nav after load)
+            window.addEventListener('hashchange', function() {
                 if (window.location.hash === '#resume' || window.location.hash === '#download-resume') {
                     if (typeof openMobileResumeModal === 'function') openMobileResumeModal();
                 }
-            }
-            window.addEventListener('load', checkDirectLinks);
-            window.addEventListener('hashchange', checkDirectLinks);
+            });
 
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
