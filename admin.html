@@ -806,20 +806,123 @@
                 <div class="card">
                     <h3 style="margin-bottom:0.5rem;">📋 Current Work Experience Entries</h3>
                     <p style="font-size:0.82rem;color:var(--text-sec);margin-bottom:1rem;">
-                        Drag to reorder. Click <strong>Edit</strong> to modify an entry, <strong>Delete</strong> to remove it.
-                        After making changes, click <strong>Generate &amp; Save Resume HTML</strong> then <strong>Push to Live Site</strong>.
+                        Use <strong>↑</strong> and <strong>↓</strong> to reorder. Click <strong>Edit</strong> to modify an entry, <strong>Delete</strong> to remove it.
                     </p>
                     <ul class="item-list" id="we-list"></ul>
+                </div>
+
+                <!-- EDUCATION SECTION inside Resume Editor tab -->
+                <div class="card" style="border-color: rgba(56,189,248,0.35);">
+                    <h3 id="edu-form-title" style="display:flex;align-items:center;gap:8px;">
+                        🎓 Add Education Entry
+                        <span class="tag-pill" style="background:rgba(56,189,248,0.15);color:#38bdf8;border-color:rgba(56,189,248,0.4);">Resume</span>
+                    </h3>
+                    <p style="font-size:0.82rem;color:var(--text-sec);margin-bottom:1rem;">
+                        Each entry appears in the <strong style="color:#c9d1d9;">Education</strong> section of the generated resume.
+                    </p>
+
+                    <div class="cert-form-section">
+                        <h4>Details</h4>
+                        <div class="row">
+                            <div class="input-group">
+                                <label>Institution / School / University <span style="color:#ff7b72;">*</span></label>
+                                <input type="text" id="edu-institution" placeholder="e.g. Nixor College">
+                            </div>
+                            <div class="input-group">
+                                <label>Entry ID (auto-filled, must be unique) <span style="color:#ff7b72;">*</span></label>
+                                <input type="text" id="edu-id" placeholder="e.g. nixor-college">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Degree / Level / Status (optional)</label>
+                            <input type="text" id="edu-degree" placeholder="e.g. Currently Enrolled (AS going to A2) / O-Levels Completed">
+                        </div>
+                        <div class="input-group">
+                            <label>Description / Subjects / Details (optional)</label>
+                            <textarea id="edu-desc" rows="3" placeholder="e.g. Subjects: Statistics, Computer Science, Physics."></textarea>
+                        </div>
+                        <div class="input-group">
+                            <label>Website Link URL (optional)</label>
+                            <input type="text" id="edu-link" placeholder="https://www.nixorcollege.org">
+                        </div>
+                    </div>
+
+                    <div style="display:flex;gap:10px;">
+                        <button class="btn-primary" id="edu-save-btn" onclick="saveEduEntry()" style="background:#0284c7;border-color:rgba(56,189,248,0.3);">Add Education</button>
+                        <button style="background:transparent;color:#8b949e;" onclick="resetEduForm()">Clear</button>
+                    </div>
+                    <div id="edu-form-status" class="status" style="margin-top:10px;"></div>
+                </div>
+
+                <!-- Education List -->
+                <div class="card">
+                    <h3 style="margin-bottom:0.5rem;">📋 Current Education Entries</h3>
+                    <p style="font-size:0.82rem;color:var(--text-sec);margin-bottom:1rem;">
+                        Use <strong>↑</strong> and <strong>↓</strong> to reorder. Click <strong>Edit</strong> to modify, <strong>Delete</strong> to remove.
+                    </p>
+                    <ul class="item-list" id="edu-list"></ul>
+                </div>
+
+                <!-- CERTIFICATES & AWARDS SECTION inside Resume Editor tab -->
+                <div class="card" style="border-color: rgba(230,180,80,0.35);">
+                    <h3 id="cert-form-title" style="display:flex;align-items:center;gap:8px;">
+                        🏆 Add Certificate / Award
+                        <span class="tag-pill" style="background:rgba(230,180,80,0.15);color:#e6b450;border-color:rgba(230,180,80,0.4);">Resume</span>
+                    </h3>
+                    <p style="font-size:0.82rem;color:var(--text-sec);margin-bottom:1rem;">
+                        Each entry appears in the <strong style="color:#c9d1d9;">Certifications &amp; Awards</strong> sidebar section of the generated resume.
+                    </p>
+
+                    <div class="cert-form-section">
+                        <h4>Details</h4>
+                        <div class="row">
+                            <div class="input-group">
+                                <label>Title / Name <span style="color:#ff7b72;">*</span></label>
+                                <input type="text" id="cert-title" placeholder="e.g. Cisco Python Essentials 1">
+                            </div>
+                            <div class="input-group">
+                                <label>Entry ID (auto-filled, must be unique) <span style="color:#ff7b72;">*</span></label>
+                                <input type="text" id="cert-id" placeholder="e.g. cisco-python-1">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Short Description (optional)</label>
+                            <textarea id="cert-desc" rows="2" placeholder="e.g. Linux system administration and command line essentials."></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="input-group">
+                                <label>Link URL (optional)</label>
+                                <input type="text" id="cert-link" placeholder="https://www.credly.com/badges/...">
+                            </div>
+                            <div class="input-group">
+                                <label>Link Label (optional)</label>
+                                <input type="text" id="cert-link-label" placeholder="e.g. View Badge / View Certificate">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex;gap:10px;">
+                        <button class="btn-primary" id="cert-save-btn" onclick="saveCertEntry()" style="background:#7c5a00;border-color:rgba(230,180,80,0.3);">Add Certificate</button>
+                        <button style="background:transparent;color:#8b949e;" onclick="resetCertForm()">Clear</button>
+                    </div>
+                    <div id="cert-form-status" class="status" style="margin-top:10px;"></div>
+                </div>
+
+                <!-- Certificates List -->
+                <div class="card">
+                    <h3 style="margin-bottom:0.5rem;">📋 Current Certificates &amp; Awards</h3>
+                    <p style="font-size:0.82rem;color:var(--text-sec);margin-bottom:1rem;">
+                        Use <strong>↑</strong> and <strong>↓</strong> to reorder. Click <strong>Edit</strong> to modify, <strong>Delete</strong> to remove.
+                    </p>
+                    <ul class="item-list" id="cert-list"></ul>
                 </div>
 
                 <!-- Generate Resume HTML -->
                 <div class="card" style="border-color:rgba(35,134,54,0.4);">
                     <h3 style="display:flex;align-items:center;gap:8px;">🔄 Generate Resume HTML</h3>
                     <p style="font-size:0.82rem;color:var(--text-sec);margin-bottom:1rem;">
-                        This will auto-generate the resume HTML from your structured work experience entries and save it into
-                        <code style="color:var(--primary);">db.universal.resumeHtml</code>. The existing header, skills, education,
-                        and certifications sections from <strong style="color:#c9d1d9;">resume.html</strong> are preserved —
-                        only the <em>Work Experience</em> section is replaced with your entries.
+                        This will auto-generate the resume HTML from your structured Work Experience, Education, and Certifications entries and save it into
+                        <code style="color:var(--primary);">db.universal.resumeHtml</code>.
                     </p>
                     <div style="display:flex;gap:10px;flex-wrap:wrap;">
                         <button class="badge-generate" onclick="generateAndSaveResumeHtml()">
@@ -841,61 +944,6 @@
                     </div>
                 </div>
 
-            </div>
-
-            <!-- CERTIFICATES & AWARDS SECTION inside Resume Editor tab -->
-            <div class="card" style="border-color: rgba(230,180,80,0.35);">
-                <h3 id="cert-form-title" style="display:flex;align-items:center;gap:8px;">
-                    🏆 Add Certificate / Award
-                    <span class="tag-pill" style="background:rgba(230,180,80,0.15);color:#e6b450;border-color:rgba(230,180,80,0.4);">Resume</span>
-                </h3>
-                <p style="font-size:0.82rem;color:var(--text-sec);margin-bottom:1rem;">
-                    Each entry appears in the <strong style="color:#c9d1d9;">Certifications &amp; Awards</strong> sidebar section of the generated resume.
-                </p>
-
-                <div class="cert-form-section">
-                    <h4>Details</h4>
-                    <div class="row">
-                        <div class="input-group">
-                            <label>Title / Name <span style="color:#ff7b72;">*</span></label>
-                            <input type="text" id="cert-title" placeholder="e.g. Cisco Python Essentials 1">
-                        </div>
-                        <div class="input-group">
-                            <label>Entry ID (auto-filled, must be unique) <span style="color:#ff7b72;">*</span></label>
-                            <input type="text" id="cert-id" placeholder="e.g. cisco-python-1">
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label>Short Description (optional)</label>
-                        <textarea id="cert-desc" rows="2" placeholder="e.g. Linux system administration and command line essentials."></textarea>
-                    </div>
-                    <div class="row">
-                        <div class="input-group">
-                            <label>Link URL (optional)</label>
-                            <input type="text" id="cert-link" placeholder="https://www.credly.com/badges/...">
-                        </div>
-                        <div class="input-group">
-                            <label>Link Label (optional)</label>
-                            <input type="text" id="cert-link-label" placeholder="e.g. View Badge / View Certificate">
-                        </div>
-                    </div>
-                </div>
-
-                <div style="display:flex;gap:10px;">
-                    <button class="btn-primary" id="cert-save-btn" onclick="saveCertEntry()" style="background:#7c5a00;border-color:rgba(230,180,80,0.3);">Add Certificate</button>
-                    <button style="background:transparent;color:#8b949e;" onclick="resetCertForm()">Clear</button>
-                </div>
-                <div id="cert-form-status" class="status" style="margin-top:10px;"></div>
-            </div>
-
-            <!-- Certificates List -->
-            <div class="card">
-                <h3 style="margin-bottom:0.5rem;">📋 Current Certificates &amp; Awards</h3>
-                <p style="font-size:0.82rem;color:var(--text-sec);margin-bottom:1rem;">
-                    Drag to reorder. Click <strong>Edit</strong> to modify, <strong>Delete</strong> to remove.
-                    After changes, click <strong>Generate &amp; Save Resume HTML</strong> then <strong>Push to Live Site</strong>.
-                </p>
-                <ul class="item-list" id="cert-list"></ul>
             </div>
 
             <!-- PC TAB -->
@@ -949,12 +997,13 @@
     </div>
 
     <script>
-        let db = { projects: [], workExperience: [], certifications: [] };
+        let db = { projects: [], workExperience: [], education: [], certifications: [] };
         let API_URL = '';
         let CURRENT_SHA = '';
         let token = localStorage.getItem('portfolio_gh_token');
         let editingId = null;
         let editingWeId = null;
+        let editingEduId = null;
         let editingCertId = null;
 
         if (token) {
@@ -1047,6 +1096,8 @@
             }
             // Render work experience list
             renderWeList();
+            // Render education list
+            renderEduList();
             // Render certifications list
             renderCertList();
         }
@@ -1069,7 +1120,6 @@
                 heroTitleHtml: document.getElementById('mobile-hero-title').value,
                 heroSubtitle: document.getElementById('mobile-hero-subtitle').value
             };
-            // workExperience is managed separately via saveWeEntry/deleteWeEntry
             alert('Configuration updated locally. Remember to Push to Live Site!');
         }
 
@@ -1201,9 +1251,11 @@
                 db.workExperience.push(entry);
             }
 
+            syncResumeHtml();
+
             const s = document.getElementById('we-form-status');
             s.className = 'status success';
-            s.textContent = '✅ Entry saved locally. Click "Generate & Save Resume HTML" then "Push to Live Site".';
+            s.textContent = '✅ Entry saved locally. Remember to Push to Live Site.';
             resetWeForm();
             renderWeList();
         }
@@ -1221,13 +1273,13 @@
             refreshWeImagePreviews();
             document.getElementById('we-form-title').innerHTML = '✏️ Edit Work Experience Entry <span class="tag-pill">Editing: ' + e.id + '</span>';
             document.getElementById('we-save-btn').textContent = 'Update Entry';
-            // Scroll to form
             document.getElementById('we-form-title').scrollIntoView({ behavior: 'smooth' });
         }
 
         function deleteWeEntry(id) {
             if (!confirm('Delete entry "' + id + '"?')) return;
             db.workExperience = (db.workExperience || []).filter(e => e.id !== id);
+            syncResumeHtml();
             renderWeList();
         }
 
@@ -1236,6 +1288,7 @@
             const newIdx = idx + dir;
             if (newIdx < 0 || newIdx >= arr.length) return;
             [arr[idx], arr[newIdx]] = [arr[newIdx], arr[idx]];
+            syncResumeHtml();
             renderWeList();
         }
 
@@ -1251,6 +1304,131 @@
             document.getElementById('we-form-title').innerHTML = '✏️ Add Work Experience / Project <span class="tag-pill">Resume</span>';
             document.getElementById('we-save-btn').textContent = 'Add Entry';
             const s = document.getElementById('we-form-status');
+            s.className = 'status';
+            s.textContent = '';
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        //  EDUCATION EDITOR
+        // ═══════════════════════════════════════════════════════════
+
+        function autoFillEduId() {
+            if (editingEduId) return;
+            const inst = document.getElementById('edu-institution').value;
+            document.getElementById('edu-id').value = inst
+                .toLowerCase().trim()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-|-$/g, '');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const eduInstEl = document.getElementById('edu-institution');
+            if (eduInstEl) eduInstEl.addEventListener('input', autoFillEduId);
+        });
+        (function() {
+            const eduInstEl = document.getElementById('edu-institution');
+            if (eduInstEl) eduInstEl.addEventListener('input', autoFillEduId);
+        })();
+
+        function renderEduList() {
+            const list = document.getElementById('edu-list');
+            if (!list) return;
+            const entries = db.education || [];
+            if (entries.length === 0) {
+                list.innerHTML = '<li style="color:var(--text-sec);font-size:0.85rem;border:none;background:transparent;">No education entries yet. Add one above.</li>';
+                return;
+            }
+            list.innerHTML = entries.map((e, idx) => `
+                <li style="flex-direction:column; align-items:flex-start; gap:6px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;width:100%;">
+                        <div class="item-info" style="flex:1;">
+                            <strong style="color:#38bdf8;">🎓 ${escHtml(e.institution || '')}</strong>
+                            ${e.degree ? `<span style="color:#c9d1d9;font-size:0.85rem;display:block;">${escHtml(e.degree)}</span>` : ''}
+                            ${e.description ? `<span style="font-size:0.78rem;color:var(--text-sec);">${escHtml(e.description)}</span>` : ''}
+                            ${e.link ? `<a href="${escHtml(e.link)}" target="_blank" style="font-size:0.75rem;color:var(--primary);display:block;margin-top:2px;">${escHtml(e.link)}</a>` : ''}
+                        </div>
+                        <div style="display:flex;gap:6px;flex-shrink:0;">
+                            <button class="btn-sm" style="background:#555;color:white;" onclick="moveEduEntry(${idx}, -1)" title="Move Up">↑</button>
+                            <button class="btn-sm" style="background:#555;color:white;" onclick="moveEduEntry(${idx}, 1)" title="Move Down">↓</button>
+                            <button class="btn-sm btn-edit" onclick="editEduEntry('${e.id}')">Edit</button>
+                            <button class="btn-sm btn-del" onclick="deleteEduEntry('${e.id}')">Delete</button>
+                        </div>
+                    </div>
+                </li>
+            `).join('');
+        }
+
+        function saveEduEntry() {
+            const id = document.getElementById('edu-id').value.trim();
+            const institution = document.getElementById('edu-institution').value.trim();
+            if (!id || !institution) {
+                const s = document.getElementById('edu-form-status');
+                s.className = 'status error';
+                s.textContent = '⚠ Institution name and ID are required.';
+                return;
+            }
+            const degree = document.getElementById('edu-degree').value.trim();
+            const description = document.getElementById('edu-desc').value.trim();
+            const link = document.getElementById('edu-link').value.trim();
+
+            const entry = { id, institution, degree, description, link };
+
+            if (!db.education) db.education = [];
+            const idx = db.education.findIndex(e => e.id === id);
+            if (idx >= 0) {
+                db.education[idx] = entry;
+            } else {
+                db.education.push(entry);
+            }
+
+            syncResumeHtml();
+
+            const s = document.getElementById('edu-form-status');
+            s.className = 'status success';
+            s.textContent = '✅ Education entry saved locally. Remember to Push to Live Site.';
+            resetEduForm();
+            renderEduList();
+        }
+
+        function editEduEntry(id) {
+            const e = (db.education || []).find(x => x.id === id);
+            if (!e) return;
+            editingEduId = id;
+            document.getElementById('edu-id').value = e.id;
+            document.getElementById('edu-institution').value = e.institution || '';
+            document.getElementById('edu-degree').value = e.degree || '';
+            document.getElementById('edu-desc').value = e.description || '';
+            document.getElementById('edu-link').value = e.link || '';
+            document.getElementById('edu-form-title').innerHTML = '🎓 Edit Education Entry <span class="tag-pill" style="background:rgba(56,189,248,0.15);color:#38bdf8;border-color:rgba(56,189,248,0.4);">Editing: ' + e.id + '</span>';
+            document.getElementById('edu-save-btn').textContent = 'Update Education';
+            document.getElementById('edu-form-title').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function deleteEduEntry(id) {
+            if (!confirm('Delete education entry "' + id + '"?')) return;
+            db.education = (db.education || []).filter(e => e.id !== id);
+            syncResumeHtml();
+            renderEduList();
+        }
+
+        function moveEduEntry(idx, dir) {
+            const arr = db.education || [];
+            const newIdx = idx + dir;
+            if (newIdx < 0 || newIdx >= arr.length) return;
+            [arr[idx], arr[newIdx]] = [arr[newIdx], arr[idx]];
+            syncResumeHtml();
+            renderEduList();
+        }
+
+        function resetEduForm() {
+            editingEduId = null;
+            ['edu-id','edu-institution','edu-degree','edu-desc','edu-link'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            document.getElementById('edu-form-title').innerHTML = '🎓 Add Education Entry <span class="tag-pill" style="background:rgba(56,189,248,0.15);color:#38bdf8;border-color:rgba(56,189,248,0.4);">Resume</span>';
+            document.getElementById('edu-save-btn').textContent = 'Add Education';
+            const s = document.getElementById('edu-form-status');
             s.className = 'status';
             s.textContent = '';
         }
@@ -1291,9 +1469,9 @@
                 <li style="flex-direction:column; align-items:flex-start; gap:6px;">
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;width:100%;">
                         <div class="item-info" style="flex:1;">
-                            <strong style="color:#e6b450;">🏅 ${c.title}</strong>
-                            ${c.description ? `<span style="color:var(--text-sec);font-size:0.78rem;display:block;margin-top:2px;">${c.description}</span>` : ''}
-                            ${c.linkUrl ? `<a href="${c.linkUrl}" target="_blank" style="font-size:0.75rem;color:var(--primary);display:block;margin-top:2px;">${c.linkLabel || c.linkUrl}</a>` : ''}
+                            <strong style="color:#e6b450;">🏅 ${escHtml(c.title || '')}</strong>
+                            ${c.description ? `<span style="color:var(--text-sec);font-size:0.78rem;display:block;margin-top:2px;">${escHtml(c.description)}</span>` : ''}
+                            ${c.linkUrl ? `<a href="${escHtml(c.linkUrl)}" target="_blank" style="font-size:0.75rem;color:var(--primary);display:block;margin-top:2px;">${escHtml(c.linkLabel || c.linkUrl)}</a>` : ''}
                         </div>
                         <div style="display:flex;gap:6px;flex-shrink:0;">
                             <button class="btn-sm" style="background:#555;color:white;" onclick="moveCertEntry(${idx}, -1)" title="Move Up">↑</button>
@@ -1329,9 +1507,11 @@
                 db.certifications.push(entry);
             }
 
+            syncResumeHtml();
+
             const s = document.getElementById('cert-form-status');
             s.className = 'status success';
-            s.textContent = '✅ Certificate saved locally. Click "Generate & Save Resume HTML" then "Push to Live Site".';
+            s.textContent = '✅ Certificate saved locally. Remember to Push to Live Site.';
             resetCertForm();
             renderCertList();
         }
@@ -1353,6 +1533,7 @@
         function deleteCertEntry(id) {
             if (!confirm('Delete certificate "' + id + '"?')) return;
             db.certifications = (db.certifications || []).filter(c => c.id !== id);
+            syncResumeHtml();
             renderCertList();
         }
 
@@ -1361,6 +1542,7 @@
             const newIdx = idx + dir;
             if (newIdx < 0 || newIdx >= arr.length) return;
             [arr[idx], arr[newIdx]] = [arr[newIdx], arr[idx]];
+            syncResumeHtml();
             renderCertList();
         }
 
@@ -1377,13 +1559,23 @@
             s.textContent = '';
         }
 
-        // ── Auto-generate resume HTML from structured data ──────────────────
+        // ── Auto-sync and build resume HTML from structured data ────────────
+        function syncResumeHtml() {
+            const html = buildResumeHtml();
+            if (!db.universal) db.universal = {};
+            db.universal.resumeHtml = html;
+            const ta = document.getElementById('c-resume-html');
+            if (ta) ta.value = html;
+        }
+
         function buildResumeHtml() {
-            const entries = db.workExperience || [];
+            const weEntries = db.workExperience || [];
+            const eduEntries = db.education || [];
+            const certEntries = db.certifications || [];
             const pdfUrl = (db.universal || {}).resumeUrl || '';
 
             // Build the Work Experience HTML block
-            const weHtml = entries.map(e => {
+            const weHtml = weEntries.map(e => {
                 const imgs = (e.images || []).filter(Boolean);
                 return `
                     <div class="job-item">
@@ -1397,6 +1589,23 @@
                         </div>` : ''}
                     </div>`;
             }).join('\n');
+
+            // Build the Education HTML block
+            const eduHtml = eduEntries.map(e => `
+                    <div class="job-item">
+                        <h3>${escHtml(e.institution || e.school || '')}</h3>
+                        ${(e.degree || e.status) ? `<h4>${escHtml(e.degree || e.status)}</h4>` : ''}
+                        ${e.description ? `<p>${escHtml(e.description).replace(/\n/g, '<br>')}</p>` : ''}
+                        ${e.link ? `<a href="${escHtml(e.link)}" target="_blank" rel="noopener noreferrer">${escHtml(e.link)}</a>` : ''}
+                    </div>`).join('\n');
+
+            // Build the Certifications HTML block
+            const certHtml = certEntries.length > 0 ? certEntries.map(c => `
+                        <li>
+                            <strong>${escHtml(c.title)}</strong><br>
+                            ${c.description ? `<span class="cert-link">${escHtml(c.description)}</span><br>` : ''}
+                            ${c.linkUrl ? `<a href="${escHtml(c.linkUrl)}" class="cert-link" target="_blank" rel="noopener noreferrer">${escHtml(c.linkLabel || 'View Certificate')}</a>` : ''}
+                        </li>`).join('\n') : '<li><span class="cert-link">No certificates added yet.</span></li>';
 
             return `<!DOCTYPE html>
 <html lang="en">
@@ -1599,20 +1808,7 @@
 
                 <section id="education">
                     <h2>Education</h2>
-
-                    <div class="job-item">
-                        <h3>Nixor College</h3>
-                        <h4>Currently Enrolled (AS going to A2)</h4>
-                        <p>Subjects: Statistics, Computer Science, Physics.</p>
-                        <a href="https://www.nixorcollege.org" target="_blank" rel="noopener noreferrer">https://www.nixorcollege.org</a>
-                    </div>
-
-                    <div class="job-item">
-                        <h3>British Overseas School (BOS)</h3>
-                        <h4>O-Levels Completed</h4>
-                        <p>Subjects: Mathematics, Physics, Biology, Chemistry, Computer Science, French, English Language/Literature, Urdu.</p>
-                        <a href="https://www.bos-karachi.org" target="_blank" rel="noopener noreferrer">https://www.bos-karachi.org</a>
-                    </div>
+                    ${eduHtml || '<p style="color:#6b7280;">No education entries added yet.</p>'}
                 </section>
 
             </div>
@@ -1658,13 +1854,7 @@
                 <section id="certifications">
                     <h2>Certifications &amp; Awards</h2>
                     <ul class="cert-list">
-                        ${(db.certifications && db.certifications.length > 0) ? db.certifications.map(c => `
-                        <li>
-                            <strong>${escHtml(c.title)}</strong><br>
-                            ${c.description ? `<span class="cert-link">${escHtml(c.description)}</span><br>` : ''}
-                            ${c.linkUrl ? `<a href="${escHtml(c.linkUrl)}" class="cert-link" target="_blank" rel="noopener noreferrer">${escHtml(c.linkLabel || 'View')}</a>` : ''}
-                        </li>`).join('') : `
-                        <li><span class="cert-link">No certificates added yet.</span></li>`}
+                        ${certHtml}
                     </ul>
                 </section>
 
@@ -1693,13 +1883,7 @@
         }
 
         function generateAndSaveResumeHtml() {
-            const html = buildResumeHtml();
-            if (!db.universal) db.universal = {};
-            db.universal.resumeHtml = html;
-            // Also update the raw HTML textarea in the Universal tab
-            const ta = document.getElementById('c-resume-html');
-            if (ta) ta.value = html;
-
+            syncResumeHtml();
             const s = document.getElementById('we-generate-status');
             s.className = 'status success';
             s.textContent = '✅ Resume HTML generated & saved locally. Click "Push to Live Site" in the Deployment card to publish.';
@@ -2094,6 +2278,11 @@
             status.style.display = 'block';
 
             try {
+                // Always sync resume HTML before pushing
+                if (db.workExperience || db.education || db.certifications) {
+                    syncResumeHtml();
+                }
+
                 const body = {
                     message: document.getElementById('commit-msg').value,
                     content: btoa(unescape(encodeURIComponent(JSON.stringify(db, null, 2)))),
