@@ -239,6 +239,64 @@
       "images": []
     }
   ],
+  "certifications": [
+    {
+      "id": "cisco-python-essentials-1",
+      "title": "Cisco Python Essentials 1",
+      "description": "",
+      "linkUrl": "https://www.credly.com/badges/a1a8f464-c055-4daf-bcfe-a170e8573b03",
+      "linkLabel": "View Badge"
+    },
+    {
+      "id": "cisco-python-essentials-2",
+      "title": "Cisco Python Essentials 2",
+      "description": "",
+      "linkUrl": "https://www.credly.com/badges/448aaa60-2ae8-4855-bdb3-312d33a2a0b9",
+      "linkLabel": "View Badge"
+    },
+    {
+      "id": "cisco-js-essentials-1",
+      "title": "Cisco JS Essentials 1",
+      "description": "",
+      "linkUrl": "https://www.credly.com/badges/251f5332-b1e9-4f9a-ba3b-363b86f6bd4a",
+      "linkLabel": "View Badge"
+    },
+    {
+      "id": "ndg-linux-essentials",
+      "title": "Partner: NDG Linux Essentials",
+      "description": "Linux system administration and command line essentials.",
+      "linkUrl": "https://github.com/codemdragon/Portfolio_future/blob/main/certificates/Partner-_NDG_Linux_Essentials.pdf",
+      "linkLabel": "View Certificate"
+    },
+    {
+      "id": "keystage-4-award-cs",
+      "title": "Key Stage 4 Award (CS)",
+      "description": "Award for excellence in Computer Science upon graduating O-Levels.",
+      "linkUrl": "https://github.com/codemdragon/Portfolio_future/blob/main/certificates/Keystage_4_Award_Cs.pdf",
+      "linkLabel": "View Certificate"
+    },
+    {
+      "id": "ujala-project-certificate",
+      "title": "Ujala Project Certificate",
+      "description": "Proof of work for developing educational games.",
+      "linkUrl": "https://github.com/codemdragon/Portfolio_future/blob/main/certificates/Ujala_cert.pdf",
+      "linkLabel": "View Certificate"
+    },
+    {
+      "id": "cayley-contest",
+      "title": "Cayley Contest",
+      "description": "Mathematics and Computing contest participation.",
+      "linkUrl": "https://github.com/codemdragon/Portfolio_future/blob/main/certificates/Cayley_Contest_Cert.pdf",
+      "linkLabel": "View Certificate"
+    },
+    {
+      "id": "galois-contest",
+      "title": "Galois Contest",
+      "description": "Mathematics and Computing contest participation.",
+      "linkUrl": "https://github.com/codemdragon/Portfolio_future/blob/main/certificates/Galois_Contest_Cert.pdf",
+      "linkLabel": "View Certificate"
+    }
+  ],
   "contact": {
     "email": "codemlabs1@gmail.com",
     "discord": "codem1"

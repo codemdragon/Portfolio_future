@@ -457,6 +457,53 @@
         .badge-generate:hover {
             background: rgba(35,134,54,0.25);
         }
+
+        /* ── Cert card styles ── */
+        .cert-card {
+            background: #010409;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .cert-card .cert-title {
+            font-weight: 700;
+            color: #e6b450;
+            font-size: 0.95rem;
+        }
+        .cert-card .cert-desc {
+            font-size: 0.78rem;
+            color: var(--text-sec);
+            margin-top: 4px;
+            white-space: pre-wrap;
+        }
+        .cert-card .cert-link {
+            font-size: 0.78rem;
+            color: var(--primary);
+            margin-top: 4px;
+            display: block;
+            word-break: break-all;
+        }
+        .cert-card .cert-actions {
+            display: flex;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        .cert-form-section {
+            border: 1px dashed rgba(230,180,80,0.35);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            background: rgba(230,180,80,0.03);
+        }
+        .cert-form-section h4 {
+            color: #e6b450;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
     </style>
 </head>
 
@@ -796,6 +843,61 @@
 
             </div>
 
+            <!-- CERTIFICATES & AWARDS SECTION inside Resume Editor tab -->
+            <div class="card" style="border-color: rgba(230,180,80,0.35);">
+                <h3 id="cert-form-title" style="display:flex;align-items:center;gap:8px;">
+                    🏆 Add Certificate / Award
+                    <span class="tag-pill" style="background:rgba(230,180,80,0.15);color:#e6b450;border-color:rgba(230,180,80,0.4);">Resume</span>
+                </h3>
+                <p style="font-size:0.82rem;color:var(--text-sec);margin-bottom:1rem;">
+                    Each entry appears in the <strong style="color:#c9d1d9;">Certifications &amp; Awards</strong> sidebar section of the generated resume.
+                </p>
+
+                <div class="cert-form-section">
+                    <h4>Details</h4>
+                    <div class="row">
+                        <div class="input-group">
+                            <label>Title / Name <span style="color:#ff7b72;">*</span></label>
+                            <input type="text" id="cert-title" placeholder="e.g. Cisco Python Essentials 1">
+                        </div>
+                        <div class="input-group">
+                            <label>Entry ID (auto-filled, must be unique) <span style="color:#ff7b72;">*</span></label>
+                            <input type="text" id="cert-id" placeholder="e.g. cisco-python-1">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Short Description (optional)</label>
+                        <textarea id="cert-desc" rows="2" placeholder="e.g. Linux system administration and command line essentials."></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="input-group">
+                            <label>Link URL (optional)</label>
+                            <input type="text" id="cert-link" placeholder="https://www.credly.com/badges/...">
+                        </div>
+                        <div class="input-group">
+                            <label>Link Label (optional)</label>
+                            <input type="text" id="cert-link-label" placeholder="e.g. View Badge / View Certificate">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:flex;gap:10px;">
+                    <button class="btn-primary" id="cert-save-btn" onclick="saveCertEntry()" style="background:#7c5a00;border-color:rgba(230,180,80,0.3);">Add Certificate</button>
+                    <button style="background:transparent;color:#8b949e;" onclick="resetCertForm()">Clear</button>
+                </div>
+                <div id="cert-form-status" class="status" style="margin-top:10px;"></div>
+            </div>
+
+            <!-- Certificates List -->
+            <div class="card">
+                <h3 style="margin-bottom:0.5rem;">📋 Current Certificates &amp; Awards</h3>
+                <p style="font-size:0.82rem;color:var(--text-sec);margin-bottom:1rem;">
+                    Drag to reorder. Click <strong>Edit</strong> to modify, <strong>Delete</strong> to remove.
+                    After changes, click <strong>Generate &amp; Save Resume HTML</strong> then <strong>Push to Live Site</strong>.
+                </p>
+                <ul class="item-list" id="cert-list"></ul>
+            </div>
+
             <!-- PC TAB -->
             <div id="tab-pc" class="tab-content">
                 <div class="card">
@@ -847,12 +949,13 @@
     </div>
 
     <script>
-        let db = { projects: [], workExperience: [] };
+        let db = { projects: [], workExperience: [], certifications: [] };
         let API_URL = '';
         let CURRENT_SHA = '';
         let token = localStorage.getItem('portfolio_gh_token');
         let editingId = null;
         let editingWeId = null;
+        let editingCertId = null;
 
         if (token) {
             document.getElementById('login-screen').style.display = 'none';
@@ -944,6 +1047,8 @@
             }
             // Render work experience list
             renderWeList();
+            // Render certifications list
+            renderCertList();
         }
 
         function saveConfig() {
@@ -1146,6 +1251,128 @@
             document.getElementById('we-form-title').innerHTML = '✏️ Add Work Experience / Project <span class="tag-pill">Resume</span>';
             document.getElementById('we-save-btn').textContent = 'Add Entry';
             const s = document.getElementById('we-form-status');
+            s.className = 'status';
+            s.textContent = '';
+        }
+
+        // ═══════════════════════════════════════════════════════════
+        //  CERTIFICATES & AWARDS EDITOR
+        // ═══════════════════════════════════════════════════════════
+
+        function autoFillCertId() {
+            if (editingCertId) return;
+            const title = document.getElementById('cert-title').value;
+            document.getElementById('cert-id').value = title
+                .toLowerCase().trim()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-|-$/g, '');
+        }
+
+        // Wire up auto-fill when DOMContentLoaded fires
+        document.addEventListener('DOMContentLoaded', () => {
+            const certTitleEl = document.getElementById('cert-title');
+            if (certTitleEl) certTitleEl.addEventListener('input', autoFillCertId);
+        });
+        // Also wire immediately in case DOM is already ready
+        (function() {
+            const certTitleEl = document.getElementById('cert-title');
+            if (certTitleEl) certTitleEl.addEventListener('input', autoFillCertId);
+        })();
+
+        function renderCertList() {
+            const list = document.getElementById('cert-list');
+            if (!list) return;
+            const entries = db.certifications || [];
+            if (entries.length === 0) {
+                list.innerHTML = '<li style="color:var(--text-sec);font-size:0.85rem;border:none;background:transparent;">No certificates yet. Add one above.</li>';
+                return;
+            }
+            list.innerHTML = entries.map((c, idx) => `
+                <li style="flex-direction:column; align-items:flex-start; gap:6px;">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;width:100%;">
+                        <div class="item-info" style="flex:1;">
+                            <strong style="color:#e6b450;">🏅 ${c.title}</strong>
+                            ${c.description ? `<span style="color:var(--text-sec);font-size:0.78rem;display:block;margin-top:2px;">${c.description}</span>` : ''}
+                            ${c.linkUrl ? `<a href="${c.linkUrl}" target="_blank" style="font-size:0.75rem;color:var(--primary);display:block;margin-top:2px;">${c.linkLabel || c.linkUrl}</a>` : ''}
+                        </div>
+                        <div style="display:flex;gap:6px;flex-shrink:0;">
+                            <button class="btn-sm" style="background:#555;color:white;" onclick="moveCertEntry(${idx}, -1)" title="Move Up">↑</button>
+                            <button class="btn-sm" style="background:#555;color:white;" onclick="moveCertEntry(${idx}, 1)" title="Move Down">↓</button>
+                            <button class="btn-sm btn-edit" onclick="editCertEntry('${c.id}')">Edit</button>
+                            <button class="btn-sm btn-del" onclick="deleteCertEntry('${c.id}')">Delete</button>
+                        </div>
+                    </div>
+                </li>
+            `).join('');
+        }
+
+        function saveCertEntry() {
+            const id = document.getElementById('cert-id').value.trim();
+            const title = document.getElementById('cert-title').value.trim();
+            if (!id || !title) {
+                const s = document.getElementById('cert-form-status');
+                s.className = 'status error';
+                s.textContent = '⚠ Title and ID are required.';
+                return;
+            }
+            const desc = document.getElementById('cert-desc').value.trim();
+            const linkUrl = document.getElementById('cert-link').value.trim();
+            const linkLabel = document.getElementById('cert-link-label').value.trim();
+
+            const entry = { id, title, description: desc, linkUrl, linkLabel };
+
+            if (!db.certifications) db.certifications = [];
+            const idx = db.certifications.findIndex(c => c.id === id);
+            if (idx >= 0) {
+                db.certifications[idx] = entry;
+            } else {
+                db.certifications.push(entry);
+            }
+
+            const s = document.getElementById('cert-form-status');
+            s.className = 'status success';
+            s.textContent = '✅ Certificate saved locally. Click "Generate & Save Resume HTML" then "Push to Live Site".';
+            resetCertForm();
+            renderCertList();
+        }
+
+        function editCertEntry(id) {
+            const c = (db.certifications || []).find(x => x.id === id);
+            if (!c) return;
+            editingCertId = id;
+            document.getElementById('cert-id').value = c.id;
+            document.getElementById('cert-title').value = c.title || '';
+            document.getElementById('cert-desc').value = c.description || '';
+            document.getElementById('cert-link').value = c.linkUrl || '';
+            document.getElementById('cert-link-label').value = c.linkLabel || '';
+            document.getElementById('cert-form-title').innerHTML = '🏆 Edit Certificate / Award <span class="tag-pill" style="background:rgba(230,180,80,0.15);color:#e6b450;border-color:rgba(230,180,80,0.4);">Editing: ' + c.id + '</span>';
+            document.getElementById('cert-save-btn').textContent = 'Update Certificate';
+            document.getElementById('cert-form-title').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function deleteCertEntry(id) {
+            if (!confirm('Delete certificate "' + id + '"?')) return;
+            db.certifications = (db.certifications || []).filter(c => c.id !== id);
+            renderCertList();
+        }
+
+        function moveCertEntry(idx, dir) {
+            const arr = db.certifications || [];
+            const newIdx = idx + dir;
+            if (newIdx < 0 || newIdx >= arr.length) return;
+            [arr[idx], arr[newIdx]] = [arr[newIdx], arr[idx]];
+            renderCertList();
+        }
+
+        function resetCertForm() {
+            editingCertId = null;
+            ['cert-id','cert-title','cert-desc','cert-link','cert-link-label'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            document.getElementById('cert-form-title').innerHTML = '🏆 Add Certificate / Award <span class="tag-pill" style="background:rgba(230,180,80,0.15);color:#e6b450;border-color:rgba(230,180,80,0.4);">Resume</span>';
+            document.getElementById('cert-save-btn').textContent = 'Add Certificate';
+            const s = document.getElementById('cert-form-status');
             s.className = 'status';
             s.textContent = '';
         }
@@ -1431,38 +1658,13 @@
                 <section id="certifications">
                     <h2>Certifications &amp; Awards</h2>
                     <ul class="cert-list">
+                        ${(db.certifications && db.certifications.length > 0) ? db.certifications.map(c => `
                         <li>
-                            <strong>Cisco Python Essentials 1</strong><br>
-                            <a href="https://www.credly.com/badges/a1a8f464-c055-4daf-bcfe-a170e8573b03" class="cert-link" target="_blank" rel="noopener noreferrer">View Badge</a>
-                        </li>
-                        <li>
-                            <strong>Cisco Python Essentials 2</strong><br>
-                            <a href="https://www.credly.com/badges/448aaa60-2ae8-4855-bdb3-312d33a2a0b9" class="cert-link" target="_blank" rel="noopener noreferrer">View Badge</a>
-                        </li>
-                        <li>
-                            <strong>Cisco JS Essentials 1</strong><br>
-                            <a href="https://www.credly.com/badges/251f5332-b1e9-4f9a-ba3b-363b86f6bd4a" class="cert-link" target="_blank" rel="noopener noreferrer">View Badge</a>
-                        </li>
-                        <li>
-                            <strong>Partner: NDG Linux Essentials</strong><br>
-                            <a href="https://github.com/codemdragon/Portfolio_future/blob/main/certificates/Partner-_NDG_Linux_Essentials.pdf" class="cert-link" target="_blank" rel="noopener noreferrer">View Certificate</a>
-                        </li>
-                        <li>
-                            <strong>Key Stage 4 Award (CS)</strong><br>
-                            <a href="https://github.com/codemdragon/Portfolio_future/blob/main/certificates/Keystage_4_Award_Cs.pdf" class="cert-link" target="_blank" rel="noopener noreferrer">View Certificate</a>
-                        </li>
-                        <li>
-                            <strong>Ujala Project Certificate</strong><br>
-                            <a href="https://github.com/codemdragon/Portfolio_future/blob/main/certificates/Ujala_cert.pdf" class="cert-link" target="_blank" rel="noopener noreferrer">View Certificate</a>
-                        </li>
-                        <li>
-                            <strong>Cayley Contest</strong><br>
-                            <a href="https://github.com/codemdragon/Portfolio_future/blob/main/certificates/Cayley_Contest_Cert.pdf" class="cert-link" target="_blank" rel="noopener noreferrer">View Certificate</a>
-                        </li>
-                        <li>
-                            <strong>Galois Contest</strong><br>
-                            <a href="https://github.com/codemdragon/Portfolio_future/blob/main/certificates/Galois_Contest_Cert.pdf" class="cert-link" target="_blank" rel="noopener noreferrer">View Certificate</a>
-                        </li>
+                            <strong>${escHtml(c.title)}</strong><br>
+                            ${c.description ? `<span class="cert-link">${escHtml(c.description)}</span><br>` : ''}
+                            ${c.linkUrl ? `<a href="${escHtml(c.linkUrl)}" class="cert-link" target="_blank" rel="noopener noreferrer">${escHtml(c.linkLabel || 'View')}</a>` : ''}
+                        </li>`).join('') : `
+                        <li><span class="cert-link">No certificates added yet.</span></li>`}
                     </ul>
                 </section>
 

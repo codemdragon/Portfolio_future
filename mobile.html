@@ -1165,7 +1165,9 @@
                     <li><a href="#ecosystem">// ECOSYSTEMS</a></li>
                     <li><a href="#projects">// PROJECTS</a></li>
                     <li><a href="#contact">// CONTACT</a></li>
-                    <li><a href="#resume" id="resume-link-desktop" onclick="event.preventDefault(); openMobileResumeModal();" style="color: var(--primary);">// RESUME</a></li>
+                    <li><a href="#resume" id="resume-link-desktop"
+                            onclick="event.preventDefault(); openMobileResumeModal();" style="color: var(--primary);">//
+                            RESUME</a></li>
                 </ul>
 
                 <!-- Hamburger Icon -->
@@ -1182,8 +1184,9 @@
                 <a href="#ecosystem" class="mobile-link">// ECOSYSTEMS</a>
                 <a href="#projects" class="mobile-link">// PROJECTS</a>
                 <a href="#contact" class="mobile-link">// CONTACT</a>
-                <a href="#resume" id="resume-link-mobile" class="mobile-link" onclick="event.preventDefault(); openMobileResumeModal();"
-                    style="color: var(--primary);">// RESUME</a>
+                <a href="#resume" id="resume-link-mobile" class="mobile-link"
+                    onclick="event.preventDefault(); openMobileResumeModal();" style="color: var(--primary);">//
+                    RESUME</a>
             </div>
         </div>
     </header>
@@ -1351,7 +1354,8 @@
                         </div>
                         <div class="form-group">
                             <label>PAYLOAD_MESSAGE</label>
-                            <textarea name="message" class="form-control textarea-control" placeholder="Type your message" required></textarea>
+                            <textarea name="message" class="form-control textarea-control"
+                                placeholder="Type your message" required></textarea>
                         </div>
                         <button type="submit" id="mobile-contact-submit" class="btn"
                             style="width: 100%; margin-top: 10px;">Send Data</button>
@@ -1363,12 +1367,16 @@
         </section>
 
         <!-- Resume HTML Modal -->
-        <div id="mobile-resume-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.97); z-index:9999; flex-direction:column;">
+        <div id="mobile-resume-modal"
+            style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.97); z-index:9999; flex-direction:column;">
             <!-- Titlebar -->
-            <div style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:#0f1115; border-bottom:1px solid rgba(0,243,255,0.15); flex-shrink:0; font-family:'JetBrains Mono',monospace;">
+            <div
+                style="display:flex; align-items:center; justify-content:space-between; padding:12px 16px; background:#0f1115; border-bottom:1px solid rgba(0,243,255,0.15); flex-shrink:0; font-family:'JetBrains Mono',monospace;">
                 <div style="display:flex; align-items:center; gap:10px;">
-                    <span style="color:#00f3ff; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:2px;">resume.html</span>
-                    <span style="font-size:8px; background:rgba(0,243,255,0.1); color:#00f3ff; border:1px solid rgba(0,243,255,0.2); padding:2px 7px; border-radius:2px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">PREVIEW</span>
+                    <span
+                        style="color:#00f3ff; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:2px;">resume.html</span>
+                    <span
+                        style="font-size:8px; background:rgba(0,243,255,0.1); color:#00f3ff; border:1px solid rgba(0,243,255,0.2); padding:2px 7px; border-radius:2px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">PREVIEW</span>
                 </div>
                 <div style="display:flex; align-items:center; gap:8px;">
                     <a id="mobile-resume-download" href="#" target="_blank"
@@ -1384,8 +1392,7 @@
             <!-- iframe fills the rest -->
             <iframe id="mobile-resume-frame"
                 style="flex:1; width:100%; border:none; background:#fff; display:block; min-height:0;"
-                sandbox="allow-same-origin allow-scripts allow-popups"
-                title="Resume Preview">
+                sandbox="allow-same-origin allow-scripts allow-popups" title="Resume Preview">
             </iframe>
         </div>
 
@@ -1630,15 +1637,15 @@
                     </div>
                 `;
 
-                cell.addEventListener('click', (e) => {
-                    if (isDragging) return;
-                    // Adjust currentPanel by the delta to reach this index, preserving the offset
-                    const activeIndex = ((config.currentPanel % config.panelCount) + config.panelCount) % config.panelCount;
-                    const delta = index - activeIndex;
-                    config.currentPanel += delta;
-                    updateCarousel();
-                    openModalData(p, platform, icon, color);
-                });
+                    cell.addEventListener('click', (e) => {
+                        if (isDragging) return;
+                        // Adjust currentPanel by the delta to reach this index, preserving the offset
+                        const activeIndex = ((config.currentPanel % config.panelCount) + config.panelCount) % config.panelCount;
+                        const delta = index - activeIndex;
+                        config.currentPanel += delta;
+                        updateCarousel();
+                        openModalData(p, platform, icon, color);
+                    });
 
                     carousel.appendChild(cell);
                 });
@@ -2078,13 +2085,13 @@
             }
 
             // Handle #resume hash navigation (hashchange covers in-page nav after load)
-            window.addEventListener('hashchange', function() {
+            window.addEventListener('hashchange', function () {
                 if (window.location.hash === '#resume' || window.location.hash === '#download-resume') {
                     if (typeof openMobileResumeModal === 'function') openMobileResumeModal();
                 }
             });
 
-            document.addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', function (e) {
                 if (e.key === 'Escape') {
                     const m = document.getElementById('mobile-resume-modal');
                     if (m && m.style.display !== 'none') closeMobileResumeModal();
